@@ -1,0 +1,45 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&display=swap');
+
+html, body {
+    font-family: Inter, sans-serif !important;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    outline: none !important;
+}
+
+.cardContainer {
+    display: inline-block !important;
+    margin: 1rem;
+}
+
+.bodyContainer {
+    margin: 1rem;
+}
+
+.mainBody {
+    margin: 2rem;
+}
+
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.formContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
