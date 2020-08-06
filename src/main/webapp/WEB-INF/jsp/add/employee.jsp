@@ -1,87 +1,91 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" type=""></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" type=""></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <title>کاربر جدید</title>
     <%@include file="../components/stylesheets.jsp" %>
 </head>
 <body>
+<%@include file="../components/navigation.jsp" %>
+<header style="background-color: #666;  padding: 30px;  text-align: center;  font-size: 35px;  color: white;">
+    درج کاربر جدید
+</header>
+<div class="centered cardContainer"
+uk-scrollspy="cls: uk-animation-fade; target: .uk-card; delay: 250; repeat: true" align="right">
 
-<div class="bodyContainer">
-    <%@include file="../components/navigation.jsp" %>
-    <main class="main">
-        <div class="mainBody">
-            <div class="formContainer">
-                <%--@elvariable id="employee" type="com.dotin.dotintasktwo.model.Employee"--%>
-                <form:form modelAttribute="employee" action="employee" method="post" name="employee"
-                           id="employee">
-                    <fieldset class="uk-fieldset">
-                        <legend class="uk-legend">ایجاد کارمند جدید</legend>
-                        <div class="uk-margin">
-                            <label>
-                                <input id="firstName" name="firstName" class="uk-input uk-form-wiukh-large" type="text"
-                                       placeholder="نام">
-                            </label>
-                        </div>
-                        <div class="uk-margin">
-                            <label>
-                                <input id="lastName" name="lastName" class="uk-input uk-form-wiukh-large" type="text"
-                                       placeholder="نام خانوادگی">
-                            </label>
-                        </div>
-                        <div class="uk-margin">
-                            <label>
-                                <input id="employeeEmail" name="employeeEmail" class="uk-input uk-form-wiukh-large"
-                                       type="email" placeholder="ایمیل">
-                            </label>
-                        </div>
-                        <div class="uk-margin uk-grid-small uk-child-wiukh-auto uk-grid">
-                            <label><input id="programmerManagerSelect" class="uk-radio uk-form-wiukh-large" type="radio"
-                                          name="manager" value="مدیر برنامه نویس">&nbsp;مدیر برنامه نویس</label>
-                            <label><input id="testerManagerSelect" class="uk-radio uk-form-wiukh-large" type="radio"
-                                          name="manager" value="مدیر تست">&nbsp;مدیر تست</label>
-                        </div>
-                        <div class="uk-margin uk-grid-small uk-child-wiukh-auto uk-grid">
-                            <label><input id="programmer" class="uk-radio uk-form-wiukh-large" type="radio"
-                                          name="employeeRole" value="یرنامه نویس">&nbsp;برنامه نویس</label>
-                            <label><input id="tester" class="uk-radio uk-form-wiukh-large" type="radio"
-                                          name="employeeRole" value="تستر">&nbsp;تستر</label>
-                            <label><input id="programmerManager" class="uk-radio uk-form-wiukh-large" type="radio"
-                                          name="employeeRole" value="مدیر برنامه نویس">&nbsp;مدیر برنامه نویس</label>
-                            <label><input id="testerManager" class="uk-radio uk-form-wiukh-large" type="radio"
-                                          name="employeeRole" value="مدیر تست">&nbsp;مدیر تست</label>
-                        </div>
+    <form:form method="POST" action="/employees/save" modelAttribute="employee" align="right">
 
-                        <div class="uk-margin uk-grid-small uk-child-wiukh-auto uk-grid">
-                            <label><input id="employeeGenderMale" class="uk-radio uk-form-wiukh-large" type="radio"
-                                          name="employeeGender" value="آقا">&nbsp;آقا</label>
-                            <label><input id="employeeGenderFemale" class="uk-radio uk-form-wiukh-large" type="radio"
-                                          name="employeeGender" value="خانم">&nbsp;خانم</label>
-                        </div>
+        <form:input type="hidden" path="id"/>
 
+        <div>
+            <form:label path="firstName">نام</form:label>
+            <form:input type="text" path="firstName" class="form-control" id="inputFirstName"
+                        placeholder="نام خود را وارد کنید"/>
+        </div><br/>
 
-                        <div class="uk-margin">
-                            <button id="submitButton" type="button" class="uk-button uk-button-primary">ثبت</button>
-                            &nbsp;&nbsp;
-                            <span id="checkIcon" class="uk-margin-small-right" uk-icon="check"
-                                  style="color: mediumspringgreen; display: none;"></span>
+        <div>
 
-                        </div>
-                        <div>
-                            <c:if test="submittedForm">
-                                <jsp:useBean id="status"/>
+            <form:label path="lastName">نام خانوادگی</form:label>
+            <form:input type="text" path="lastName" class="form-control" id="inputLastName"
+                        placeholder="نام خانوادگی خود را وارد کنید"/>
+        </div><br/>
 
-                                <h6>${status ? "Successfully added " : "Failed to add "}a employee!</h6>
-                            </c:if>
-                        </div>
-                    </fieldset>
-                </form:form>
-            </div>
+        <div>
+            <form:label path="active">وضعیت کاری</form:label><br/>
+            <form:radiobutton path="active" value="true"/>فعال<br/>
+            <form:radiobutton path="active" value="false"/>غیر فعال
+        </div><br/>
 
+        <div>
+            <form:label path="email">ایمیل</form:label>
+            <form:input type="email" path="email" class="form-control" id="inputEmail"
+                        placeholder="ایمیل خود را وارد کنید"/>
+        </div><br/>
+
+        <div>
+            <form:label path="employeeGender">جنسیت</form:label><br/>
+            <form:radiobutton path="employeeGender" value="خانم"/> خانم<br/>
+            <form:radiobutton path="employeeGender" value="آقا"/>آقا
+        </div><br/>
+
+        <div>
+            <form:label path="employeeRole">سمت</form:label>
+            <form:select path="employeeRole">
+                <c:forEach items="${categoryElements}" var="dep" varStatus="status">
+                    <option value="${dep.id}">${dep.persianTypeName}</option>
+                </c:forEach>
+            </form:select>
+        </div><br/>
+
+        <div>
+            <form:label path="manager">مدیر</form:label>
+            <form:select path="manager">
+                <c:forEach items="${managers}" var="emp" varStatus="status">
+                    <option value="${emp.id}">${emp.lastName}</option>
+                </c:forEach>
+            </form:select>
+        </div><br/>
+
+        <div>
+            <a type="button" href="<%=request.getContextPath()%>/employees/list"
+               class="btn btn-dark">انصراف</a>
         </div>
-    </main>
+
+        <div>
+            <form:button type="submit" class="btn btn-primary">ثبت</form:button>
+        </div>
+
+    </form:form>
 </div>
+
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/add/employee.js"></script>
 <%@include file="../components/scripts.jsp" %>
 </body>

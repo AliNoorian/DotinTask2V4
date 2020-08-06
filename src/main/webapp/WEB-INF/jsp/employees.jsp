@@ -1,114 +1,61 @@
-<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<>
 <head>
-    <title>employees</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" type=""></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" type=""></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <title>لیست کارمندان</title>
     <%@include file="components/stylesheets.jsp" %>
 </head>
 <body>
-
+<%@include file="components/navigation.jsp" %>
+<html var="listEmployees" value="/employees/list">
+<%--<header style="background-color: #666;  padding: 30px;  text-align: center;  font-size: 35px;  color: white;">--%>
+<%--    لیست کارمندان--%>
+<%--</header>--%>
 <div class="bodyContainer">
-    <%@include file="components/navigation.jsp" %>
-    <div class="mainBody">
-        <c:if test="${employee.id != null}">
 
-            <div class="cards">
-                <div class="centered cardContainer"
-                     uk-scrollspy="cls: uk-animation-fade; target: .uk-card; delay: 250; repeat: true">
-                    <div class="uk-card uk-card-default">
+    <div class="container" dir="rtl">
+        <%--        <h2 align="center">لیست کارمندان</h2><br>--%>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <tr>
+                    <th>#</th>
+                    <th>نام</th>
+                    <th>نام خانوادگی</th>
+                    <th>وضعیت کاری</th>
+                    <th>سمت</th>
+                    <th>مدیر مربوطه</th>
+                    <th>ایمیل</th>
+                    <th>جنسیت</th>
 
-                        <div class="uk-card-header">
-                            <div class="uk-grid-small uk-flex-middle" uk-grid>
-                                <div class="uk-wiukh-expand">
-                                    <h3 class="uk-card-title uk-margin-remove-bottom">employee
-                                        #${employee.id}</h3>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="uk-card-body">
-                            <div>
-                                <span style="display: inline-block"
-                                      class="uk-text-muted uk-text-small uk-text-uppercase">نام</span>
-                                    ${employee.firstName}
-                            </div>
-                            <div>
-                                <span style="display: inline-block"
-                                      class="uk-text-muted uk-text-small uk-text-uppercase">نام خانوادگی</span>
-                                    ${employee.lastName}
-                            </div>
-                            <div>
-                                <span style="display: inline-block"
-                                      class="uk-text-muted uk-text-small uk-text-uppercase">ایمیل</span>
-                                    ${employee.email}
-                            </div>
-                            <div>
-                                <span style="display: inline-block"
-                                      class="uk-text-muted uk-text-small uk-text-uppercase">نقش</span>
-                                <span style="text-transform: capitalize">${employee.employeeRole}</span>
-                            </div>
-                            <div>
-                                <span style="display: inline-block"
-                                      class="uk-text-muted uk-text-small uk-text-uppercase">مدیر</span>
-                                    ${employee.manager}
-                            </div>
-
-
-                            <c:if test="employee.allergicTo != '' && employee.allergicTo != null">
-                                <div>
-                                <span style="display: inline-block"
-                                      class="uk-text-muted">Allergic to</span>
-                                    <span style="text-transform: capitalize">${employee.employeeAllergicTo}</span>
-                                </div>
-                            </c:if>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-
-        </c:if>
-        <c:if test="${employee.employeeId == null}">
-            <h4>All employees</h4>
-            <div class="ui cards">
-                <c:forEach var="employeeEntry" items="${employees}">
-                    <div class="centered cardContainer"
-                         uk-scrollspy="cls: uk-animation-fade; target: .uk-card; delay: 250; repeat: true">
-                        <div class="uk-card uk-card-default">
-                            <div class="uk-card-body">
-                                <div class="uk-card-badge uk-label">${employeeDate}</div>
-                                <div>
-                                <span style="display: inline-block"
-                                      class="uk-text-muted uk-text-small uk-text-uppercase">نام</span>
-                                        ${employee.firstName}
-                                </div>
-                                <div>
-                                <span style="display: inline-block"
-                                      class="uk-text-muted uk-text-small uk-text-uppercase">نام خانوادگی</span>
-                                        ${employee.lastName}
-                                </div>
-                                <div>
-                                <span style="display: inline-block"
-                                      class="uk-text-muted uk-text-small uk-text-uppercase">نقش</span>
-                                    <span style="text-transform: capitalize">${employee.employeeRole}</span>
-                                </div>
-                            </div>
-                            <div class="uk-card-footer">
-                                <a href="/employees/${employeeEntry.employeeId}" class="uk-button uk-button-default">نمایش
-                                    کارمند</a>
-                            </div>
-                        </div>
-                    </div>
+                </tr>
+                <c:url var="listEmployees" value="/employees/list"></c:url>
+                <c:forEach var="Employee" items="${employees}">
+                    <tr>
+                        <td><c:out value="${Employee.id}"></c:out></td>
+                        <td><c:out value="${Employee.firstName}"></c:out></td>
+                        <td><c:out value="${Employee.lastName}"></c:out></td>
+                        <td><c:out value="${Employee.active}"></c:out></td>
+                        <td><c:out value="${Employee.employeeRole}"></c:out></td>
+                        <td><c:out value="${Employee.manager}"></c:out></td>
+                        <td><c:out value="${Employee.email}"></c:out></td>
+                        <td><c:out value="${Employee.employeeGender}"></c:out></td>
+                        <td><a href="/employees/showFormForUpdate/${Employee.id }" class="btn btn-info" role="button">ویرایش</a>
+                        <td><a href="/employees/delete/${Employee.id}" class="btn btn-danger" role="button"
+                               onclick="if (!(confirm('آیا از این کار اطمینان دارید؟'))) return false">حذف</a>
+                    </tr>
                 </c:forEach>
-            </div>
-        </c:if>
+            </table>
+        </div>
     </div>
 </div>
-
 <%@include file="components/scripts.jsp" %>
 </body>
 </html>

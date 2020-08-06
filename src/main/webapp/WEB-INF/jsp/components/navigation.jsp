@@ -5,8 +5,8 @@
         <a href="/index" class="item ${requestScope['javax.servlet.forward.request_uri'] eq '/' ? 'active' : ''}">
             صفحه اصلی
         </a>
-        <a href="/employees"
-           class="item ${requestScope['javax.servlet.forward.request_uri'] eq '/employees' ? 'active' : ''}">
+        <a href="/employees/list"
+           class="item ${requestScope['javax.servlet.forward.request_uri'] eq '/employees/list' ? 'active' : ''}">
             کارمندان
         </a>
         <a href="/emails"
@@ -26,7 +26,7 @@
             <a href="#" class="item">ایجاد&nbsp;+</a>
             <div class="uk-navbar-dropdown uk-margin-remove" uk-dropdown="pos: bottom-right">
                 <ul class="uk-nav uk-navbar-dropdown-nav">
-                    <li><a href="/employees/employee-form">کارمند</a></li>
+                    <li><a href="/employees/showFormForAdd">کارمند</a></li>
                     <li><a href="/emails/email-form">ایمیل</a></li>
                     <li><a href="/leaves/leave-form">مرخصی</a></li>
                 </ul>

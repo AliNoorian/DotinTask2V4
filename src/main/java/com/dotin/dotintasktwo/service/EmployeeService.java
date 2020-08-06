@@ -17,4 +17,6 @@ public interface EmployeeService {
 
     List<Employee> searchBy(String theName);
 
+    List<Employee> findManager();
+
 }

@@ -14,13 +14,14 @@ public class Parent implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence")
     private long id;
 
+    @Version
     @Column(name = "c_version")
     private int version;
 
     @Column(name = "c_create_date")
     private String createDate;
 
-    @Basic
+
     @Column(name = "c_modified_date")
     private String modifiedDate;
 

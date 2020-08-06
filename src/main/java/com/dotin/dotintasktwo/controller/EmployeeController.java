@@ -1,5 +1,7 @@
 package com.dotin.dotintasktwo.controller;
 
+import com.dotin.dotintasktwo.model.Category;
+import com.dotin.dotintasktwo.model.CategoryElement;
 import com.dotin.dotintasktwo.model.Employee;
 import com.dotin.dotintasktwo.service.CategoryElementService;
 import com.dotin.dotintasktwo.service.CategoryService;
@@ -19,7 +21,6 @@ public class EmployeeController {
 
     @Autowired
     private CategoryService categoryService;
-
 
     @Autowired
     private CategoryElementService categoryElementService;
@@ -56,15 +57,20 @@ public class EmployeeController {
         return "/add/employee";
     }
 
-    @GetMapping("/showFormForUpdate")
-    public String showFormForUpdate(@RequestParam("employeeId") int theId,
+    @RequestMapping("/showFormForUpdate/{id}")
+    public String showFormForUpdate(@PathVariable("id") long theId,
                                     Model theModel) {
 
         // get the employee from the service
         Employee theEmployee = employeeService.getEmployee(theId);
-
+//        List<Category> theCategoryServices = categoryService.getAllCategory();
+//        List<CategoryElement> theCategoryElementServices = categoryElementService.getAllCategoryElements();
+//        List<Employee> managers = employeeService.findManager();
         // set employee as a model attribute to pre-populate the form
         theModel.addAttribute("employee", theEmployee);
+//        theModel.addAttribute("categories", theCategoryServices);
+//        theModel.addAttribute("categoryElements", theCategoryElementServices);
+//        theModel.addAttribute("managers", managers);
 
         // send over to our form
         return "/add/employee";
@@ -78,23 +84,23 @@ public class EmployeeController {
         employeeService.addEmployee(theEmployee);
 
         // use a redirect to prevent duplicate submissions
-        return "redirect:employees";
+        return "redirect:/employees/list";
     }
 
 
-    @GetMapping("/delete")
-    public String delete(@RequestParam("employeeId") int theId) {
+    @RequestMapping("/delete/{id}")
+    public String delete(@PathVariable("id") long theId) {
 
         // delete the employee
         employeeService.removeEmployee(theId);
 
         // redirect to /employees/list
-        return "redirect:employees";
+        return "redirect:/employees/list";
 
     }
 
     @GetMapping("/search")
-    public String delete(@RequestParam("employeeName") String theName,
+    public String search(@RequestParam("employeeName") String theName,
                          Model theModel) {
 
         // delete the employee
