@@ -19,4 +19,9 @@ public interface LeaveService {
 
     void removeLeave(long id);
 
+    Leave findByLeaveId(long leaveId);
+
+    void grantLeave(long leaveId);
+
+    void rejectLeave(long leaveId);
 }

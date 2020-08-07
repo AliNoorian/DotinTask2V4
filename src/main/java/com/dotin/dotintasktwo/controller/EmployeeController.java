@@ -54,8 +54,7 @@ public class EmployeeController {
         // create model attribute to bind form data
         Employee theEmployee = new Employee();
         List<Category> categoryServices = categoryService.getAllCategory();
-        Category role = categoryServices.get(categoryServices.indexOf("employeeRole"));
-        Map<Long, CategoryElement> CategoryElementServices = categoryElementService.getEnumEmployeeRole(role);
+        List<CategoryElement> CategoryElementServices = categoryElementService.getAllCategoryElements();
         List<Employee> managers = employeeService.findManager();
 
         theModel.addAttribute("employee", theEmployee);

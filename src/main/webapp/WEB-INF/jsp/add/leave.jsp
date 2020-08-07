@@ -1,79 +1,76 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" type=""></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" type=""></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <title>مرخصی جدید</title>
     <%@include file="../components/stylesheets.jsp" %>
 </head>
 <body>
+<%@include file="../components/navigation.jsp" %>
+<header style="background-color: #666;  padding: 30px;  text-align: center;  font-size: 35px;  color: white;">
+    درج مرخصی جدید
+</header>
+<div class="centered cardContainer"
+     uk-scrollspy="cls: uk-animation-fade; target: .uk-card; delay: 250; repeat: true" align="right">
 
-<div class="bodyContainer">
-    <%@include file="../components/navigation.jsp" %>
-    <main class="main">
-        <div class="mainBody">
-            <div class="formContainer">
-                <%--@elvariable id="leave" type="com.dotin.dotintasktwo.model.leave"--%>
-                <form:form modelAttribute="leave" action="leave" method="post" name="leave"
-                           id="leave">
-                    <fieldset class="uk-fieldset">
-                        <legend class="uk-legend">ایجاد مرخصی جدید</legend>
-                        <div class="uk-margin">
-                            <label>
-                                <input id="leaveSubject" name="leaveSubject" class="uk-input uk-form-wiukh-large" type="text"
-                                       placeholder="عنوان مرخصی">
-                            </label>
-                        </div>
-                        <div class="uk-margin">
-                            <label>
-                                <textarea id="leaveMessage" name="leaveMessage" class="uk-textarea uk-form-wiukh-large" rows="5" placeholder="لطفاً علت مرخصی خود را شرح دهید"></textarea>
-                            </label>
-                        </div>
-                        <div class="uk-margin">
-                            <label>
-                                <input id="leaveFrom" name="leaveFrom" class="uk-input uk-form-wiukh-large" type="date"
-                                       placeholder="شروع مرخصی">
-                            </label>
-                        </div>
-                        <div class="uk-margin">
-                            <label>
-                                <input id="leaveTo" name="leaveTo" class="uk-input uk-form-wiukh-large" type="date"
-                                       placeholder="پایان مرخصی">
-                            </label>
-                        </div>
+    <form:form method="POST" action="/leave/save" modelAttribute="leave" align="right">
+
+        <form:input type="hidden" path="id"/>
 
 
-
-                        <div class="uk-margin uk-grid-small uk-child-wiukh-auto uk-grid">
-                            <label><input id="dailyLeaveType" class="uk-radio uk-form-wiukh-large" type="radio"
-                                          name="leaveType" value="روزانه">&nbsp;روزانه</label>
-                            <label><input id="leaveGenderFemale" class="uk-radio uk-form-wiukh-large" type="radio"
-                                          name="hourlyLeaveType" value="ساعتی">&nbsp;ساعتی</label>
-                        </div>
-
-
-                        <div class="uk-margin">
-                            <button id="submitButton" type="button" class="uk-button uk-button-primary">ثبت</button>
-                            &nbsp;&nbsp;
-                            <span id="checkIcon" class="uk-margin-small-right" uk-icon="check"
-                                  style="color: mediumspringgreen; display: none;"></span>
-
-                        </div>
-                        <div>
-                            <c:if test="submittedForm">
-                                <jsp:useBean id="status"/>
-
-                                <h6>${status ? "Successfully added " : "Failed to add "}a leave!</h6>
-                            </c:if>
-                        </div>
-                    </fieldset>
-                </form:form>
-            </div>
-
+        <div>
+            <form:label path="leaveSubject">موضوع مرخصی</form:label>
+            <form:input type="text" path="leaveSubject" class="form-control" id="inputLeaveSubject"
+                        placeholder="موضوع مرخصی را عنوان کنید"/>
         </div>
-    </main>
+        <br/>
+
+        <div>
+            <form:label path="message">شرح مرخصی</form:label>
+            <form:textarea type="message" path="leaveMessage" class="form-control" id="inputLeaveMessage"
+                           placeholder="شرح مرخصی را عنوان کنید"/>
+        </div>
+        <br/>
+
+        <div>
+            <form:label path="leaveFrom">از تاریخ و ساعت</form:label>
+            <form:input type="datetime-local" path="leaveFrom"/>
+        </div>
+        <br/>
+
+        <div>
+            <form:label path="leaveFrom">تا تاریخ و ساعت</form:label>
+            <form:input type="datetime-local" path="leaveTo"/>
+        </div>
+        <br/>
+
+        <div>
+            <form:button type="file" class="btn btn-" id="uploadFile">انتخاب فایل</form:button>
+        </div>
+        <br/>
+
+
+        <div>
+            <a type="button" href="<%=request.getContextPath()%>leaves/list"
+               class="btn btn-dark">انصراف</a>
+        </div>
+
+        <div>
+            <form:button type="submit" class="btn btn-primary">ثبت مرخصی</form:button>
+        </div>
+
+    </form:form>
 </div>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/add/leave.js"></script>
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/add/employee.js"></script>
 <%@include file="../components/scripts.jsp" %>
 </body>
 </html>

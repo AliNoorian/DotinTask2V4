@@ -36,7 +36,6 @@
                     <th>جنسیت</th>
 
                 </tr>
-                <c:url var="listEmployees" value="/employees/list"></c:url>
                 <c:forEach var="Employee" items="${employees}">
                     <tr>
                         <td><c:out value="${Employee.id}"></c:out></td>

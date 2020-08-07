@@ -21,11 +21,7 @@ public interface CategoryElementService {
 
     void removeCategoryElement(long id);
 
-    Map<Long, CategoryElement> getEnumEmployeeRole(Category category);
 
-    Map<Long, CategoryElement> getEnumLeaveStatus(CategoryElement categoryElement);
-
-    Map<Long, CategoryElement> getEnumLeaveType(CategoryElement categoryElement);
 
 
 }

@@ -15,9 +15,9 @@ import java.util.List;
 public class Category extends Parent implements Serializable {
 
 
-    @Enumerated(EnumType.STRING)
+//    @Enumerated(EnumType.STRING)
     @Column(name = "c_category_name")
-    private CategoryName categoryName;
+    private String categoryName;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<CategoryElement> categoryElements;

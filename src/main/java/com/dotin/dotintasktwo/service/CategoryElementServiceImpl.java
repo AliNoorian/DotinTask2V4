@@ -51,62 +51,7 @@ public class CategoryElementServiceImpl implements CategoryElementService {
         categoryElementRepository.deleteById(id);
     }
 
-    @Override
-    public Map<Long, CategoryElement> getEnumEmployeeRole(Category category) {
-        Map<Long, CategoryElement> categoryElementMap = new HashMap<>();
-        EmployeeRole[] roles = EmployeeRole.values();
 
-        for (EmployeeRole name : roles) {
-
-            CategoryElement categoryElement = new CategoryElement();
-            categoryElement.setEnglishTypeName(name.toString());
-            categoryElement.setVersion(1);
-            categoryElement.setActive(true);
-            categoryElement.setCreateDate(new Date().toString());
-            categoryElementMap.put(categoryElement.getId(), categoryElement);
-
-        }
-
-        return categoryElementMap;
-    }
-
-    @Override
-    public Map<Long, CategoryElement> getEnumLeaveStatus(CategoryElement categoryelement) {
-        Map<Long, CategoryElement> categoryElementMap = new HashMap<>();
-        LeaveStatus[] leaveStatuses = LeaveStatus.values();
-
-        for (LeaveStatus name : leaveStatuses) {
-
-            CategoryElement categoryElement = new CategoryElement();
-            categoryElement.setEnglishTypeName(name.toString());
-            categoryElement.setVersion(1);
-            categoryElement.setActive(true);
-            categoryElement.setCreateDate(new Date().toString());
-            categoryElementMap.put(categoryElement.getId(), categoryElement);
-
-        }
-
-        return categoryElementMap;
-    }
-
-    @Override
-    public Map<Long, CategoryElement> getEnumLeaveType(CategoryElement categoryelement) {
-        Map<Long, CategoryElement> categoryElementMap = new HashMap<>();
-        LeaveType[] leaveTypes = LeaveType.values();
-
-        for (LeaveType name : leaveTypes) {
-
-            CategoryElement categoryElement = new CategoryElement();
-            categoryElement.setEnglishTypeName(name.toString());
-            categoryElement.setVersion(1);
-            categoryElement.setActive(true);
-            categoryElement.setCreateDate(new Date().toString());
-            categoryElementMap.put(categoryElement.getId(), categoryElement);
-
-        }
-
-        return categoryElementMap;
-    }
 
 
 }

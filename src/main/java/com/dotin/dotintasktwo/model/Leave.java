@@ -35,14 +35,9 @@ public class Leave extends Parent implements Serializable {
     @JoinColumn(name = "c_request_employee_id")
     private Employee employee;
 
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "c_leave_type")
-    private CategoryElement leaveType;
-
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "c_leave_status")
     private CategoryElement leaveStatus;
+
 
 }

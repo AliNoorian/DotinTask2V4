@@ -20,5 +20,5 @@ public interface CategoryService {
 
     void removeCategory(long id);
 
-    Map<Long, Category> getENUMCategoryName();
+
 }

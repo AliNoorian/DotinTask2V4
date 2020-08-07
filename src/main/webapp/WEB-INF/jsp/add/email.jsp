@@ -1,59 +1,69 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" type=""></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" type=""></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <title>پیام جدید</title>
     <%@include file="../components/stylesheets.jsp" %>
 </head>
 <body>
+<%@include file="../components/navigation.jsp" %>
+<header style="background-color: #666;  padding: 30px;  text-align: center;  font-size: 35px;  color: white;">
+    درج پیام جدید
+</header>
+<div class="centered cardContainer"
+     uk-scrollspy="cls: uk-animation-fade; target: .uk-card; delay: 250; repeat: true" align="right">
 
-<div class="bodyContainer">
-    <%@include file="../components/navigation.jsp" %>
-    <main class="main">
-        <div class="mainBody">
-            <div class="formContainer">
-                <%--@elvariable id="email" type="com.dotin.dotintasktwo.model.email"--%>
-                <form:form modelAttribute="email" action="email" method="post" name="email"
-                           id="email">
-                    <fieldset class="uk-fieldset">
-                        <legend class="uk-legend">ایجاد پیام جدید</legend>
-                        <div class="uk-margin">
-                            <label>
-                                <input id="subject" name="subject" class="uk-input uk-form-wiukh-large" type="text"
-                                       placeholder="موضوع">
-                            </label>
-                        </div>
+    <form:form method="POST" action="/email/save" modelAttribute="email" align="right">
 
-                        <div class="uk-margin">
-                            <label>
-                                <textarea id="message" name="message" class="uk-textarea uk-form-wiukh-large" rows="10" placeholder="لطفاً پیام خود را وارد نمایید "></textarea>
-                            </label>
-                        </div>
-                        <button id="fileSelect"type="button" class="uk-button uk-button-primary">انتخاب فایل</button>
+        <form:input type="hidden" path="id"/>
 
-                        <div class="uk-margin">
-                            <button id="submitButton" type="button" class="uk-button uk-button-primary">ارسال</button>
-                            &nbsp;&nbsp;
-                            <span id="checkIcon" class="uk-margin-small-right" uk-icon="check"
-                                  style="color: mediumspringgreen; display: none;"></span>
-
-                        </div>
-                        <div>
-                            <c:if test="submittedForm">
-                                <jsp:useBean id="status"/>
-
-                                <h6>${status ? "Successfully added " : "Failed to add "}a email!</h6>
-                            </c:if>
-                        </div>
-                    </fieldset>
-                </form:form>
-            </div>
-
+        <div>
+            <form:label path="receivers">انتخاب گیرنده</form:label>
+            <form:select type="text" path="receivers" class="form-control" id="selectEmailReceivers"
+                         multiple="multiple"/>
         </div>
-    </main>
+        <br/>
+
+        <div>
+            <form:label path="subject">موضوع پیام</form:label>
+            <form:input type="text" path="subject" class="form-control" id="inputEmailSubject"
+                        placeholder="موضوع پیام را عنوان کنید"/>
+        </div>
+        <br/>
+
+        <div>
+            <form:label path="message">شرح پیام</form:label>
+            <form:textarea type="message" path="message" class="form-control" id="inputEmailMessage"
+                           placeholder="شرح پیام را عنوان کنید"/>
+        </div>
+        <br/>
+
+        <div>
+            <form:button type="file" class="btn btn-" id="uploadFile">انتخاب فایل</form:button>
+        </div>
+        <br/>
+
+        <div>
+            <a type="button" href="<%=request.getContextPath()%>/emails/inbox"
+               class="btn btn-dark">انصراف</a>
+        </div>
+
+        <div>
+            <form:button type="submit" class="btn btn-primary">ارسال پیام</form:button>
+        </div>
+
+    </form:form>
 </div>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/add/email.js"></script>
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/add/employee.js"></script>
 <%@include file="../components/scripts.jsp" %>
 </body>
 </html>
