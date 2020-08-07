@@ -1,13 +1,13 @@
 package com.dotin.dotintasktwo.service;
 
 import com.dotin.dotintasktwo.model.Category;
+import com.dotin.dotintasktwo.model.CategoryName;
 import com.dotin.dotintasktwo.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional
@@ -51,5 +51,25 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void removeCategory(long id) {
         categoryRepository.deleteById(id);
+    }
+
+    @Override
+    public Map<Long, Category> getENUMCategoryName() {
+
+        Map<Long, Category> categoryMap = new HashMap<>();
+        CategoryName[] categoryENUM = CategoryName.values();
+
+        for (CategoryName name : categoryENUM) {
+
+            Category category = new Category();
+            category.setCategoryName(name.toString());
+            category.setVersion(1);
+            category.setActive(true);
+            category.setCreateDate(new Date().toString());
+            categoryMap.put(category.getId(), category);
+
+        }
+
+        return categoryMap;
     }
 }

@@ -15,7 +15,8 @@ public interface LeaveService {
 
     void addLeave(Leave leave);
 
-    void removeLeave(long id);
+    void disableLeave(Leave leave);
 
+    void removeLeave(long id);
 
 }

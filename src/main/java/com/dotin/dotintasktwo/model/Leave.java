@@ -35,14 +35,12 @@ public class Leave extends Parent implements Serializable {
     @JoinColumn(name = "c_request_employee_id")
     private Employee employee;
 
- //   @Enumerated(EnumType.STRING)
- //   @Type(type="LeaveType")
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "c_leave_type")
     private CategoryElement leaveType;
 
-//    @Enumerated(EnumType.STRING)
-//    @Type(type="LeaveStatus")
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "c_leave_status")
     private CategoryElement leaveStatus;

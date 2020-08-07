@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,11 +44,25 @@ public class LeaveServiceImpl implements LeaveService {
 
     @Override
     public void addLeave(Leave leave) {
+        leave.setActive(true);
+        leave.setCreateDate(new Date().toString());
+        leave.setVersion(1);
         leaveRepository.save(leave);
+    }
+
+
+
+    @Override
+    public void disableLeave(Leave leave) {
+        leave.setActive(false);
+        leave.setModifiedDate(new Date().toString());
+        leave.setVersion((leave.getVersion()) + 1);
     }
 
     @Override
     public void removeLeave(long id) {
         leaveRepository.deleteById(id);
     }
+
+
 }

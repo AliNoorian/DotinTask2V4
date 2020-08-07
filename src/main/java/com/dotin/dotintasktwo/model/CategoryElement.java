@@ -30,5 +30,17 @@ public class CategoryElement extends Parent implements Serializable {
     @JoinColumn(name = "c_category_id")
     private Category category;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "c_category_name")
+    private EmployeeRole employeeRole;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "c_category_name")
+    private LeaveType leaveType;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "c_category_name")
+    private LeaveStatus leaveStatus;
+
 
 }

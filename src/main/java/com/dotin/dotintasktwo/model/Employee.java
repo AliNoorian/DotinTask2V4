@@ -49,8 +49,7 @@ public class Employee extends Parent implements Serializable {
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     private List<Leave> leaves;
 
-//    @Enumerated(EnumType.STRING)
-//    @Type(type="EmployeeRole")
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "c_role_id")
     private CategoryElement employeeRole;

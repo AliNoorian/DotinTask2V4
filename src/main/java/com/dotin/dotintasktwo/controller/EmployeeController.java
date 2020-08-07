@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -19,17 +20,18 @@ import java.util.List;
 public class EmployeeController {
 
 
-    @Autowired
-    private CategoryService categoryService;
-
-    @Autowired
-    private CategoryElementService categoryElementService;
-
-    @Autowired
+    private final CategoryService categoryService;
+    private final CategoryElementService categoryElementService;
     private final EmployeeService employeeService;
 
-    public EmployeeController(EmployeeService theEmployeeService) {
-        employeeService = theEmployeeService;
+    @Autowired
+    public EmployeeController(EmployeeService employeeService,
+                              CategoryElementService categoryElementService,
+                              CategoryService categoryService) {
+        this.employeeService = employeeService;
+        this.categoryElementService = categoryElementService;
+        this.categoryService = categoryService;
+
     }
 
 
@@ -51,8 +53,16 @@ public class EmployeeController {
 
         // create model attribute to bind form data
         Employee theEmployee = new Employee();
+        List<Category> categoryServices = categoryService.getAllCategory();
+        Category role = categoryServices.get(categoryServices.indexOf("employeeRole"));
+        Map<Long, CategoryElement> CategoryElementServices = categoryElementService.getEnumEmployeeRole(role);
+        List<Employee> managers = employeeService.findManager();
 
         theModel.addAttribute("employee", theEmployee);
+        theModel.addAttribute("categories", categoryServices);
+        theModel.addAttribute("categoryElements", CategoryElementServices);
+        theModel.addAttribute("managers", managers);
+
 
         return "/add/employee";
     }
@@ -63,14 +73,15 @@ public class EmployeeController {
 
         // get the employee from the service
         Employee theEmployee = employeeService.getEmployee(theId);
-//        List<Category> theCategoryServices = categoryService.getAllCategory();
-//        List<CategoryElement> theCategoryElementServices = categoryElementService.getAllCategoryElements();
-//        List<Employee> managers = employeeService.findManager();
-        // set employee as a model attribute to pre-populate the form
+        List<Category> theCategoryServices = categoryService.getAllCategory();
+        List<CategoryElement> theCategoryElementServices = categoryElementService.getAllCategoryElements();
+        List<Employee> managers = employeeService.findManager();
+
+        //set employee as a model attribute to pre-populate the form
         theModel.addAttribute("employee", theEmployee);
-//        theModel.addAttribute("categories", theCategoryServices);
-//        theModel.addAttribute("categoryElements", theCategoryElementServices);
-//        theModel.addAttribute("managers", managers);
+        theModel.addAttribute("categories", theCategoryServices);
+        theModel.addAttribute("categoryElement", theCategoryElementServices);
+        theModel.addAttribute("managers", managers);
 
         // send over to our form
         return "/add/employee";

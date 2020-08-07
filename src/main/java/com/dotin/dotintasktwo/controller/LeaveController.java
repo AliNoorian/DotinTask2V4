@@ -1,7 +1,11 @@
 //package com.dotin.dotintasktwo.controller;
 //
 //import com.dotin.dotintasktwo.model.Leave;
+//import com.dotin.dotintasktwo.service.CategoryElementService;
+//import com.dotin.dotintasktwo.service.CategoryService;
+//import com.dotin.dotintasktwo.service.EmployeeService;
 //import com.dotin.dotintasktwo.service.LeaveService;
+//import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.stereotype.Controller;
 //import org.springframework.ui.Model;
 //import org.springframework.web.bind.annotation.*;
@@ -14,9 +18,20 @@
 //public class LeaveController {
 //
 //    private final LeaveService leaveService;
+//    private final EmployeeService employeeService;
+//    private final CategoryService categoryService;
+//    private final CategoryElementService categoryElementService;
 //
-//    public LeaveController(LeaveService leaveService) {
+//    @Autowired
+//    public LeaveController(LeaveService leaveService,
+//                           CategoryElementService categoryElementService,
+//                           CategoryService categoryService,
+//                           EmployeeService employeeService) {
 //        this.leaveService = leaveService;
+//        this.categoryElementService = categoryElementService;
+//        this.categoryService = categoryService;
+//        this.employeeService = employeeService;
+//
 //    }
 //
 //    // add mapping for "/list"
@@ -80,7 +95,6 @@
 //        return "redirect:leaves";
 //
 //    }
-//
 //
 //
 //}

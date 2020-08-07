@@ -60,7 +60,7 @@ uk-scrollspy="cls: uk-animation-fade; target: .uk-card; delay: 250; repeat: true
             <form:label path="employeeRole">سمت</form:label>
             <form:select path="employeeRole">
                 <c:forEach items="${categoryElements}" var="dep" varStatus="status">
-                    <option value="${dep.id}">${dep.persianTypeName}</option>
+                    <option value="${dep.id}">${dep.englishTypeName}</option>
                 </c:forEach>
             </form:select>
         </div><br/>

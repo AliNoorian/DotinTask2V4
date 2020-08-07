@@ -16,7 +16,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             String name, String lName);
 
     @Query(value = "select e from Employee e where " +
-            "e.managerList = :employeeManager and e.active = true")
+            "e.manager = :manager and e.active = true")
     List<Employee> findManager();
 
 }

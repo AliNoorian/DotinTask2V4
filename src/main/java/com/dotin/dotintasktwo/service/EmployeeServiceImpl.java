@@ -64,8 +64,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<Employee> findManager() {
-        return employeeRepository.findManager();
+        return employeeRepository.findAll();
     }
+
 
     @Override
     public void removeEmployee(long id) {
