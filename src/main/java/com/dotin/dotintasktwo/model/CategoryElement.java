@@ -16,17 +16,14 @@ import java.io.Serializable;
 public class CategoryElement extends Parent implements Serializable {
 
 
-    @Column(name = "c_english_name")
-    private String englishTypeName;
-
-    @Column(name = "c_persian_name")
-    private String persianTypeName;
+    @Column(name = "c_name")
+    private String name;
 
     @NotBlank(message = "is required")
-    @Column(name = "c_staff_id")
-    private int staffId;
+    @Column(name = "c_code")
+    private String code;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "c_category_id")
     private Category category;
 

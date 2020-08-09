@@ -7,9 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-
 
 
 @Controller
@@ -28,87 +28,92 @@ public class LeaveController {
     // add mapping for "/list"
 
     @GetMapping("/list")
-    public String listLeaves(Model theModel) {
+    public ModelAndView listLeaves(Model theModel) {
 
+        ModelAndView modelAndView = new ModelAndView("leaves.jsp");
         // get leaves from db
-        long status=0;	//for requested Leave application
-        theModel.addAttribute("leaves",leaveService.getLeave(status));
+        int status = 0;    //for requested Leave application
+        theModel.addAttribute("leaves", leaveService.findAllLeaves(status));
 
-        return "leaves";
+        return modelAndView;
     }
 
     @GetMapping("/showFormForAdd")
-    public String showFormForAdd(Model theModel) {
+    public ModelAndView showFormForAdd(Model theModel) {
 
+        ModelAndView modelAndView = new ModelAndView("/add/leave.jsp");
         // create model attribute to bind form data
         Leave leave = new Leave();
 
         theModel.addAttribute("leave", leave);
 
-        return "/add/leave";
+        return modelAndView;
     }
 
     @GetMapping("/showFormForUpdate")
-    public String showFormForUpdate(@RequestParam("leaveId") int theId,
-                                    Model theModel) {
+    public ModelAndView showFormForUpdate(@RequestParam("leaveId") long theId,
+                                          Model theModel) {
+        ModelAndView modelAndView = new ModelAndView("leaves.jsp");
 
         // get the leave from the service
-        Leave theleave = leaveService.getLeave(theId);
+        Leave theleave = leaveService.findByLeaveId(theId);
 
         // set leave as a model attribute to pre-populate the form
         theModel.addAttribute("leave", theleave);
 
         // send over to our form
-        return "leaves";
+        return modelAndView;
     }
 
 
     @PostMapping("/save")
-    public String saveLeave(@Valid @ModelAttribute("leave") Leave leave,
-                            BindingResult bindingResult,
-                            Model model) {
+    public ModelAndView saveLeave(@Valid @ModelAttribute("leave") Leave leave,
+                                  BindingResult bindingResult,
+                                  Model model) {
+        ModelAndView modelAndView = new ModelAndView("redirect:leaves.jsp");
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("leave", leave);
-            return "redirect:leaves";
+            return modelAndView;
         }
 
         if ((leave.getLeaveFrom() == null || leave.getLeaveTo() == null))    //to check dates are not empty
         {
             model.addAttribute("message", "هر دو قسمت باید تکمیل شوند");
             model.addAttribute("leave", leave);
-            return "redirect:leaves";
+            return modelAndView;
         } else if (!(leave.getLeaveFrom().matches(leave.getLeaveTo())))    //to check validity of period of dates
         {
             model.addAttribute("message", "این زمان امکان پذیر نمیباشد");
             model.addAttribute("leave", leave);
-            return "redirect:leaves";
-        } else if (((leaveService.getAllLeaves().stream().anyMatch(i -> i.getLeaveFrom().equals(leave.getLeaveFrom())))))    //to check validity of period of dates
+            return modelAndView;
+        } else if (((leaveService.findAll().stream().anyMatch(i -> i.getLeaveFrom().equals(leave.getLeaveFrom())))))    //to check validity of period of dates
         {
             model.addAttribute("message", "این زمان امکان پذیر نمیباشد");
             model.addAttribute("leave", leave);
-            return "redirect:leaves";
+            return modelAndView;
 
-        } else if (((leaveService.getAllLeaves().stream().anyMatch(i -> i.getLeaveTo().equals(leave.getLeaveTo())))))    //to check validity of period of dates
+        } else if (((leaveService.findAll().stream().anyMatch(i -> i.getLeaveTo().equals(leave.getLeaveTo())))))    //to check validity of period of dates
         {
             model.addAttribute("message", "این تاریخ امکان پذیر نمیباشد");
             model.addAttribute("leave", leave);
-            return "redirect:leaves";
+            return modelAndView;
         }
 
         model.addAttribute("leave", leave);
-        return "redirect:leaves";
+        return modelAndView;
     }
 
 
     @GetMapping("/delete")
-    public String delete(@RequestParam("leaveId") int theId) {
+    public ModelAndView delete(@RequestParam("leaveId") long theId) {
+        ModelAndView modelAndView = new ModelAndView("redirect:leaves.jsp");
 
         // delete the leave
-        leaveService.removeLeave(theId);
+        leaveService.deleteLeave(theId);
 
         // redirect to /leaves/list
-        return "redirect:leaves";
+        return modelAndView;
 
     }
 

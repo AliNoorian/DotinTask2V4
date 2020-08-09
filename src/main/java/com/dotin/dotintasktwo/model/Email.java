@@ -26,14 +26,14 @@ public class Email extends Parent implements Serializable {
     @Column(name = "c_attachment")
     private Blob attachment;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "c_sender_id")
     private Employee sender;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "t_receiver",
-            joinColumns = @JoinColumn(name = "c_employee_id"),
-            inverseJoinColumns = @JoinColumn(name = "c_email_id"))
+            joinColumns = {@JoinColumn(name = "c_email_id", referencedColumnName = "c_id")},
+            inverseJoinColumns = {@JoinColumn(name = "c_employee_id", referencedColumnName = "c_id")})
     private List<Employee> receivers;
 
 

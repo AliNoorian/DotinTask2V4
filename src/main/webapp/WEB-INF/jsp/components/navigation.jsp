@@ -2,7 +2,7 @@
 
 <nav dir="rtl">
     <div class="ui secondary  menu" style="height: 1rem;">
-        <a href="index" class="item ${requestScope['javax.servlet.forward.request_uri'] eq '/' ? 'active' : ''}">
+        <a href="/" class="item ${requestScope['javax.servlet.forward.request_uri'] eq '/' ? 'active' : ''}">
             صفحه اصلی
         </a>
         <a href="employees/list"
@@ -10,11 +10,11 @@
             کارمندان
         </a>
         <a href="emails/list"
-           class="item ${requestScope['javax.servlet.forward.request_uri'] eq '/emails/list' ? 'active' : ''}">
+           class="item ${requestScope['javax.servlet.forward.request_uri'] eq 'emails/list' ? 'active' : ''}">
             پیام ها
         </a>
         <a href="leaves/list"
-           class="item ${requestScope['javax.servlet.forward.request_uri'] eq '/leaves/list' ? 'active' : ''}">
+           class="item ${requestScope['javax.servlet.forward.request_uri'] eq 'leaves/list' ? 'active' : ''}">
             مرخصی ها
         </a>
         <a class="item">

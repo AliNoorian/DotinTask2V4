@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -36,81 +37,128 @@ public class EmployeeController {
 
     // add mapping for "/list"
     @GetMapping("/list")
-    public String listEmployees(Model theModel) {
+    public ModelAndView listEmployees(Model theModel) {
+        ModelAndView modelAndView = new ModelAndView("employees.jsp");
 
         // get employees from db
-        List<Employee> theEmployees = employeeService.getAllEmployees();
+        List<Employee> theEmployees = employeeService.findAll();
 
         // add to the spring model
         theModel.addAttribute("employees", theEmployees);
 
-        return "employees";
+        return modelAndView;
     }
 
     @GetMapping("/showFormForAdd")
-    public String showFormForAdd(Model theModel) {
+    public ModelAndView showFormForAdd(Model theModel) {
+
+        ModelAndView modelAndView = new ModelAndView("/add/employee.jsp");
 
         // create model attribute to bind form data
         Employee theEmployee = new Employee();
-        List<Category> categoryServices = categoryService.getAllCategory();
-        List<CategoryElement> CategoryElementServices = categoryElementService.getAllCategoryElements();
-        List<Employee> managers = employeeService.findManager();
+        List<Category> categories = categoryService.getAllCategory();
+        if (categories.isEmpty()) {
+            Category category1 = new Category();
+            category1.setCategoryName("userRole");
 
+            CategoryElement categoryElement1 = new CategoryElement();
+            CategoryElement categoryElement2 = new CategoryElement();
+            CategoryElement categoryElement3 = new CategoryElement();
+            CategoryElement categoryElement4 = new CategoryElement();
+            CategoryElement categoryElement5 = new CategoryElement();
+            CategoryElement categoryElement6 = new CategoryElement();
+
+
+            categoryElement1.setName("برنامه نویس");
+            categoryElement1.setCode("PROGRAMMER");
+
+            categoryElement2.setName("تستر");
+            categoryElement2.setCode("TESTER");
+
+
+            categoryElement3.setName("غیره");
+            categoryElement3.setCode("OTHER");
+
+            categoryElement4.setName("مدیر برنامه نویس");
+            categoryElement4.setCode("PROGRAMMER_MANGER");
+
+            categoryElement5.setName("مدیر تستر");
+            categoryElement5.setCode("TESTER_MANAGER");
+
+            categoryElement6.setName("مدیر غیره");
+            categoryElement6.setCode("OTHER_manager");
+
+            categoryService.addCategory(category1);
+
+            categoryElementService.addCategoryElement(categoryElement1);
+            categoryElementService.addCategoryElement(categoryElement2);
+            categoryElementService.addCategoryElement(categoryElement3);
+            categoryElementService.addCategoryElement(categoryElement4);
+            categoryElementService.addCategoryElement(categoryElement5);
+            categoryElementService.addCategoryElement(categoryElement6);
+
+        }
         theModel.addAttribute("employee", theEmployee);
-        theModel.addAttribute("categories", categoryServices);
-        theModel.addAttribute("categoryElements", CategoryElementServices);
-        theModel.addAttribute("managers", managers);
+        theModel.addAttribute("categories", categories);
+        theModel.addAttribute("categoryElements", categoryElementService.getAllCategoryElements());
+        theModel.addAttribute("managers", employeeService.findAll());
 
 
-        return "/add/employee";
+        return modelAndView;
     }
 
     @RequestMapping("/showFormForUpdate/{id}")
-    public String showFormForUpdate(@PathVariable("id") long theId,
-                                    Model theModel) {
+    public ModelAndView showFormForUpdate(@PathVariable("id") long theId,
+                                          Model theModel) {
+
+        ModelAndView modelAndView = new ModelAndView("/add/employee.jsp");
 
         // get the employee from the service
-        Employee theEmployee = employeeService.getEmployee(theId);
-        List<Category> theCategoryServices = categoryService.getAllCategory();
-        List<CategoryElement> theCategoryElementServices = categoryElementService.getAllCategoryElements();
+        Employee theEmployee = employeeService.findById(theId);
         List<Employee> managers = employeeService.findManager();
 
         //set employee as a model attribute to pre-populate the form
         theModel.addAttribute("employee", theEmployee);
-        theModel.addAttribute("categories", theCategoryServices);
-        theModel.addAttribute("categoryElement", theCategoryElementServices);
+        theModel.addAttribute("categories", categoryService.getAllCategory());
+        theModel.addAttribute("categoryElement", categoryElementService.getAllCategoryElements());
         theModel.addAttribute("managers", managers);
 
         // send over to our form
-        return "/add/employee";
+        return modelAndView;
     }
 
 
     @PostMapping("/save")
-    public String saveEmployee(@ModelAttribute("employee") Employee theEmployee) {
+    public ModelAndView saveEmployee(@ModelAttribute("employee") Employee theEmployee) {
+
+        ModelAndView modelAndView = new ModelAndView("redirect:/employees/list");
 
         // save the employee
-        employeeService.addEmployee(theEmployee);
+        employeeService.Save(theEmployee);
 
         // use a redirect to prevent duplicate submissions
-        return "redirect:/employees/list";
+        return modelAndView;
     }
 
 
     @RequestMapping("/delete/{id}")
-    public String delete(@PathVariable("id") long theId) {
+    public ModelAndView delete(@PathVariable("id") long theId) {
+
+        ModelAndView modelAndView = new ModelAndView("redirect:/employees/list");
 
         // delete the employee
-        employeeService.removeEmployee(theId);
+        employeeService.deleteEmployee(theId);
 
         // redirect to /employees/list
-        return "redirect:/employees/list";
+        return modelAndView;
 
     }
 
     @GetMapping("/search")
-    public String search(@RequestParam("employeeName") String theName,
-                         Model theModel) {
+    public ModelAndView search(@RequestParam("employeeName") String theName,
+                               Model theModel) {
+        ModelAndView modelAndView = new ModelAndView("employees.jsp");
+
 
         // delete the employee
         List<Employee> theEmployees = employeeService.searchBy(theName);
@@ -119,8 +167,9 @@ public class EmployeeController {
         theModel.addAttribute("employees", theEmployees);
 
         // send to /employees/list
-        return "employees";
+        return modelAndView;
 
     }
+
 
 }

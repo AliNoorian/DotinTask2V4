@@ -11,7 +11,7 @@ public class Parent implements Serializable {
 
     @Id
     @Column(name = "c_id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
 
     @Version

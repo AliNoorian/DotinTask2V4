@@ -19,7 +19,7 @@ public class Category extends Parent implements Serializable {
     @Column(name = "c_category_name")
     private String categoryName;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<CategoryElement> categoryElements;
 
 

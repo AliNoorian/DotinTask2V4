@@ -37,14 +37,6 @@ public class Employee extends Parent implements Serializable {
     @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL)
     private List<Employee> managerList;
 
-    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
-    private List<Email> sender;
-
-    @OneToMany
-    @JoinTable(name = "t_receiver",
-            joinColumns = @JoinColumn(name = "c_employee_id"),
-            inverseJoinColumns = @JoinColumn(name = "c_email_id"))
-    private List<Email> receiverEmails;
 
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     private List<Leave> leaves;
