@@ -16,7 +16,6 @@ public interface LeaveRepository extends JpaRepository<Leave, Long>, JpaSpecific
     @Query("select l from Leave l where l.active = true ")
     List<Leave> getAllLeaves();
 
-    Leave findByLeaveId(long leaveId);
 
 
 }

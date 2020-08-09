@@ -32,7 +32,7 @@ public class LeaveController {
 
         // get leaves from db
         long status=0;	//for requested Leave application
-        theModel.addAttribute("leaves",leaveService.findByLeaveId(status));
+        theModel.addAttribute("leaves",leaveService.getLeave(status));
 
         return "leaves";
     }

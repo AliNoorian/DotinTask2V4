@@ -70,15 +70,12 @@ public class LeaveServiceImpl implements LeaveService {
         leaveRepository.deleteById(id);
     }
 
-    @Override
-    public Leave findByLeaveId(long leaveId) {
-        return leaveRepository.findByLeaveId(leaveId);
-    }
+
 
 
     @Override
     public void grantLeave(long leaveId) {
-        Leave leave = leaveRepository.findByLeaveId(leaveId);
+        Leave leave = leaveRepository.getOne(leaveId);
         leave.setLeaveStatus(CategoryElement.class.cast(1));
         leaveRepository.save(leave);
     }
@@ -86,7 +83,7 @@ public class LeaveServiceImpl implements LeaveService {
     @Override
     public void rejectLeave(long leaveId) {
 
-        Leave leave = leaveRepository.findByLeaveId(leaveId);
+        Leave leave = leaveRepository.getOne(leaveId);
         leave.setLeaveStatus(CategoryElement.class.cast(2));
         leaveRepository.save(leave);
     }
