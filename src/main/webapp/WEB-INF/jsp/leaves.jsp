@@ -46,11 +46,7 @@
                         <td><c:out value="${leave.employee.lastName }"></c:out></td>
                         <td>
                             <c:choose>
-                            <c:when test="${leave.leaveStatus eq 0 }">
-                        <td>
-                            <button class="btn btn-warning"><c:out value="Pending"></c:out>تعلیق درخواست</button>
-                        </td>
-                        </c:when>
+
                         <c:when test="${leave.leaveStatus eq 1 }">
                             <td>
                                 <button class="btn btn-success"><c:out value="Approved"></c:out>تایید درخواست</button>

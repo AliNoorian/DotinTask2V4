@@ -52,7 +52,7 @@
         <br/>
 
         <div>
-            <a type="button" href="<%=request.getContextPath()%>/emails/inbox"
+            <a type="button" href="<%=request.getContextPath()%>/emails/list"
                class="btn btn-dark">انصراف</a>
         </div>
 

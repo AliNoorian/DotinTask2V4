@@ -10,19 +10,19 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
-    <title>لیست پیام ها</title>
+    <title>لیست کارمندان</title>
     <%@include file="components/stylesheets.jsp" %>
 </head>
 <body>
 <%@include file="components/navigation.jsp" %>
-<html var="EmailsList" value="emails/list">
+<html var="listEmails" value="/emails/list">
 
 <div class="bodyContainer">
 
     <div class="container" dir="rtl">
         <div class="table-responsive">
             <table class="table table-hover">
-                <tr>
+                <tr align="center">
                     <th>#</th>
                     <th>فرستنده</th>
                     <th>موضوع پیام</th>
@@ -35,15 +35,15 @@
                         <td><c:out value="${email.sender }"></c:out></td>
                         <td><c:out value="${email.subject }"></c:out></td>
                         <td>
-                            <c:choose>
-                        <td>
-                            <button class="btn btn-success"><c:out value=""></c:out>نمایش پیام</button>
-                        </td>
+<%--                            <c:choose>--%>
+<%--                        <td>--%>
+<%--                            <button class="btn btn-success"><c:out value="show"></c:out>نمایش پیام</button>--%>
+<%--                        </td>--%>
 
-                        <td>
-                            <button class="btn btn-danger"><c:out value=""></c:out>حذف پیام</button>
-                        </td>
-                        </c:choose>
+<%--                        <td>--%>
+<%--                            <button class="btn btn-danger"><c:out value="delete"></c:out>حذف پیام</button>--%>
+<%--                        </td>--%>
+<%--                        </c:choose>--%>
                     </tr>
                 </c:forEach>
             </table>
