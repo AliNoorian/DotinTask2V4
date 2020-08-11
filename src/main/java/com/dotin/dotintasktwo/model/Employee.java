@@ -47,6 +47,9 @@ public class Employee extends Parent implements Serializable {
     private CategoryElement employeeRole;
 
 
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name = "c_receiver")
+    private Employee receiver;
 }
 
 

@@ -30,10 +30,7 @@ public class Email extends Parent implements Serializable {
     @JoinColumn(name = "c_sender_id")
     private Employee sender;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "t_receiver",
-            joinColumns = {@JoinColumn(name = "c_email_id", referencedColumnName = "c_id")},
-            inverseJoinColumns = {@JoinColumn(name = "c_employee_id", referencedColumnName = "c_id")})
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "receiver")
     private List<Employee> receivers;
 
 
