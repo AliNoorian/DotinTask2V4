@@ -24,7 +24,6 @@ public class LeaveController {
 
     }
 
-    // add mapping for "/list"
 
     @GetMapping("/list")
     public ModelAndView listLeaves() {
