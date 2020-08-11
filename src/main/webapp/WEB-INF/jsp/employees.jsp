@@ -42,7 +42,7 @@
                         <td><c:out value="${Employee.firstName}"></c:out></td>
                         <td><c:out value="${Employee.lastName}"></c:out></td>
                         <td><c:out value="${Employee.active}"></c:out></td>
-                        <td><c:out value="${Employee.employeeRole}"></c:out></td>
+                        <td><c:out value="${Employee.employeeRole.name}"></c:out></td>
                         <td><c:out value="${Employee.manager}"></c:out></td>
                         <td><c:out value="${Employee.email}"></c:out></td>
                         <td><c:out value="${Employee.employeeGender}"></c:out></td>
