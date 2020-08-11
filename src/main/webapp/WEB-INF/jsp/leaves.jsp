@@ -47,12 +47,12 @@
                         <td>
                             <c:choose>
 
-                        <c:when test="${leave.leaveStatus eq 1 }">
-                            <td>
-                                <button class="btn btn-success"><c:out value="Approved"></c:out>تایید درخواست</button>
-                            </td>
+                            <c:when test="${leave.leaveStatus.code eq 'APPROVED' }">
+                        <td>
+                            <button class="btn btn-success"><c:out value="Approved"></c:out>تایید درخواست</button>
+                        </td>
                         </c:when>
-                        <c:when test="${leave.leaveStatus eq 2}">
+                        <c:when test="${leave.leaveStatus.code eq 'REJECTED'}">
                             <td>
                                 <button class="btn btn-danger"><c:out value="Rejected"></c:out>رد درخواست</button>
                             </td>
@@ -64,6 +64,16 @@
         </div>
     </div>
 </div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<hr>
+
 <footer class="card-footer" align="center" dir="rtl">
     <%
         int pages = (int) request.getAttribute("totalRecords") / 4;
@@ -81,10 +91,7 @@
     </label>&nbsp;
         <input type="submit" value="اعمال"/>
     </form>
-
-
 </footer>
-
 <%@include file="components/scripts.jsp" %>
 </body>
 </html>

@@ -84,9 +84,9 @@
         <br/>
 
         <div align="right">
+            <form:button type="submit" class="btn btn-outline-primary">ثبت کاربر</form:button>
             <a type="button" href="<%=request.getContextPath()%>/employees/list"
                class="btn btn-outline-danger">انصراف</a>
-            <form:button type="submit" class="btn btn-outline-primary">ثبت</form:button>
         </div>
 
     </form:form>

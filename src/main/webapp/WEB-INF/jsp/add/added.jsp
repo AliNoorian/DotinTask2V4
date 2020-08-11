@@ -17,7 +17,7 @@
                 <h4>${status ? "Successfully added a " : "Failed to add a "}${modelName}.</h4>
             </div>
             <div class="centered">
-                <button class="uk-button uk-button-primary">Return</button>
+                <button class="uk-button uk-button-primary">بازگشت</button>
             </div>
         </div>
     </main>

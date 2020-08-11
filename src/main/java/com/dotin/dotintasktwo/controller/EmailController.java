@@ -73,7 +73,8 @@ public class EmailController {
         return modelAndView;
     }
 
-    @PostMapping("/upload")
+    @ResponseBody
+    @RequestMapping(value = "/upload")
     public void uploadFile(@RequestParam("emailId") long emailId,
                            @RequestParam("file") MultipartFile file) {
 

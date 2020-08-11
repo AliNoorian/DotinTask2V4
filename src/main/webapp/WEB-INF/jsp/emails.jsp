@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
-    <title>لیست کارمندان</title>
+    <title>لیست پیام ها</title>
     <%@include file="components/stylesheets.jsp" %>
 </head>
 <body>
@@ -50,6 +50,16 @@
         </div>
     </div>
 </div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<hr>
+
 <footer class="card-footer" align="center" dir="rtl">
     <%
         int pages = (int) request.getAttribute("totalRecords") / 4;
