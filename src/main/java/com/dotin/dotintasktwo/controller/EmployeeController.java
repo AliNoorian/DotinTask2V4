@@ -7,8 +7,8 @@ import com.dotin.dotintasktwo.service.CategoryElementService;
 import com.dotin.dotintasktwo.service.CategoryService;
 import com.dotin.dotintasktwo.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -24,6 +24,7 @@ public class EmployeeController {
     private final CategoryElementService categoryElementService;
     private final EmployeeService employeeService;
 
+
     @Autowired
     public EmployeeController(EmployeeService employeeService,
                               CategoryElementService categoryElementService,
@@ -37,20 +38,20 @@ public class EmployeeController {
 
     // add mapping for "/list"
     @GetMapping("/list")
-    public ModelAndView listEmployees(Model theModel) {
+    public ModelAndView listEmployees(Pageable pageable) {
+
         ModelAndView modelAndView = new ModelAndView("employees.jsp");
+        List<Employee> employees = employeeService.findAll(pageable);
+        int totalRecords = employeeService.findAll().size();
 
-        // get employees from db
-        List<Employee> theEmployees = employeeService.findAll();
-
-        // add to the spring model
-        theModel.addAttribute("employees", theEmployees);
+        modelAndView.addObject("employees", employees);
+        modelAndView.addObject("totalRecords", totalRecords);
 
         return modelAndView;
     }
 
     @GetMapping("/showFormForAdd")
-    public ModelAndView showFormForAdd(Model theModel) {
+    public ModelAndView showFormForAdd() {
 
         ModelAndView modelAndView = new ModelAndView("/add/employee.jsp");
 
@@ -98,18 +99,17 @@ public class EmployeeController {
             categoryElementService.addCategoryElement(categoryElement6);
 
         }
-        theModel.addAttribute("employee", theEmployee);
-        theModel.addAttribute("categories", categories);
-        theModel.addAttribute("categoryElements", categoryElementService.getAllCategoryElements());
-        theModel.addAttribute("managers", employeeService.findAll());
+        modelAndView.addObject("employee", theEmployee);
+        modelAndView.addObject("categories", categories);
+        modelAndView.addObject("categoryElements", categoryElementService.getAllCategoryElements());
+        modelAndView.addObject("managers", employeeService.findAll());
 
 
         return modelAndView;
     }
 
     @RequestMapping("/showFormForUpdate/{id}")
-    public ModelAndView showFormForUpdate(@PathVariable("id") long theId,
-                                          Model theModel) {
+    public ModelAndView showFormForUpdate(@PathVariable("id") long theId) {
 
         ModelAndView modelAndView = new ModelAndView("/add/employee.jsp");
 
@@ -118,10 +118,10 @@ public class EmployeeController {
         List<Employee> managers = employeeService.findManager();
 
         //set employee as a model attribute to pre-populate the form
-        theModel.addAttribute("employee", theEmployee);
-        theModel.addAttribute("categories", categoryService.getAllCategory());
-        theModel.addAttribute("categoryElement", categoryElementService.getAllCategoryElements());
-        theModel.addAttribute("managers", managers);
+        modelAndView.addObject("employee", theEmployee);
+        modelAndView.addObject("categories", categoryService.getAllCategory());
+        modelAndView.addObject("categoryElement", categoryElementService.getAllCategoryElements());
+        modelAndView.addObject("managers", managers);
 
         // send over to our form
         return modelAndView;
@@ -155,8 +155,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/search")
-    public ModelAndView search(@RequestParam("employeeName") String theName,
-                               Model theModel) {
+    public ModelAndView search(@RequestParam("employeeName") String theName) {
         ModelAndView modelAndView = new ModelAndView("employees.jsp");
 
 
@@ -164,7 +163,7 @@ public class EmployeeController {
         List<Employee> theEmployees = employeeService.searchBy(theName);
 
         // add to the spring model
-        theModel.addAttribute("employees", theEmployees);
+        modelAndView.addObject("employees", theEmployees);
 
         // send to /employees/list
         return modelAndView;

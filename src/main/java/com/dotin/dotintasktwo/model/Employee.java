@@ -48,7 +48,7 @@ public class Employee extends Parent implements Serializable {
 
 
     @ManyToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name = "c_receiver")
+    @JoinTable(name = "t_receiver")
     private Employee receiver;
 }
 
