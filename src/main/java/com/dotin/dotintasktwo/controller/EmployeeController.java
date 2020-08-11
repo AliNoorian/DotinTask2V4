@@ -6,6 +6,7 @@ import com.dotin.dotintasktwo.model.Employee;
 import com.dotin.dotintasktwo.service.CategoryElementService;
 import com.dotin.dotintasktwo.service.CategoryService;
 import com.dotin.dotintasktwo.service.EmployeeService;
+import com.dotin.dotintasktwo.utility.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,7 @@ public class EmployeeController {
     private final CategoryService categoryService;
     private final CategoryElementService categoryElementService;
     private final EmployeeService employeeService;
+    private boolean isEmployeeUpdate;
 
 
     @Autowired
@@ -57,8 +59,13 @@ public class EmployeeController {
 
         // create model attribute to bind form data
         Employee theEmployee = new Employee();
+        Time time = new Time();
+        theEmployee.setVersion(1);
+        theEmployee.setCreateDate(time.getTime());
         List<Category> categories = categoryService.getAllCategory();
-        if (categories.isEmpty()) {
+        if (categoryService.getAllCategory().stream().noneMatch(
+                i -> i.getCategoryName().equals("userRole"))) {
+
             Category category1 = new Category();
             category1.setCategoryName("userRole");
 
@@ -72,22 +79,28 @@ public class EmployeeController {
 
             categoryElement1.setName("برنامه نویس");
             categoryElement1.setCode("PROGRAMMER");
+            categoryElement1.setCategory(category1);
 
             categoryElement2.setName("تستر");
             categoryElement2.setCode("TESTER");
+            categoryElement2.setCategory(category1);
 
 
             categoryElement3.setName("غیره");
             categoryElement3.setCode("OTHER");
+            categoryElement3.setCategory(category1);
 
             categoryElement4.setName("مدیر برنامه نویس");
             categoryElement4.setCode("PROGRAMMER_MANGER");
+            categoryElement4.setCategory(category1);
 
             categoryElement5.setName("مدیر تستر");
             categoryElement5.setCode("TESTER_MANAGER");
+            categoryElement5.setCategory(category1);
 
             categoryElement6.setName("مدیر غیره");
             categoryElement6.setCode("OTHER_manager");
+            categoryElement6.setCategory(category1);
 
             categoryService.addCategory(category1);
 
@@ -115,15 +128,14 @@ public class EmployeeController {
 
         // get the employee from the service
         Employee theEmployee = employeeService.findById(theId);
-        List<Employee> managers = employeeService.findManager();
+        List<Employee> managers = employeeService.findAll();
+        isEmployeeUpdate=true;
 
-        //set employee as a model attribute to pre-populate the form
         modelAndView.addObject("employee", theEmployee);
         modelAndView.addObject("categories", categoryService.getAllCategory());
         modelAndView.addObject("categoryElement", categoryElementService.getAllCategoryElements());
         modelAndView.addObject("managers", managers);
 
-        // send over to our form
         return modelAndView;
     }
 
@@ -133,6 +145,12 @@ public class EmployeeController {
 
         ModelAndView modelAndView = new ModelAndView("redirect:/employees/list");
 
+        if(isEmployeeUpdate){
+            Time time = new Time();
+            theEmployee.setVersion(theEmployee.getVersion() + 1);
+            theEmployee.setModifiedDate(time.getTime());
+            isEmployeeUpdate=false;
+        }
         // save the employee
         employeeService.Save(theEmployee);
 

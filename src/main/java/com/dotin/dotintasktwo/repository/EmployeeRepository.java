@@ -17,9 +17,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>, JpaSp
     List<Employee> findByFirstNameContainsOrLastNameContainsAllIgnoreCase(
             String name, String lName);
 
-    @Query(value = "select e from Employee e where " +
-            "e.manager = :manager and e.active = true")
-    List<Employee> findManager();
+//    @Query("SELECT c FROM CategoryElement c WHERE c.code LIKE %'MANAGER'%")
+//    List<Employee> getManagers();
 
     Employee findByFirstName(String empName);
 

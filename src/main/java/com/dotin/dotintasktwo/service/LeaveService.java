@@ -2,6 +2,7 @@ package com.dotin.dotintasktwo.service;
 
 
 import com.dotin.dotintasktwo.model.Leave;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 @Service
 public interface LeaveService {
 
-    List<Leave> findAllLeaves(int status);
+//    List<Leave> findAllLeaves(int status);
 
     Leave findByLeaveId(long leaveId);
 
@@ -20,6 +21,10 @@ public interface LeaveService {
     List<Leave> findAll();
 
     void deleteLeave(long leaveId);
+
+    void Save(Leave leave);
+
+    List<Leave> findAll(Pageable pageable);
 
 
 }

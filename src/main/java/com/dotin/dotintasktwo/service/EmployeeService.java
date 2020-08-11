@@ -14,7 +14,6 @@ public interface EmployeeService {
 
     void deleteEmployee(long empId);
 
-    void updateEmployeeDetails(Employee employee);
 
     List<Employee> searchBy(String theName);
 
@@ -25,8 +24,6 @@ public interface EmployeeService {
     List<Employee> findAll(Pageable pageable);
 
     List<Employee> findAll();
-
-    List<Employee> getEmployeeBetweenDates(Date fromDate, Date toDate, String name, Pageable pageable);
 
     void addLeave(String userName, Leave leave);
 

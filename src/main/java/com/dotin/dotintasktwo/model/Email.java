@@ -30,7 +30,9 @@ public class Email extends Parent implements Serializable {
     @JoinColumn(name = "c_sender_id")
     private Employee sender;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "receiver")
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "t_receiver")
+    @JoinColumn(name= "c_receiver_id")
     private List<Employee> receivers;
 
 

@@ -2,12 +2,15 @@ package com.dotin.dotintasktwo.controller;
 
 import com.dotin.dotintasktwo.model.Email;
 import com.dotin.dotintasktwo.service.EmailService;
+import com.dotin.dotintasktwo.utility.Time;
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.data.domain.Pageable;
+
 
 import java.io.IOException;
 import java.sql.Blob;
@@ -30,14 +33,15 @@ public class EmailController {
 
 
     @GetMapping("/list")
-    public ModelAndView getInbox() {
+    public ModelAndView getInbox(Pageable pageable) {
 
         ModelAndView modelAndView = new ModelAndView("emails.jsp");
 
-        // get emails from db
-        List<Email> emails = emailService.getAllEmails();
+        List<Email> emails = emailService.findAll(pageable);
+        int totalRecords = emailService.findAll().size();
 
         modelAndView.addObject("emails", emails);
+        modelAndView.addObject("totalRecords", totalRecords);
 
         return modelAndView;
     }
@@ -59,8 +63,11 @@ public class EmailController {
     public ModelAndView showFormForAdd(@RequestParam(value = "file") MultipartFile file) throws IOException {
 
         ModelAndView modelAndView = new ModelAndView("/add/email.jsp");
-
+        Time time = new Time();
         Email email = new Email();
+        email.setCreateDate(time.getTime());
+        email.setVersion(1);
+        email.setActive(true);
         Blob blobFile = BlobProxy.generateProxy(file.getBytes());
         email.setAttachment(blobFile);
 //        String selectedEmployeeStr = request.getParameter("selectedIds");

@@ -65,12 +65,12 @@
         int pages = (int) request.getAttribute("totalRecords") / 4;
         for (int i = 0; i <= pages; i++) {
     %>
-    <a href="/employees/list?page=<%=i%>"><%=i + 1 %>
+    <a href="${pageContext.request.contextPath}/employees/list?page=<%=i%>"><%=i + 1 %>
     </a>
     <%} %>
     <br>
     <br>
-    <form action="/employees/list">
+    <form action="${pageContext.request.contextPath}/employees/list">
 
         برو به صفحه<label><br/>
         <input type="text" name="page"/>

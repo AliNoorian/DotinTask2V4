@@ -2,7 +2,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<>
+<html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" type=""></script>
@@ -68,6 +68,27 @@
         </div>
     </div>
 </div>
+<footer class="card-footer" align="center" dir="rtl">
+    <%
+        int pages = (int) request.getAttribute("totalRecords") / 4;
+        for (int i = 0; i <= pages; i++) {
+    %>
+    <a href="${pageContext.request.contextPath}/leaves/list?page=<%=i%>"><%=i + 1 %>
+    </a>
+    <%} %>
+    <br>
+    <br>
+    <form action="${pageContext.request.contextPath}/leaves/list">
+
+        برو به صفحه<label><br/>
+        <input type="text" name="page"/>
+    </label>&nbsp;
+        <input type="submit" value="اعمال"/>
+    </form>
+
+
+</footer>
+
 <%@include file="components/scripts.jsp" %>
 </body>
 </html>
