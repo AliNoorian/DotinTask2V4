@@ -21,7 +21,7 @@
 <div class="centered cardContainer"
      uk-scrollspy="cls: uk-animation-fade; target: .uk-card; delay: 250; repeat: true" align="right">
 
-    <form:form method="POST" action="/email/save" modelAttribute="email" align="right">
+    <form:form method="POST" action="/email/save" modelAttribute="email">
 
         <form:input type="hidden" path="id"/>
 
@@ -47,7 +47,19 @@
         <br/>
 
         <div>
-            <form:button type="file" class="btn btn-" id="uploadFile">انتخاب فایل</form:button>
+                <%--            <form:button type="file" class="btn btn-" id="uploadFile">انتخاب فایل</form:button>--%>
+            <form:label for="file" path="attachment">ارسال فایل</form:label>
+            <form:input name="file" path="attachment" type="file" class="form-control" id="file"
+                        placeholder="ارسال فایل در صورت نیاز"/>
+<%--                    <c:if test="${not empty email.attachment}">--%>
+<%--                        <c:url var="urlFile" value="/emails/upload">--%>
+<%--                            <c:param name="emailId" value="${email.id}"/>--%>
+<%--                        </c:url>--%>
+<%--                        <a href="${urlFile}"><c:out value="attachmentFile"/></a>--%>
+<%--                    </c:if>--%>
+<%--                    <form:button type="button" class="btn btn-primary" onclick="location.href='uploadFile?emailId=${email.id}'">ارسال فایل</form:button>--%>
+                    <form:button type="button" class="btn btn-primary" onclick="location.href='/emails/upload?emailId=${email.id}&file=file'">ارسال فایل</form:button>
+
         </div>
         <br/>
 

@@ -22,9 +22,15 @@ public class Email extends Parent implements Serializable {
     @Column(name = "c_message")
     private String message;
 
+    @Column(name = "c_file_name")
+    private String fileName;
+
+    @Column(name = "c_file_type")
+    private String fileType;
+
     @Lob
     @Column(name = "c_attachment")
-    private Blob attachment;
+    private byte[] attachment;
 
     @ManyToOne
     @JoinColumn(name = "c_sender_id")
