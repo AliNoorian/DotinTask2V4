@@ -1,8 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 
-<nav dir="rtl">
-    <div class="ui secondary  menu" style="height: 1rem;">
-        <a href="${pageContext.request.contextPath}/" class="item ${requestScope['javax.servlet.forward.request_uri'] eq '/' ? 'active' : ''}">
+<div class="navbar-right">
+
+    <div class="ui secondary  menu" style="height: 1rem;" dir="rtl">
+        <a href="${pageContext.request.contextPath}/"
+           class="item ${requestScope['javax.servlet.forward.request_uri'] eq '/' ? 'active' : ''}">
             صفحه اصلی
         </a>
         <a href="${pageContext.request.contextPath}/employees/list"
@@ -22,7 +24,7 @@
             درخواست های مرخصی
         </a>
 
-        <div class="uk-navbar-dropdown uk-margin-remove" uk-dropdown="pos: bottom-right">
+        <div class="dropdown-item" uk-dropdown="pos: bottom-right">
         </div>
         <div class="right menu centered">
             <a href="#" class="item">ایجاد&nbsp;+</a>
@@ -35,5 +37,9 @@
             </div>
             <a href="${pageContext.request.contextPath}/logout" class="item">خروج</a>
         </div>
+        <img src="${pageContext.request.contextPath}/images/logo.png" alt="logo" align="left"/>
     </div>
-</nav>
+
+</div>
+
+

@@ -5,16 +5,14 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" type=""></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" type=""></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <%@include file="../components/header.jsp" %>
 
     <title>لیست کارمندان</title>
-    <%@include file="components/stylesheets.jsp" %>
+    <%@include file="../components/stylesheets.jsp" %>
 </head>
 <body>
-<%@include file="components/navigation.jsp" %>
+<%@include file="../components/navigation.jsp" %>
 <html var="listEmployees" value="/employees/list">
 <%--<header style="background-color: #666;  padding: 30px;  text-align: center;  font-size: 35px;  color: white;">--%>
 <%--    لیست کارمندان--%>
@@ -67,7 +65,7 @@
 <hr>
 
 </body>
-<footer class="card-footer" align="center" dir="rtl">
+<div class="card-footer" align="center" dir="rtl">
     <%
         int pages = (int) request.getAttribute("totalRecords") / 4;
         for (int i = 0; i <= pages; i++) {
@@ -86,6 +84,23 @@
     </form>
 
 
-</footer>
-<%@include file="components/scripts.jsp" %>
+</div>
+<%@include file="../components/scripts.jsp" %>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<%@include file="../components/footer.jsp" %>
+
 </html>

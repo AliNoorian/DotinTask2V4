@@ -5,6 +5,7 @@ import com.dotin.dotintasktwo.model.Email;
 import com.dotin.dotintasktwo.model.Employee;
 import com.dotin.dotintasktwo.repository.EmailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -19,7 +20,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class EmailServiceImpl implements EmailService {
 
     private final EmailRepository emailRepository;
@@ -52,19 +52,20 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
+    @Transactional
     public void addEmail(Email email) {
 
         emailRepository.save(email);
     }
 
     @Override
-    public List<Email> getInbox(Employee receiver) {
-        return emailRepository.getEmailByReceiversEquals(receiver);
+    public Page<Email> getInbox(Employee receiver, Pageable pageable) {
+        return emailRepository.getEmailByReceiversEquals(receiver, pageable);
     }
 
     @Override
-    public List<Email> getOutbox(Employee sender) {
-        return emailRepository.getEmailBySenderEquals(sender);
+    public Page<Email> getSent(Employee sender, Pageable pageable) {
+        return emailRepository.getEmailBySenderEquals(sender, pageable);
     }
 
 
@@ -81,23 +82,24 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
+    @Transactional
     public void storeFile(MultipartFile file, long emailId) {
         // Normalize file name
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
 
         try {
             // Check if the file's name contains invalid characters
-         //   if(fileName.contains("..")) {
-         //       throw new ("Sorry! Filename contains invalid path sequence " + fileName);
-         //   }
+            //   if(fileName.contains("..")) {
+            //       throw new ("Sorry! Filename contains invalid path sequence " + fileName);
+            //   }
 
-            Email email =emailRepository.getOne(emailId);
+            Email email = emailRepository.getOne(emailId);
             email.setFileName(fileName);
             email.setFileType(file.getContentType());
             email.setAttachment(file.getBytes());
 
         } catch (IOException ex) {
-       //     throw new ("Could not store file " + fileName + ". Please try again!", ex);
+            //     throw new ("Could not store file " + fileName + ". Please try again!", ex);
         }
     }
 

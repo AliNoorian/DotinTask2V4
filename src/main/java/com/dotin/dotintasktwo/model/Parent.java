@@ -3,15 +3,14 @@ package com.dotin.dotintasktwo.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @MappedSuperclass
 @Data
-public class Parent implements Serializable {
+public class Parent  {
 
     @Id
     @Column(name = "c_id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue
     private long id;
 
     @Version

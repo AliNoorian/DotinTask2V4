@@ -10,7 +10,6 @@ import java.util.*;
 
 
 @Service
-@Transactional
 public class CategoryElementServiceImpl implements CategoryElementService {
 
     private final CategoryElementRepository categoryElementRepository;
@@ -42,11 +41,15 @@ public class CategoryElementServiceImpl implements CategoryElementService {
     }
 
     @Override
+    @Transactional
     public void addCategoryElement(CategoryElement categoryElement) {
         categoryElementRepository.save(categoryElement);
     }
 
+
+
     @Override
+    @Transactional
     public void removeCategoryElement(long id) {
         categoryElementRepository.deleteById(id);
     }

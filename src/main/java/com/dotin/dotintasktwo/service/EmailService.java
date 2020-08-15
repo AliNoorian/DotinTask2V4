@@ -2,6 +2,7 @@ package com.dotin.dotintasktwo.service;
 
 import com.dotin.dotintasktwo.model.Email;
 import com.dotin.dotintasktwo.model.Employee;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,10 +18,8 @@ public interface EmailService {
 
     void addEmail(Email email);
 
-    List<Email> getInbox(Employee receiver);
-
-    List<Email> getOutbox(Employee sender);
-
+    Page<Email> getInbox(Employee receiver, Pageable pageable);
+    Page<Email> getSent(Employee sender, Pageable pageable);
     List<Email> findAll(Pageable pageable);
 
     List<Email> findAll();

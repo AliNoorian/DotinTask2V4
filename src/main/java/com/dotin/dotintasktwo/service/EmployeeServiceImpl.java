@@ -1,34 +1,28 @@
 package com.dotin.dotintasktwo.service;
 
 import com.dotin.dotintasktwo.model.Employee;
-import com.dotin.dotintasktwo.model.Leave;
 import com.dotin.dotintasktwo.repository.EmployeeRepository;
-import com.dotin.dotintasktwo.repository.LeaveRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
 
 @Service
-@Transactional
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
-    private final LeaveRepository leaveRepository;
 
 
     @Autowired
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository,
-                               LeaveRepository leaveRepository) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
 
         this.employeeRepository = employeeRepository;
-        this.leaveRepository = leaveRepository;
     }
 
 
@@ -51,15 +45,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
     @Override
+    @Transactional
     public void Save(Employee employee) {
-
         employeeRepository.save(employee);
-
     }
 
     @Override
+    @Transactional
     public void deleteEmployee(long empId) {
-
         employeeRepository.deleteById(empId);
     }
 
@@ -110,26 +103,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
 
-
-    // Employees Requested Leave are stored
-    @Override
-
-    public void addLeave(String name, Leave leave) {
-
-        Employee employee = employeeRepository.findByFirstName(name);
-        leave.setEmployee(employee);
-        leaveRepository.save(leave);
-
-        List<Leave> empLeaves = employee.getLeaves();
-        empLeaves.add(leave);
-        employeeRepository.save(employee);
-
-    }
-
     @Override
     public List<Employee> findManager() {
-        return employeeRepository.findAll();
+        return employeeRepository.findManager("MANAGER");
     }
+
+
 
 
 }

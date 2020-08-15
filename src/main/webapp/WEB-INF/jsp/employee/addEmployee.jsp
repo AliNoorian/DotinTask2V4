@@ -5,25 +5,17 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-
+    <%@include file="../components/header.jsp" %>
 
     <title>کاربر جدید</title>
     <%@include file="../components/stylesheets.jsp" %>
 </head>
 <body dir="rtl" align="center">
 <%@include file="../components/navigation.jsp" %>
-<%--<header class="card-header" align="center">--%>
-<%--    درج کاربر جدید--%>
-<%--</header>--%>
+
 <div class="container" align="center" dir="rtl">
     <h3 align="center">کاربر جدید</h3>
     <hr>
-
-    <p class="h4 mb-4" align="right">درج کاربر جدید</p>
 
     <form:form method="POST" action="/employees/save" modelAttribute="employee">
 
@@ -34,6 +26,8 @@
             <form:label path="firstName">نام</form:label>
             <form:input type="text" path="firstName" class="form-control mb-4 col-4" id="inputFirstName"
                         placeholder="نام خود را وارد کنید"/>
+            <form:errors path="firstName" cssClass="error" />
+
         </div>
 
         <div align="right">
@@ -41,12 +35,16 @@
             <form:label path="lastName">نام خانوادگی</form:label>
             <form:input type="text" path="lastName" class="form-control mb-4 col-4" id="inputLastName"
                         placeholder="نام خانوادگی خود را وارد کنید"/>
+            <form:errors path="lastName" cssClass="error" />
+
         </div>
 
         <div align="right">
             <form:label path="active">وضعیت کاری</form:label><br/>
             <form:radiobutton cssClass="custom-radio" path="active" value="true"/>فعال<br/>
             <form:radiobutton cssClass="custom-radio" path="active" value="false"/>غیر فعال
+            <form:errors path="active" cssClass="error" />
+
         </div>
         <br/>
 
@@ -54,12 +52,16 @@
             <form:label path="email">ایمیل</form:label>
             <form:input type="email" path="email" class="form-control mb-4 col-4" id="inputEmail"
                         placeholder="ایمیل خود را وارد کنید"/>
+            <form:errors path="email" cssClass="error" />
+
         </div>
 
         <div align="right">
             <form:label path="employeeGender">جنسیت</form:label><br/>
             <form:radiobutton path="employeeGender" value="خانم"/> خانم<br/>
             <form:radiobutton path="employeeGender" value="آقا"/>آقا
+            <form:errors path="employeeGender" cssClass="error" />
+
         </div>
         <br/>
 
@@ -70,6 +72,8 @@
                     <option value="${dep.id}">${dep.name}</option>
                 </c:forEach>
             </form:select>
+            <form:errors path="employeeRole" cssClass="error" />
+
         </div>
         <br/>
 
@@ -80,6 +84,8 @@
                     <option value="${emp.id}">${emp.lastName}</option>
                 </c:forEach>
             </form:select>
+            <form:errors path="manager" cssClass="error" />
+
         </div>
         <br/>
 
@@ -91,5 +97,13 @@
 
     </form:form>
 </div>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/add/employee.js"></script>
+<%@include file="../components/scripts.jsp" %>
 </body>
+<br/>
+<br/>
+
+
+<%@include file="../components/footer.jsp" %>
+
 </html>

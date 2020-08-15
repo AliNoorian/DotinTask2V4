@@ -9,11 +9,11 @@ import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 
-@EqualsAndHashCode(callSuper = true)
+
 @Entity
 @Table(name = "t_category_element")
 @Data
-public class CategoryElement extends Parent implements Serializable {
+public class CategoryElement extends Parent  {
 
 
     @Column(name = "c_name")

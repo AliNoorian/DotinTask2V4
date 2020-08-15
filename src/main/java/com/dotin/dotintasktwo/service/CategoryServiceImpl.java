@@ -9,7 +9,6 @@ import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
-@Transactional
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
@@ -43,11 +42,13 @@ public class CategoryServiceImpl implements CategoryService {
 
 
     @Override
+    @Transactional
     public void addCategory(Category category) {
         categoryRepository.save(category);
     }
 
     @Override
+    @Transactional
     public void removeCategory(long id) {
         categoryRepository.deleteById(id);
     }

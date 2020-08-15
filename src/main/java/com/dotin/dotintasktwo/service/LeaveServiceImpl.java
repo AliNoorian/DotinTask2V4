@@ -2,9 +2,11 @@ package com.dotin.dotintasktwo.service;
 
 
 import com.dotin.dotintasktwo.model.CategoryElement;
+import com.dotin.dotintasktwo.model.Employee;
 import com.dotin.dotintasktwo.model.Leave;
 import com.dotin.dotintasktwo.repository.LeaveRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -87,6 +89,11 @@ public class LeaveServiceImpl implements LeaveService {
         int pageNo = pageable.getPageNumber();
         return leaveRepository.findAll(PageRequest.of(pageNo, 4, Sort.by("id").descending())).getContent();
 
+    }
+
+    @Override
+    public Page<Leave> getLeaves(Employee employee, Pageable pageable) {
+        return leaveRepository.getLeaveByEmployeeEquals(employee, pageable);
     }
 
 

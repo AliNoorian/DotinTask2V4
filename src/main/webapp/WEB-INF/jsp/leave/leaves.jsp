@@ -5,16 +5,14 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" type=""></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" type=""></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <%@include file="../components/header.jsp" %>
 
     <title>لیست مرخصی ها</title>
-    <%@include file="components/stylesheets.jsp" %>
+    <%@include file="../components/stylesheets.jsp" %>
 </head>
 <body>
-<%@include file="components/navigation.jsp" %>
+<%@include file="../components/navigation.jsp" %>
 <html var="LeavesList" value="leaves/list">
 
 <div class="bodyContainer">
@@ -92,6 +90,23 @@
         <input type="submit" value="اعمال"/>
     </form>
 </footer>
-<%@include file="components/scripts.jsp" %>
+<%@include file="../components/scripts.jsp" %>
 </body>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<%@include file="../components/footer.jsp" %>
+
 </html>

@@ -1,10 +1,8 @@
 package com.dotin.dotintasktwo.service;
 
 import com.dotin.dotintasktwo.model.Employee;
-import com.dotin.dotintasktwo.model.Leave;
 import org.springframework.data.domain.Pageable;
 
-import java.util.Date;
 import java.util.List;
 
 
@@ -25,9 +23,6 @@ public interface EmployeeService {
 
     List<Employee> findAll();
 
-    void addLeave(String userName, Leave leave);
-
     List<Employee> findManager();
-
 
 }

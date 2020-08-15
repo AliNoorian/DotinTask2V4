@@ -5,7 +5,9 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+
 
 
 @EqualsAndHashCode(callSuper = true)
@@ -15,22 +17,23 @@ import java.io.Serializable;
 public class Leave extends Parent implements Serializable {
 
 
-    @NotBlank(message = "Leave Subject is required")
+    @NotBlank(message = "عنوان مرخصی الزامی می باشد")
     @Column(name = "c_leave_subject", nullable = false)
     private String leaveSubject;
 
-    @NotBlank(message = "Leave Message is required")
+    @NotBlank(message = "شرح مرخصی الزامی می باشد")
     @Column(name = "c_leave_message", nullable = false)
     private String leaveMessage;
 
-    @NotBlank(message = "is required")
+    @NotBlank(message = "تاریخ شروع را مشخص کنید")
     @Column(name = "c_leave_start")
     private String leaveFrom;
 
-    @NotBlank(message = "is required")
+    @NotBlank(message = "تاریخ پایان را مشخص کنید")
     @Column(name = "c_leave_end")
     private String leaveTo;
 
+    @NotEmpty(message = "کارمند را مشخص کنید")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "c_request_employee_id")
     private Employee employee;

@@ -5,10 +5,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="icon" type="image/ico" href="${pageContext.request.contextPath}/resources/images/logo.png">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <%@include file="../components/header.jsp" %>
 
     <title>پیام جدید</title>
     <%@include file="../components/stylesheets.jsp" %>
@@ -22,14 +19,17 @@
 
     <p class="h4 mb-4" align="right">ثبت پیام جدید</p>
 
-    <form:form method="POST" action="/email/save" modelAttribute="email">
+    <form:form method="POST" action="/email/send" modelAttribute="email">
 
         <form:input type="hidden" path="id"/>
 
         <div align="right">
             <form:label path="receivers">انتخاب گیرنده</form:label>
-            <form:select type="text" path="receivers" class="form-control mb-4 col-4" id="selectEmailReceivers"
-                         multiple="multiple"/>
+            <form:select type="text" path="receivers" class="form-control mb-2 col-4" id="selectEmailReceivers"
+                         multiple="multiple">
+                <form:options items="${email.receivers}" itemValue="id" itemLabel="lastName"/>
+            </form:select>
+
         </div>
         <br/>
 
@@ -42,7 +42,7 @@
 
         <div align="right">
             <form:label path="message">شرح پیام</form:label>
-            <form:textarea type="message" path="message" class="form-control mb-4 col-4" id="inputEmailMessage"
+            <form:textarea type="message" path="message" class="form-control mb-8 col-4" id="inputEmailMessage"
                            placeholder="شرح پیام را عنوان کنید"/>
         </div>
         <br/>
@@ -76,4 +76,13 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/add/employee.js"></script>
 <%@include file="../components/scripts.jsp" %>
 </body>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+
+<%@include file="../components/footer.jsp" %>
+
 </html>

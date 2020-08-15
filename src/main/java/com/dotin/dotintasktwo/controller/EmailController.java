@@ -1,16 +1,20 @@
 package com.dotin.dotintasktwo.controller;
 
 import com.dotin.dotintasktwo.model.Email;
+import com.dotin.dotintasktwo.model.Employee;
 import com.dotin.dotintasktwo.service.EmailService;
 import com.dotin.dotintasktwo.utility.Time;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.data.domain.Pageable;
 
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -32,7 +36,7 @@ public class EmailController {
     @GetMapping("/list")
     public ModelAndView getInbox(Pageable pageable) {
 
-        ModelAndView modelAndView = new ModelAndView("emails.jsp");
+        ModelAndView modelAndView = new ModelAndView("email/emails.jsp");
 
         List<Email> emails = emailService.findAll(pageable);
         int totalRecords = emailService.findAll().size();
@@ -43,23 +47,35 @@ public class EmailController {
         return modelAndView;
     }
 
-    @GetMapping("/outbox")
-    public ModelAndView getOutbox() {
+    @GetMapping("/sent")
+    public ModelAndView getSent(@ModelAttribute("s") Employee sender,
+                                  @PageableDefault(size = 5) Pageable pageable) {
 
-        ModelAndView modelAndView = new ModelAndView("emails.jsp");
+        ModelAndView modelAndView = new ModelAndView("email/emails.jsp");
 
-        // get emails from db
-        List<Email> emails = emailService.getAllEmails();
-
-        modelAndView.addObject("emails", emails);
+        modelAndView.addObject("emails", emailService.getSent(sender,pageable));
 
         return modelAndView;
     }
 
+    @GetMapping("/inbox")
+    public ModelAndView getInbox(@ModelAttribute("r") Employee receiver,
+                                  @PageableDefault(size = 5) Pageable pageable) {
+
+        ModelAndView modelAndView = new ModelAndView("email/emails.jsp");
+
+        modelAndView.addObject("emails", emailService.getInbox(receiver,pageable));
+
+        return modelAndView;
+    }
+
+
+
+
     @GetMapping("/showFormForAdd")
     public ModelAndView showFormForAdd() {
 
-        ModelAndView modelAndView = new ModelAndView("/add/email.jsp");
+        ModelAndView modelAndView = new ModelAndView("email/addEmail.jsp");
         Time time = new Time();
         Email email = new Email();
         email.setCreateDate(time.getTime());
@@ -93,9 +109,13 @@ public class EmailController {
 //    }
 
     @PostMapping("/send")
-    public ModelAndView sendEmail(@ModelAttribute("email") Email email) {
+    public ModelAndView sendEmail(@Valid @ModelAttribute("email") Email email,
+                                  BindingResult bindingResult) {
+        ModelAndView modelAndView = new ModelAndView("redirect:/emails/list");
 
-        ModelAndView modelAndView = new ModelAndView("redirect:emails.jsp");
+        if (bindingResult.hasErrors()) {
+            return new ModelAndView("/email/addEmail.jsp");
+        }
 
         // save the email
         emailService.addEmail(email);

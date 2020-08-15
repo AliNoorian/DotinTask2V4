@@ -10,9 +10,11 @@ import com.dotin.dotintasktwo.utility.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -42,7 +44,7 @@ public class EmployeeController {
     @GetMapping("/list")
     public ModelAndView listEmployees(Pageable pageable) {
 
-        ModelAndView modelAndView = new ModelAndView("employees.jsp");
+        ModelAndView modelAndView = new ModelAndView("employee/employees.jsp");
         List<Employee> employees = employeeService.findAll(pageable);
         int totalRecords = employeeService.findAll().size();
 
@@ -55,7 +57,7 @@ public class EmployeeController {
     @GetMapping("/showFormForAdd")
     public ModelAndView showFormForAdd() {
 
-        ModelAndView modelAndView = new ModelAndView("/add/employee.jsp");
+        ModelAndView modelAndView = new ModelAndView("employee/addEmployee.jsp");
 
         // create model attribute to bind form data
         Employee theEmployee = new Employee();
@@ -115,7 +117,7 @@ public class EmployeeController {
         modelAndView.addObject("employee", theEmployee);
         modelAndView.addObject("categories", categories);
         modelAndView.addObject("categoryElements", categoryElementService.getAllCategoryElements());
-        modelAndView.addObject("managers", employeeService.findAll());
+        modelAndView.addObject("managers", employeeService.findManager());
 
 
         return modelAndView;
@@ -124,12 +126,12 @@ public class EmployeeController {
     @RequestMapping("/showFormForUpdate/{id}")
     public ModelAndView showFormForUpdate(@PathVariable("id") long theId) {
 
-        ModelAndView modelAndView = new ModelAndView("/add/employee.jsp");
+        ModelAndView modelAndView = new ModelAndView("employee/addEmployee.jsp");
 
         // get the employee from the service
         Employee theEmployee = employeeService.findById(theId);
         List<Employee> managers = employeeService.findAll();
-        isEmployeeUpdate=true;
+        isEmployeeUpdate = true;
 
         modelAndView.addObject("employee", theEmployee);
         modelAndView.addObject("categories", categoryService.getAllCategory());
@@ -141,20 +143,31 @@ public class EmployeeController {
 
 
     @PostMapping("/save")
-    public ModelAndView saveEmployee(@ModelAttribute("employee") Employee theEmployee) {
+    public ModelAndView saveEmployee(@Valid @ModelAttribute("employee") Employee theEmployee,
+                                     BindingResult bindingResult) {
 
+        if (bindingResult.hasErrors()) {
+            return new ModelAndView("/employee/addEmployee.jsp");
+        }
         ModelAndView modelAndView = new ModelAndView("redirect:/employees/list");
 
-        if(isEmployeeUpdate){
+        if (isEmployeeUpdate) {
             Time time = new Time();
             theEmployee.setVersion(theEmployee.getVersion() + 1);
             theEmployee.setModifiedDate(time.getTime());
-            isEmployeeUpdate=false;
+            isEmployeeUpdate = false;
+            employeeService.Save(theEmployee);
+            return modelAndView;
         }
-        // save the employee
-        employeeService.Save(theEmployee);
 
-        // use a redirect to prevent duplicate submissions
+
+        if (((employeeService.findAll().stream().anyMatch(i -> i.getEmail().equals(theEmployee.getEmail()))))) {
+            ModelAndView modelAndView2 = new ModelAndView("/employee/addEmployee.jsp");
+            modelAndView2.addObject("message", "این ایمیل تکراری می باشد");
+            return modelAndView2;
+        }
+
+        employeeService.Save(theEmployee);
         return modelAndView;
     }
 
@@ -174,7 +187,7 @@ public class EmployeeController {
 
     @GetMapping("/search")
     public ModelAndView search(@RequestParam("employeeName") String theName) {
-        ModelAndView modelAndView = new ModelAndView("employees.jsp");
+        ModelAndView modelAndView = new ModelAndView("employee/employees.jsp");
 
 
         // delete the employee

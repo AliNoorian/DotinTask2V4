@@ -8,11 +8,11 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
-@EqualsAndHashCode(callSuper = true)
+
 @Entity
 @Table(name = "t_category")
 @Data
-public class Category extends Parent implements Serializable {
+public class Category extends Parent  {
 
 
 //    @Enumerated(EnumType.STRING)
