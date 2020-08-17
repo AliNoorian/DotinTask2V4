@@ -54,7 +54,30 @@ public class CategoryElementServiceImpl implements CategoryElementService {
         categoryElementRepository.deleteById(id);
     }
 
+    @Override
+    public List<CategoryElement> getAllCategoryRoleElements() {
+        return categoryElementRepository.findAllRoleCategory("userRole");
+    }
 
+    @Override
+    public List<CategoryElement> getAllCategoryLeaveStatusElements() {
+        return categoryElementRepository.findAllStatusCategory("leaveStatus");
+    }
+
+    @Override
+    public CategoryElement getApprovedCategoryElement() {
+        return categoryElementRepository.findByApproved("APPROVED");
+    }
+
+    @Override
+    public CategoryElement getRejectedCategoryElement() {
+        return categoryElementRepository.findByRejected("REJECTED");
+    }
+
+    @Override
+    public CategoryElement getPendingCategoryElement() {
+        return categoryElementRepository.findByPending("PENDING");
+    }
 
 
 }

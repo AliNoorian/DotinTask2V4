@@ -1,7 +1,6 @@
 package com.dotin.dotintasktwo.service;
 
 
-import com.dotin.dotintasktwo.model.Email;
 import com.dotin.dotintasktwo.model.Employee;
 import com.dotin.dotintasktwo.model.Leave;
 import org.springframework.data.domain.Page;
@@ -13,15 +12,9 @@ import java.util.List;
 @Service
 public interface LeaveService {
 
-//    List<Leave> findAllLeaves(int status);
 
     Leave findByLeaveId(long leaveId);
 
-    void grantLeave(long leaveId);
-
-    void rejectLeave(long leaveId);
-
-    List<Leave> findAll();
 
     void deleteLeave(long leaveId);
 
@@ -31,5 +24,11 @@ public interface LeaveService {
 
     Page<Leave> getLeaves(Employee employee, Pageable pageable);
 
+    List<Leave> findAllApproved();
 
+    List<Leave> findAllPending();
+
+    void grantLeave(long leaveId);
+
+    void rejectLeave(long leaveId);
 }

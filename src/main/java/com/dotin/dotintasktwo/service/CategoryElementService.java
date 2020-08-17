@@ -21,7 +21,11 @@ public interface CategoryElementService {
 
     void removeCategoryElement(long id);
 
+    List<CategoryElement> getAllCategoryRoleElements();
 
+    List<CategoryElement> getAllCategoryLeaveStatusElements();
 
-
+    CategoryElement getApprovedCategoryElement();
+    CategoryElement getRejectedCategoryElement();
+    CategoryElement getPendingCategoryElement();
 }

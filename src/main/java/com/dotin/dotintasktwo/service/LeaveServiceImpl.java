@@ -1,7 +1,6 @@
 package com.dotin.dotintasktwo.service;
 
 
-import com.dotin.dotintasktwo.model.CategoryElement;
 import com.dotin.dotintasktwo.model.Employee;
 import com.dotin.dotintasktwo.model.Leave;
 import com.dotin.dotintasktwo.repository.LeaveRepository;
@@ -57,21 +56,18 @@ public class LeaveServiceImpl implements LeaveService {
     @Override
     public void grantLeave(long leaveId) {
         Leave leave = findByLeaveId(leaveId);
-        leave.setLeaveStatus(categoryElementService.getCategoryElement(new CategoryElement().getCode().indexOf("APPROVED")));
+        leave.setLeaveStatus(categoryElementService.getApprovedCategoryElement());
         leaveRepository.save(leave);
     }
 
     @Override
     public void rejectLeave(long leaveId) {
         Leave leave = findByLeaveId(leaveId);
-        leave.setLeaveStatus(categoryElementService.getCategoryElement(new CategoryElement().getCode().indexOf("REJECTED")));
+        leave.setLeaveStatus(categoryElementService.getRejectedCategoryElement());
         leaveRepository.save(leave);
     }
 
-    @Override
-    public List<Leave> findAll() {
-        return leaveRepository.findAll();
-    }
+
 
     @Override
     public void deleteLeave(long leaveId) {
@@ -94,6 +90,16 @@ public class LeaveServiceImpl implements LeaveService {
     @Override
     public Page<Leave> getLeaves(Employee employee, Pageable pageable) {
         return leaveRepository.getLeaveByEmployeeEquals(employee, pageable);
+    }
+
+    @Override
+    public List<Leave> findAllApproved() {
+        return leaveRepository.findAllApprovedList("APPROVED");
+    }
+
+    @Override
+    public List<Leave> findAllPending() {
+        return leaveRepository.findAllPendingList("PENDING");
     }
 
 

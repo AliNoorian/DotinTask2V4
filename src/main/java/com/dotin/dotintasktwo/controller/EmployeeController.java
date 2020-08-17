@@ -116,7 +116,7 @@ public class EmployeeController {
         }
         modelAndView.addObject("employee", theEmployee);
         modelAndView.addObject("categories", categories);
-        modelAndView.addObject("categoryElements", categoryElementService.getAllCategoryElements());
+        modelAndView.addObject("categoryElements", categoryElementService.getAllCategoryRoleElements());
         modelAndView.addObject("managers", employeeService.findManager());
 
 

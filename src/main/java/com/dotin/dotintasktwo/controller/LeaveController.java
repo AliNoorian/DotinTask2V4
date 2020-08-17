@@ -7,6 +7,7 @@ import com.dotin.dotintasktwo.model.Leave;
 import com.dotin.dotintasktwo.service.CategoryElementService;
 import com.dotin.dotintasktwo.service.CategoryService;
 import com.dotin.dotintasktwo.service.LeaveService;
+import com.dotin.dotintasktwo.utility.DateUtil;
 import com.dotin.dotintasktwo.utility.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -28,7 +29,6 @@ public class LeaveController {
     private final CategoryService categoryService;
     private final CategoryElementService categoryElementService;
 
-
     @Autowired
     public LeaveController(LeaveService leaveService,
                            CategoryService categoryService,
@@ -44,7 +44,7 @@ public class LeaveController {
 
         ModelAndView modelAndView = new ModelAndView("leave/leaves.jsp");
         List<Leave> leaves = leaveService.findAll(pageable);
-        int totalRecords = leaveService.findAll().size();
+        int totalRecords = leaveService.findAllPending().size();
 
         modelAndView.addObject("leaves", leaves);
         modelAndView.addObject("totalRecords", totalRecords);
@@ -54,11 +54,11 @@ public class LeaveController {
 
     @GetMapping("/eList")
     public ModelAndView getLeaves(@ModelAttribute("e") Employee employee,
-                                @PageableDefault(size = 5) Pageable pageable) {
+                                  @PageableDefault(size = 5) Pageable pageable) {
 
         ModelAndView modelAndView = new ModelAndView("leave/leaves.jsp");
 
-        modelAndView.addObject("leaves", leaveService.getLeaves(employee,pageable));
+        modelAndView.addObject("leaves", leaveService.getLeaves(employee, pageable));
 
         return modelAndView;
     }
@@ -85,6 +85,7 @@ public class LeaveController {
 
             CategoryElement categoryElement1 = new CategoryElement();
             CategoryElement categoryElement2 = new CategoryElement();
+            CategoryElement categoryElement3 = new CategoryElement();
 
             categoryElement1.setName("تایید");
             categoryElement1.setCode("APPROVED");
@@ -94,11 +95,16 @@ public class LeaveController {
             categoryElement2.setCode("REJECTED");
             categoryElement2.setCategory(category1);
 
+            categoryElement3.setName("در دست بررسی");
+            categoryElement3.setCode("PENDING");
+            categoryElement3.setCategory(category1);
+
             categoryElementService.addCategoryElement(categoryElement1);
             categoryElementService.addCategoryElement(categoryElement2);
+            categoryElementService.addCategoryElement(categoryElement3);
 
         }
-
+        leave.setLeaveStatus(categoryElementService.getPendingCategoryElement());
 
         modelAndView.addObject("leave", leave);
 
@@ -113,44 +119,51 @@ public class LeaveController {
         if (bindingResult.hasErrors()) {
             return new ModelAndView("/leave/addLeave.jsp");
         }
-//        if (bindingResult.hasErrors()) {
-//            modelAndView.addObject("leave", leave);
-//            return modelAndView;
-//        }
-//
-//        if ((leave.getLeaveFrom() == null || leave.getLeaveTo() == null))    //to check dates are not empty
-//        {
-//            modelAndView.addObject("message", "هر دو قسمت باید تکمیل شوند");
-//            modelAndView.addObject("leave", leave);
-//            return modelAndView;
-//        } else if (!(leave.getLeaveFrom().matches(leave.getLeaveTo())))    //to check validity of period of dates
-//        {
-//            modelAndView.addObject("message", "این زمان امکان پذیر نمی باشد- بازه زمانی اشتباه");
-//            modelAndView.addObject("leave", leave);
-//            return modelAndView;
-//        } else if (((leaveService.findAll().stream().anyMatch(i -> i.getLeaveFrom().equals(leave.getLeaveFrom())))))    //to check validity of period of dates
-//        {
-//            modelAndView.addObject("message", "این زمان امکان پذیر نمی باشد- زمان شروع رزرو شده، لطفاً بعد از این تاریخ انتخاب شود");
-//            modelAndView.addObject("leave", leave);
-//            return modelAndView;
-//
-//        } else if (((leaveService.findAll().stream().anyMatch(i -> i.getLeaveTo().equals(leave.getLeaveTo())))))    //to check validity of period of dates
-//        {
-//            modelAndView.addObject("message", "این تاریخ امکان پذیر نمی باشد-  نمی باشد- زمان پایان رزرو شده، لطفاً قبل از این تاریخ انتخاب شود");
-//            modelAndView.addObject("leave", leave);
-//            return modelAndView;
-//        }
-        ModelAndView modelAndView = new ModelAndView("leave/leaves.jsp");
+        if (!leaveService.findAllApproved().isEmpty()) {
+            DateUtil dateUtil = new DateUtil();
+            if (dateUtil.checkDate(leaveService.findAllApproved(), leave.getLeaveFrom(), leave.getLeaveTo())) {
+                ModelAndView modelAndView = new ModelAndView("/leave/addLeave.jsp");
+                modelAndView.addObject("message", "این تاریخ امکان پذیر نمیباشد");
+                return modelAndView;
+            }
+        }
+        ModelAndView modelAndView = new ModelAndView("redirect:/leave/leaves.jsp");
 
         modelAndView.addObject("leave", leave);
         leaveService.Save(leave);
         return modelAndView;
     }
 
+    @GetMapping("/setApproved")
+    public ModelAndView setApproved(@RequestParam("leaveId") long theId) {
+         Leave leave =leaveService.findByLeaveId(theId);
+        if (!leaveService.findAllApproved().isEmpty()) {
+            DateUtil dateUtil = new DateUtil();
+            if (dateUtil.checkDate(leaveService.findAllApproved(), leave.getLeaveFrom(), leave.getLeaveTo())) {
+                ModelAndView modelAndView = new ModelAndView("redirect:/leave/leaves.jsp");
+                modelAndView.addObject("message", "زمان درخواست شده با زمان مرخصی های موافقت شده جدید، تداخل دارد");
+                return modelAndView;
+            }
+        }
+
+        ModelAndView modelAndView = new ModelAndView("redirect:/leave/leaves.jsp");
+        leaveService.grantLeave(theId);
+
+        return modelAndView;
+    }
+
+    @GetMapping("/setRejected")
+    public ModelAndView setRejected(@RequestParam("leaveId") long theId) {
+        ModelAndView modelAndView = new ModelAndView("redirect:/leave/leaves.jsp");
+
+        leaveService.rejectLeave(theId);
+
+        return modelAndView;
+    }
 
     @GetMapping("/delete")
     public ModelAndView delete(@RequestParam("leaveId") long theId) {
-        ModelAndView modelAndView = new ModelAndView("leave/leaves.jsp");
+        ModelAndView modelAndView = new ModelAndView("redirect:/leave/leaves.jsp");
 
         // delete the leave
         leaveService.deleteLeave(theId);
