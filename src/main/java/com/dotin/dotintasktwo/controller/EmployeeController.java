@@ -77,6 +77,7 @@ public class EmployeeController {
             CategoryElement categoryElement4 = new CategoryElement();
             CategoryElement categoryElement5 = new CategoryElement();
             CategoryElement categoryElement6 = new CategoryElement();
+            CategoryElement categoryElement7 = new CategoryElement();
 
 
             categoryElement1.setName("برنامه نویس");
@@ -93,7 +94,7 @@ public class EmployeeController {
             categoryElement3.setCategory(category1);
 
             categoryElement4.setName("مدیر برنامه نویس");
-            categoryElement4.setCode("PROGRAMMER_MANGER");
+            categoryElement4.setCode("PROGRAMMER_MANAGER");
             categoryElement4.setCategory(category1);
 
             categoryElement5.setName("مدیر تستر");
@@ -101,8 +102,12 @@ public class EmployeeController {
             categoryElement5.setCategory(category1);
 
             categoryElement6.setName("مدیر غیره");
-            categoryElement6.setCode("OTHER_manager");
+            categoryElement6.setCode("OTHER_MANAGER");
             categoryElement6.setCategory(category1);
+
+            categoryElement7.setName("ادمین");
+            categoryElement7.setCode("ADMIN");
+            categoryElement7.setCategory(category1);
 
             categoryService.addCategory(category1);
 
@@ -112,6 +117,7 @@ public class EmployeeController {
             categoryElementService.addCategoryElement(categoryElement4);
             categoryElementService.addCategoryElement(categoryElement5);
             categoryElementService.addCategoryElement(categoryElement6);
+            categoryElementService.addCategoryElement(categoryElement7);
 
         }
         modelAndView.addObject("employee", theEmployee);
@@ -123,19 +129,18 @@ public class EmployeeController {
         return modelAndView;
     }
 
-    @RequestMapping("/showFormForUpdate/{id}")
-    public ModelAndView showFormForUpdate(@PathVariable("id") long theId) {
+    @GetMapping("/showFormForUpdate")
+    public ModelAndView showFormForUpdate(@RequestParam("id") long theId) {
 
         ModelAndView modelAndView = new ModelAndView("employee/addEmployee.jsp");
 
         // get the employee from the service
         Employee theEmployee = employeeService.findById(theId);
-        List<Employee> managers = employeeService.findAll();
+        List<Employee> managers = employeeService.findManager();
         isEmployeeUpdate = true;
 
         modelAndView.addObject("employee", theEmployee);
-        modelAndView.addObject("categories", categoryService.getAllCategory());
-        modelAndView.addObject("categoryElement", categoryElementService.getAllCategoryElements());
+        modelAndView.addObject("categoryElement", categoryElementService.getAllCategoryRoleElements());
         modelAndView.addObject("managers", managers);
 
         return modelAndView;
@@ -172,8 +177,8 @@ public class EmployeeController {
     }
 
 
-    @RequestMapping("/delete/{id}")
-    public ModelAndView delete(@PathVariable("id") long theId) {
+    @GetMapping("/delete")
+    public ModelAndView delete(@RequestParam("id") long theId) {
 
         ModelAndView modelAndView = new ModelAndView("redirect:/employees/list");
 
@@ -185,18 +190,25 @@ public class EmployeeController {
 
     }
 
+    @GetMapping("/show")
+    public ModelAndView showEmployee(@RequestParam("id") long theId) {
+
+        ModelAndView modelAndView = new ModelAndView("/employee/showEmployee.jsp");
+        Employee employee=employeeService.findById(theId);
+        modelAndView.addObject("employee",employee);
+        return modelAndView;
+
+    }
+
     @GetMapping("/search")
     public ModelAndView search(@RequestParam("employeeName") String theName) {
         ModelAndView modelAndView = new ModelAndView("employee/employees.jsp");
 
 
-        // delete the employee
         List<Employee> theEmployees = employeeService.searchBy(theName);
 
-        // add to the spring model
         modelAndView.addObject("employees", theEmployees);
 
-        // send to /employees/list
         return modelAndView;
 
     }

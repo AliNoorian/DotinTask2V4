@@ -124,5 +124,31 @@ public class EmailController {
         return modelAndView;
     }
 
+    @GetMapping("/show")
+    public ModelAndView showEmail(@RequestParam("id") long theId) {
+
+        ModelAndView modelAndView = new ModelAndView("/email/showEmail.jsp");
+        Email email=emailService.getEmail(theId);
+        modelAndView.addObject("email",email);
+        return modelAndView;
+
+    }
+
+//    @PostMapping("/reply")
+//    public ModelAndView replyEmail(@Valid @ModelAttribute("email") Email email,
+//                                   @PathVariable("senderId") long senderId,
+//                                   BindingResult bindingResult) {
+//        ModelAndView modelAndView = new ModelAndView("redirect:/emails/list");
+//
+//        if (bindingResult.hasErrors()) {
+//            return new ModelAndView("/email/addEmail.jsp");
+//        }
+//
+//        Employee employeeSender= employeeService.findById(senderId);
+//        emailService.addEmail(email);
+//
+//        // use a redirect to prevent duplicate submissions
+//        return modelAndView;
+//    }
 
 }

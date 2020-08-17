@@ -44,8 +44,8 @@ public class EmailServiceImpl implements EmailService {
         if (result.isPresent()) {
             email = result.get();
         } else {
-            // we didn't find the email
-            throw new RuntimeException("Did not find email id - " + id);
+            // we didn't find the email!
+            throw new RuntimeException("ایمبل پیدا نشد " + id);
         }
 
         return email;

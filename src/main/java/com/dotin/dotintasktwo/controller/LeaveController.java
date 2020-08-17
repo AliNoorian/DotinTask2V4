@@ -136,7 +136,7 @@ public class LeaveController {
 
     @GetMapping("/setApproved")
     public ModelAndView setApproved(@RequestParam("leaveId") long theId) {
-         Leave leave =leaveService.findByLeaveId(theId);
+        Leave leave = leaveService.findByLeaveId(theId);
         if (!leaveService.findAllApproved().isEmpty()) {
             DateUtil dateUtil = new DateUtil();
             if (dateUtil.checkDate(leaveService.findAllApproved(), leave.getLeaveFrom(), leave.getLeaveTo())) {
@@ -163,12 +163,18 @@ public class LeaveController {
 
     @GetMapping("/delete")
     public ModelAndView delete(@RequestParam("leaveId") long theId) {
+
         ModelAndView modelAndView = new ModelAndView("redirect:/leave/leaves.jsp");
-
-        // delete the leave
         leaveService.deleteLeave(theId);
+        return modelAndView;
+    }
 
-        // redirect to /leaves/list
+    @GetMapping("/show")
+    public ModelAndView showLeave(@RequestParam("id") long theId) {
+
+        ModelAndView modelAndView = new ModelAndView("/leave/showLeave.jsp");
+        Leave leave = leaveService.findByLeaveId(theId);
+        modelAndView.addObject("leave", leave);
         return modelAndView;
 
     }
