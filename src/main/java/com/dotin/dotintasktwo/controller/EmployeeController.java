@@ -2,6 +2,7 @@ package com.dotin.dotintasktwo.controller;
 
 import com.dotin.dotintasktwo.model.Employee;
 import com.dotin.dotintasktwo.service.CategoryElementService;
+import com.dotin.dotintasktwo.service.CategoryService;
 import com.dotin.dotintasktwo.service.EmployeeService;
 import com.dotin.dotintasktwo.utility.Time;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +23,15 @@ public class EmployeeController {
 
     private final CategoryElementService categoryElementService;
     private final EmployeeService employeeService;
+    private final CategoryService categoryService;
     private boolean isEmployeeUpdate;
 
 
     @Autowired
-    public EmployeeController(EmployeeService employeeService,
+    public EmployeeController(CategoryService categoryService,
+                              EmployeeService employeeService,
                               CategoryElementService categoryElementService) {
+        this.categoryService = categoryService;
         this.employeeService = employeeService;
         this.categoryElementService = categoryElementService;
 
@@ -60,7 +64,7 @@ public class EmployeeController {
         theEmployee.setCreateDate(new Time().getTime());
 
         modelAndView.addObject("employee", theEmployee);
-        modelAndView.addObject("categoryElements", categoryElementService.getAllCategoryRoleElements());
+        modelAndView.addObject("categoryElements", categoryElementService.getCategoryName(categoryService.findByName("userRole")));
         modelAndView.addObject("managers", employeeService.findManager());
 
 
@@ -78,7 +82,8 @@ public class EmployeeController {
         isEmployeeUpdate = true;
 
         modelAndView.addObject("employee", theEmployee);
-        modelAndView.addObject("categoryElement", categoryElementService.getAllCategoryRoleElements());
+        modelAndView.addObject("categoryElement",
+                categoryElementService.getAllCategoryRoleElements());
         modelAndView.addObject("managers", managers);
 
         return modelAndView;
@@ -86,7 +91,7 @@ public class EmployeeController {
 
 
     @PostMapping("/save")
-    public ModelAndView saveEmployee(@ModelAttribute(name="employee")@Valid Employee theEmployee,
+    public ModelAndView saveEmployee(@ModelAttribute(name = "employee") @Valid Employee theEmployee,
                                      BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
@@ -94,22 +99,22 @@ public class EmployeeController {
         }
         ModelAndView modelAndView = new ModelAndView("redirect:/employees/list");
 
-        if (isEmployeeUpdate) {
+//        if (isEmployeeUpdate) {
+//
+//            theEmployee.setVersion(theEmployee.getVersion() + 1);
+//            theEmployee.setModifiedDate(new Time().getTime());
+//            isEmployeeUpdate = false;
+//            employeeService.Save(theEmployee);
+//            return modelAndView;
+//
+//        }
 
-            theEmployee.setVersion(theEmployee.getVersion() + 1);
-            theEmployee.setModifiedDate(new Time().getTime());
-            isEmployeeUpdate = false;
-            employeeService.Save(theEmployee);
-            return modelAndView;
 
-        }
-
-
-        if (((employeeService.findAll().stream().anyMatch(i -> i.getEmail().equals(theEmployee.getEmail()))))) {
-            ModelAndView modelAndView2 = new ModelAndView("/employee/addEmployee.jsp");
-            modelAndView2.addObject("message", "این ایمیل تکراری می باشد");
-            return modelAndView2;
-        }
+//        if (((employeeService.findAll().stream().anyMatch(i -> i.getEmail().equals(theEmployee.getEmail()))))) {
+//            ModelAndView modelAndView2 = new ModelAndView("/employee/addEmployee.jsp");
+//            modelAndView2.addObject("message", "این ایمیل تکراری می باشد");
+//            return modelAndView2;
+//        }
 
         employeeService.Save(theEmployee);
         return modelAndView;
@@ -133,8 +138,8 @@ public class EmployeeController {
     public ModelAndView showEmployee(@RequestParam("id") long theId) {
 
         ModelAndView modelAndView = new ModelAndView("/employee/showEmployee.jsp");
-        Employee employee=employeeService.findById(theId);
-        modelAndView.addObject("employee",employee);
+        Employee employee = employeeService.findById(theId);
+        modelAndView.addObject("employee", employee);
         return modelAndView;
 
     }

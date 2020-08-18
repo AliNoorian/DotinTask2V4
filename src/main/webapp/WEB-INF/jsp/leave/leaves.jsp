@@ -18,6 +18,7 @@
 <div class="bodyContainer">
 
     <div class="container" dir="rtl">
+
         <div class="table-responsive">
             <table class="table table-hover">
                 <tr align="center">
@@ -31,13 +32,16 @@
 
                 </tr>
                 <c:forEach var="leave" items="${leaves}">
+                    <hr>
+
+                    <hr>
                     <tr align="center">
                         <td><c:out value="${leave.id }"/></td>
                         <td><c:out value="${leave.leaveSubject }"/></td>
                         <td><c:out value="${leave.leaveMessage }"/></td>
                         <td dir="ltr"><c:out value="${leave.leaveFrom }"/></td>
                         <td dir="ltr"><c:out value="${leave.leaveTo }"/></td>
-                        <td><c:out value="${leave.leaveStatus}"/></td>
+                        <td><c:out value="${leave.leaveStatus.name}"/></td>
 
 
                         <td><a href="/leaves/setApproved/${leave.id }" class="btn btn-info" role="button">نمایش جزئیات</a>
@@ -48,6 +52,7 @@
                             درخواست</a></td>
 
                     </tr>
+x
                 </c:forEach>
             </table>
         </div>

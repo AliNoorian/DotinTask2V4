@@ -1,6 +1,7 @@
 package com.dotin.dotintasktwo.repository;
 
 
+import com.dotin.dotintasktwo.model.Category;
 import com.dotin.dotintasktwo.model.CategoryElement;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -30,5 +31,7 @@ public interface CategoryElementRepository extends JpaRepository<CategoryElement
     CategoryElement findByPending(@Param("PENDING") String PENDING);
 
     CategoryElement findByCode(@NotBlank(message = "code name is required") String code);
+
+    List<CategoryElement> findAllByCategory(Category category);
 }
 

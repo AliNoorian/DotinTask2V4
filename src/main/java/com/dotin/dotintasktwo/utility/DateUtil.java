@@ -18,16 +18,14 @@ public class DateUtil {
         String[] fromDatePart = fromPart[0].split("-");
         String[] fromTimePart = fromPart[1].split(":");
 
-        System.out.println();
-        System.out.println("==============================================");
-        System.out.println(fromPart[0]);
-        System.out.println("==============================================");
-        System.out.println();
+
         int fromYear = Integer.parseInt(fromDatePart[0]);
         int fromMonth = Integer.parseInt(fromDatePart[1]);
         int fromDay = Integer.parseInt(fromDatePart[2]);
         int fromHour = Integer.parseInt(fromTimePart[0]);
         int fromMinutes = Integer.parseInt(fromTimePart[1]);
+
+
 
 
         String[] toPart = toDateLeave.split(" ");
@@ -69,8 +67,8 @@ public class DateUtil {
                 isOverLap = false;
             } else if (fromYear > toLeaveYear || fromMonth > toLeaveMonth || fromDay > toLeaveDay) {
                 isOverLap = false;
-            } else if (fromYear == fromLeaveYear || fromMonth == fromLeaveMonth || fromDay == fromLeaveDay ||
-                    toYear == toLeaveYear || toMonth == toLeaveMonth || toDay == fromLeaveDay) {
+            } else if (fromYear == fromLeaveYear && fromMonth == fromLeaveMonth && fromDay == fromLeaveDay &&
+                    toYear == toLeaveYear && toMonth == toLeaveMonth && toDay == fromLeaveDay) {
                 if (toHour < fromLeaveHour || fromHour > toLeaveHour) {
                     isOverLap = false;
                 } else if (fromHour == fromLeaveHour || toHour == fromLeaveHour) {
@@ -83,7 +81,20 @@ public class DateUtil {
                 isOverLap = true;
             }
 
+            System.out.println("==============================================");
+            System.out.println(toLeaveYear);
+            System.out.println("==============================================");
+            System.out.println();
+
+
         }
+
+        System.out.println();
+        System.out.println("==============================================");
+        System.out.println(isOverLap);
+        System.out.println("==============================================");
+        System.out.println();
+        System.out.println();
 
         return isOverLap;
     }

@@ -14,7 +14,6 @@ import java.util.Optional;
 
 
 @Service
-@Transactional
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;

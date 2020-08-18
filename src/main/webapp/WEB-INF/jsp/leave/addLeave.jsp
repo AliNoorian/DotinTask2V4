@@ -17,7 +17,13 @@
 <div class="container" align="center" dir="rtl">
     <h3 align="center">درخواست مرخصی</h3>
     <hr>
-
+    <hr>
+    <c:if test="${message != null }">
+        <div class="alert alert-danger">
+            <strong><c:out value=" ${message} "/>!</strong>
+        </div>
+    </c:if>
+    <hr>
 
     <p class="h4 mb-4" align="right">ثبت مرخصی جدید</p>
 
@@ -114,6 +120,7 @@
         fromDate: true,
         groupId: 'rangeSelector1',
         enableTimePicker: true,
+        disableBeforeToday:true,
         dateFormat: 'yyyy-MM-dd HH:mm',
         textFormat: 'yyyy-MM-dd HH:mm از ساعت',
     });

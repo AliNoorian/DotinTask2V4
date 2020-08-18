@@ -83,5 +83,10 @@ public class CategoryElementServiceImpl implements CategoryElementService {
         return categoryElementRepository.findByCode(codeName);
     }
 
+    @Override
+    public List<CategoryElement> getCategoryName(Category getCategoryName) {
+        return categoryElementRepository.findAllByCategory(getCategoryName);
+    }
+
 
 }

@@ -3,6 +3,7 @@ package com.dotin.dotintasktwo.controller;
 import com.dotin.dotintasktwo.model.Employee;
 import com.dotin.dotintasktwo.model.Leave;
 import com.dotin.dotintasktwo.service.CategoryElementService;
+import com.dotin.dotintasktwo.service.EmployeeService;
 import com.dotin.dotintasktwo.service.LeaveService;
 import com.dotin.dotintasktwo.utility.DateUtil;
 import com.dotin.dotintasktwo.utility.Time;
@@ -23,12 +24,15 @@ import java.util.List;
 public class LeaveController {
 
     private final LeaveService leaveService;
+    private final EmployeeService employeeService;
     private final CategoryElementService categoryElementService;
 
     @Autowired
     public LeaveController(LeaveService leaveService,
+                           EmployeeService employeeService,
                            CategoryElementService categoryElementService) {
         this.leaveService = leaveService;
+        this.employeeService=employeeService;
         this.categoryElementService = categoryElementService;
     }
 
@@ -63,14 +67,7 @@ public class LeaveController {
 
         ModelAndView modelAndView = new ModelAndView("leave/addLeave.jsp");
 
-        Time time = new Time();
         Leave leave = new Leave();
-        leave.setCreateDate(time.getTime());
-        leave.setActive(true);
-        leave.setVersion(1);
-
-
-        leave.setLeaveStatus(categoryElementService.getPendingCategoryElement());
 
         modelAndView.addObject("leave", leave);
 
@@ -86,18 +83,22 @@ public class LeaveController {
             return new ModelAndView("/leave/addLeave.jsp");
         }
         if (!leaveService.findAllStatus(categoryElementService.getCategoryElementByCode("APPROVED")).isEmpty()) {
-            DateUtil dateUtil = new DateUtil();
-            if (dateUtil.checkDate(leaveService.findAllStatus(categoryElementService.getCategoryElementByCode("APPROVED")),
+
+            if (new DateUtil().checkDate(leaveService.findAllStatus(categoryElementService.getCategoryElementByCode("APPROVED")),
                     leave.getLeaveFrom(), leave.getLeaveTo())) {
 
                 ModelAndView modelAndView = new ModelAndView("/leave/addLeave.jsp");
-                modelAndView.addObject("message", "این تاریخ امکان پذیر نمیباشد");
+                modelAndView.addObject("message", "تاریخ شما با مرخصی تایید شده دیگر، تداخل زمانی دارد!");
                 return modelAndView;
             }
         }
         ModelAndView modelAndView = new ModelAndView("redirect:/leaves/list");
 
         modelAndView.addObject("leave", leave);
+        leave.setEmployee(employeeService.findByName("admin"));
+        leave.setCreateDate(new Time().getTime());
+        leave.setActive(true);
+        leave.setVersion(1);
         leave.setLeaveStatus(categoryElementService.getCategoryElementByCode("PENDING"));
         leaveService.Save(leave);
         return modelAndView;

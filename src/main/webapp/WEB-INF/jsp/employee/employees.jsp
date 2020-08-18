@@ -41,8 +41,8 @@
                         <td><c:out value="${Employee.firstName}"/></td>
                         <td><c:out value="${Employee.lastName}"/></td>
                         <td><c:out value="${Employee.active?'فعال':'غیر فعال' }"/></td>
-                        <td><c:out value="${Employee.employeeRole.name?'${Employee.employeeRole.name}':'---'}"/></td>
-                        <td><c:out value="${Employee.manager?'${Employee.manager}':'---'}"/></td>
+                        <td><c:out value="${Employee.employeeRole.name}"/></td>
+                        <td><c:out value="${Employee.manager}"/></td>
                         <td><c:out value="${Employee.email}"/></td>
                         <td><c:out value="${Employee.employeeGender}"/></td>
                         <td><a href="/employees/showFormForUpdate/${Employee.id }" class="btn btn-info" role="button" >ویرایش</a>

@@ -30,4 +30,6 @@ public interface CategoryElementService {
     CategoryElement getPendingCategoryElement();
 
     CategoryElement getCategoryElementByCode(String codeName);
+
+    List<CategoryElement> getCategoryName(Category getCategoryName);
 }
