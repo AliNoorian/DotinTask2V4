@@ -20,42 +20,33 @@
     <div class="container" dir="rtl">
         <div class="table-responsive">
             <table class="table table-hover">
-                <tr>
+                <tr align="center">
                     <th>#</th>
                     <th>موضوع مرخصی</th>
                     <th>شرح مرخصی</th>
                     <th>از تاریخ و ساعت</th>
                     <th>تا تاریخ و ساعت</th>
-                    <th>شناسه</th>
-                    <th>نام</th>
-                    <th>نام خانوادگی</th>
-                    <th colspan="3">وضعیت درخواست</th>
+                    <th>وضعیت مرخصی</th>
+                    <th colspan="2">وضعیت درخواست</th>
 
                 </tr>
                 <c:forEach var="leave" items="${leaves}">
-                    <tr>
-                        <td><c:out value="${leave.id }"></c:out></td>
-                        <td><c:out value="${leave.leaveSubject }"></c:out></td>
-                        <td><c:out value="${leave.leaveMessage }"></c:out></td>
-                        <td><c:out value="${leave.leaveFrom }"></c:out></td>
-                        <td><c:out value="${leave.leaveTo }"></c:out></td>
-                        <td><c:out value="${leave.employee.id }"></c:out></td>
-                        <td><c:out value="${leave.employee.firstName }"></c:out></td>
-                        <td><c:out value="${leave.employee.lastName }"></c:out></td>
-                        <td>
-                            <c:choose>
+                    <tr align="center">
+                        <td><c:out value="${leave.id }"/></td>
+                        <td><c:out value="${leave.leaveSubject }"/></td>
+                        <td><c:out value="${leave.leaveMessage }"/></td>
+                        <td dir="ltr"><c:out value="${leave.leaveFrom }"/></td>
+                        <td dir="ltr"><c:out value="${leave.leaveTo }"/></td>
+                        <td><c:out value="${leave.leaveStatus}"/></td>
 
-                            <c:when test="${leave.leaveStatus.code eq 'APPROVED' }">
-                        <td>
-                            <button class="btn btn-success"><c:out value="Approved"></c:out>تایید درخواست</button>
-                        </td>
-                        </c:when>
-                        <c:when test="${leave.leaveStatus.code eq 'REJECTED'}">
-                            <td>
-                                <button class="btn btn-danger"><c:out value="Rejected"></c:out>رد درخواست</button>
-                            </td>
-                        </c:when>
-                        </c:choose>
+
+                        <td><a href="/leaves/setApproved/${leave.id }" class="btn btn-info" role="button">نمایش جزئیات</a>
+
+                            <a href="/leaves/setApproved/${leave.id }" class="btn btn-success" role="button">موافقت</a>
+
+                        <a href="/leaves/setRejected/${leave.id }" class="btn btn-danger" role="button">رد
+                            درخواست</a></td>
+
                     </tr>
                 </c:forEach>
             </table>

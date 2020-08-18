@@ -20,5 +20,7 @@ public interface CategoryService {
 
     void removeCategory(long id);
 
+    Category findByName(String name);
+
 
 }

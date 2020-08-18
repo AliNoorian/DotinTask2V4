@@ -1,6 +1,7 @@
 package com.dotin.dotintasktwo.repository;
 
 
+import com.dotin.dotintasktwo.model.CategoryElement;
 import com.dotin.dotintasktwo.model.Employee;
 import com.dotin.dotintasktwo.model.Leave;
 import org.springframework.data.domain.Page;
@@ -28,5 +29,13 @@ public interface LeaveRepository extends JpaRepository<Leave, Long>, JpaSpecific
     @Query("select l from Leave l where l.leaveStatus.code like %:PENDING%  and l.active = true")
     List<Leave> findAllPendingList(@Param("PENDING") String pending);
 
+    @Query("select l from Leave l where l.leaveStatus.code like %:PENDING%  and l.active = true")
+    Page<Leave> getLeaveByCodeEquals(@Param("PENDING") String pending, Pageable pageable);
+
+    Page<Leave> findAllByLeaveStatus(CategoryElement leaveStatusCode, Pageable pageable);
+
+    List<Leave> findAllByLeaveStatus(CategoryElement leaveStatus);
 
 }
+
+

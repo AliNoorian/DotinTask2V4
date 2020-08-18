@@ -33,7 +33,7 @@ public class Leave extends Parent implements Serializable {
     @Column(name = "c_leave_end")
     private String leaveTo;
 
-    @NotEmpty(message = "کارمند را مشخص کنید")
+    //@NotEmpty(message = "کارمند را مشخص کنید")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "c_request_employee_id")
     private Employee employee;

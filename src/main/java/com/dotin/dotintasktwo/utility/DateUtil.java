@@ -18,6 +18,11 @@ public class DateUtil {
         String[] fromDatePart = fromPart[0].split("-");
         String[] fromTimePart = fromPart[1].split(":");
 
+        System.out.println();
+        System.out.println("==============================================");
+        System.out.println(fromPart[0]);
+        System.out.println("==============================================");
+        System.out.println();
         int fromYear = Integer.parseInt(fromDatePart[0]);
         int fromMonth = Integer.parseInt(fromDatePart[1]);
         int fromDay = Integer.parseInt(fromDatePart[2]);

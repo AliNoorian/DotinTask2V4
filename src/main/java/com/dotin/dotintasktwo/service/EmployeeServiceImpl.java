@@ -14,6 +14,7 @@ import java.util.Optional;
 
 
 @Service
+@Transactional
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
@@ -108,7 +109,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.findManager("MANAGER");
     }
 
-
+    @Override
+    public Employee findByName(String admin) {
+        return employeeRepository.findByRole(admin);
+    }
 
 
 }

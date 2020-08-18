@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 
@@ -28,5 +29,6 @@ public interface CategoryElementRepository extends JpaRepository<CategoryElement
     @Query("select ce from CategoryElement ce where ce.code like %:PENDING%  and ce.active = true")
     CategoryElement findByPending(@Param("PENDING") String PENDING);
 
+    CategoryElement findByCode(@NotBlank(message = "code name is required") String code);
 }
 

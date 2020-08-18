@@ -1,6 +1,7 @@
 package com.dotin.dotintasktwo.service;
 
 
+import com.dotin.dotintasktwo.model.CategoryElement;
 import com.dotin.dotintasktwo.model.Employee;
 import com.dotin.dotintasktwo.model.Leave;
 import org.springframework.data.domain.Page;
@@ -31,4 +32,8 @@ public interface LeaveService {
     void grantLeave(long leaveId);
 
     void rejectLeave(long leaveId);
+
+    Page<Leave> findAllPending(Pageable pageable);
+
+    List<Leave> findAllStatus(CategoryElement categoryElementCode);
 }

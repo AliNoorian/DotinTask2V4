@@ -26,4 +26,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>, JpaSp
 
     Employee findByFirstName(String empName);
 
+    @Query("select e from Employee e where e.employeeRole.code like :ADMIN%  and e.active = true")
+    Employee findByRole(@Param("ADMIN") String ADMIN);
 }

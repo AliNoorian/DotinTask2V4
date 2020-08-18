@@ -3,7 +3,10 @@ package com.dotin.dotintasktwo.controller;
 import com.dotin.dotintasktwo.model.Email;
 import com.dotin.dotintasktwo.model.Employee;
 import com.dotin.dotintasktwo.service.EmailService;
+import com.dotin.dotintasktwo.service.EmployeeService;
 import com.dotin.dotintasktwo.utility.Time;
+import org.apache.log4j.Logger;
+import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
@@ -14,22 +17,29 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.data.domain.Pageable;
 
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.sql.Blob;
+import java.util.ArrayList;
 import java.util.List;
 
 
 @Controller
 @RequestMapping("/emails")
 public class EmailController {
-
+    private final Logger logger = Logger.getLogger(EmailController.class);
 
     private final EmailService emailService;
+    private final EmployeeService employeeService;
 
 
 
     @Autowired
-    public EmailController(EmailService emailService) {
+    public EmailController(EmailService emailService,
+                           EmployeeService employeeService) {
         this.emailService = emailService;
+        this.employeeService=employeeService;
+
     }
 
 
@@ -89,15 +99,7 @@ public class EmailController {
         return modelAndView;
     }
 
-    @ResponseBody
-    @RequestMapping(value = "/upload")
-    public void uploadFile(@RequestParam("emailId") long emailId,
-                           @RequestParam("file") MultipartFile file) {
 
-        emailService.storeFile(file, emailId);
-
-
-    }
 
 //    @PostMapping("/uploadMultipleFiles")
 //    public void uploadMultipleFiles(@RequestParam("files") MultipartFile[] files,
@@ -109,18 +111,46 @@ public class EmailController {
 //    }
 
     @PostMapping("/send")
-    public ModelAndView sendEmail(@Valid @ModelAttribute("email") Email email,
-                                  BindingResult bindingResult) {
-        ModelAndView modelAndView = new ModelAndView("redirect:/emails/list");
+    public ModelAndView sendEmail(@ModelAttribute(name="email")@Valid Email email,
+                                  BindingResult bindingResult,
+                                  @ModelAttribute(name="file") MultipartFile file,
+                                  HttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
             return new ModelAndView("/email/addEmail.jsp");
         }
 
-        // save the email
+        ModelAndView modelAndView = new ModelAndView("redirect:/emails/list");
+
+
+            String employees = request.getParameter("receivers");
+
+            String[] splitEmployees = employees.split(",");
+
+            List<Employee> receiverList = new ArrayList<>();
+
+            for (String employeeId : splitEmployees) {
+                Employee selectedEmployee = employeeService.findById(Long.parseLong(employeeId));
+                receiverList.add(selectedEmployee);
+            }
+
+
+            email.setSender(employeeService.findByName("admin"));
+            email.setReceivers(receiverList);
+
+//            try {
+//                Blob blobFile = BlobProxy.generateProxy(file.getBytes());
+//                if (blobFile.length() > 0)
+//                    email.setAttachment(blobFile);
+//
+//            } catch (Exception e) {
+//                logger.error(e.getMessage(), e);
+//            }
+
+
+
         emailService.addEmail(email);
 
-        // use a redirect to prevent duplicate submissions
         return modelAndView;
     }
 

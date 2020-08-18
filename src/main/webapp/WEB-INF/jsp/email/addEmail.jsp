@@ -19,31 +19,35 @@
 
     <p class="h4 mb-4" align="right">ثبت پیام جدید</p>
 
-    <form:form method="POST" action="/email/send" modelAttribute="email">
+    <form:form method="POST" action="/emails/send" modelAttribute="email" class="h4 mb-4 card-body">
 
         <form:input type="hidden" path="id"/>
 
-        <div align="right">
-            <form:label path="receivers">انتخاب گیرنده</form:label>
-            <form:select type="text" path="receivers" class="form-control mb-2 col-4" id="selectEmailReceivers"
+        <div align="right" >
+            <form:label path="receivers" id="receivers">انتخاب گیرنده</form:label>
+            <form:select path="receivers" id="chooseReceivers"
                          multiple="multiple">
                 <form:options items="${email.receivers}" itemValue="id" itemLabel="lastName"/>
             </form:select>
+            <form:errors path="receivers" cssStyle="color: red"/>
 
         </div>
         <br/>
 
         <div align="right">
             <form:label path="subject">موضوع پیام</form:label>
-            <form:input type="text" path="subject" class="form-control mb-4 col-4" id="inputEmailSubject"
+            <form:input type="text" path="subject" class="form form-control" id="inputEmailSubject"
                         placeholder="موضوع پیام را عنوان کنید"/>
+            <form:errors path="subject" cssStyle="color: red"/>
         </div>
         <br/>
 
         <div align="right">
             <form:label path="message">شرح پیام</form:label>
-            <form:textarea type="message" path="message" class="form-control mb-8 col-4" id="inputEmailMessage"
+            <form:textarea type="message" path="message" class="form form-control" id="inputEmailMessage"
                            placeholder="شرح پیام را عنوان کنید"/>
+            <form:errors path="message" cssStyle="color: red"/>
+
         </div>
         <br/>
 
@@ -51,13 +55,7 @@
             <form:label for="file" path="attachment">ارسال فایل</form:label>
             <form:input name="file" path="attachment" type="file" class="form-control-file" id="file"
                         placeholder="ارسال فایل در صورت نیاز"/>
-            <c:if test="${not empty email.attachment}">
-                <c:url var="urlFile" value="/emails/upload">
-                    <c:param name="emailId" value="${email.id}"/>
-                </c:url>
-                <a href="${urlFile}"><c:out value="attachmentFile"/></a>
-            </c:if>
-                <%--                    <form:button type="button" class="btn btn-primary" onclick="location.href='/emails/upload?emailId=${email.id}&file=file'">ارسال فایل</form:button>--%>
+
 
         </div>
         <br/>

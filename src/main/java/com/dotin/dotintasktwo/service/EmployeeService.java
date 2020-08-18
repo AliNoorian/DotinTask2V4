@@ -25,4 +25,5 @@ public interface EmployeeService {
 
     List<Employee> findManager();
 
+    Employee findByName(String admin);
 }

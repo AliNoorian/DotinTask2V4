@@ -12,6 +12,7 @@ import java.sql.Blob;
 import java.util.List;
 
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "t_email")
 @Data
@@ -24,24 +25,20 @@ public class Email extends Parent implements Serializable {
     @Column(name = "c_message")
     private String message;
 
-    @Column(name = "c_file_name")
-    private String fileName;
-
-    @Column(name = "c_file_type")
-    private String fileType;
 
     @Lob
     @Column(name = "c_attachment")
-    private byte[] attachment;
+    private Blob attachment;
 
     @ManyToOne
     @JoinColumn(name = "c_sender_id")
     private Employee sender;
 
-    @NotEmpty(message = "گیرنده را مشخصی نمایید")
+
     @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "t_receiver")
     @JoinColumn(name= "c_receiver_id")
+    @NotEmpty(message = "گیرنده را مشخصی نمایید")
     private List<Employee> receivers;
 
 

@@ -1,11 +1,8 @@
 package com.dotin.dotintasktwo.controller;
 
-import com.dotin.dotintasktwo.model.Category;
-import com.dotin.dotintasktwo.model.CategoryElement;
 import com.dotin.dotintasktwo.model.Employee;
 import com.dotin.dotintasktwo.model.Leave;
 import com.dotin.dotintasktwo.service.CategoryElementService;
-import com.dotin.dotintasktwo.service.CategoryService;
 import com.dotin.dotintasktwo.service.LeaveService;
 import com.dotin.dotintasktwo.utility.DateUtil;
 import com.dotin.dotintasktwo.utility.Time;
@@ -26,15 +23,12 @@ import java.util.List;
 public class LeaveController {
 
     private final LeaveService leaveService;
-    private final CategoryService categoryService;
     private final CategoryElementService categoryElementService;
 
     @Autowired
     public LeaveController(LeaveService leaveService,
-                           CategoryService categoryService,
                            CategoryElementService categoryElementService) {
         this.leaveService = leaveService;
-        this.categoryService = categoryService;
         this.categoryElementService = categoryElementService;
     }
 
@@ -75,35 +69,7 @@ public class LeaveController {
         leave.setActive(true);
         leave.setVersion(1);
 
-        if (categoryService.getAllCategory().stream().noneMatch(
-                i -> i.getCategoryName().equals("leaveStatus"))) {
 
-            Category category1 = new Category();
-            category1.setCategoryName("leaveStatus");
-            categoryService.addCategory(category1);
-
-
-            CategoryElement categoryElement1 = new CategoryElement();
-            CategoryElement categoryElement2 = new CategoryElement();
-            CategoryElement categoryElement3 = new CategoryElement();
-
-            categoryElement1.setName("تایید");
-            categoryElement1.setCode("APPROVED");
-            categoryElement1.setCategory(category1);
-
-            categoryElement2.setName("رد");
-            categoryElement2.setCode("REJECTED");
-            categoryElement2.setCategory(category1);
-
-            categoryElement3.setName("در دست بررسی");
-            categoryElement3.setCode("PENDING");
-            categoryElement3.setCategory(category1);
-
-            categoryElementService.addCategoryElement(categoryElement1);
-            categoryElementService.addCategoryElement(categoryElement2);
-            categoryElementService.addCategoryElement(categoryElement3);
-
-        }
         leave.setLeaveStatus(categoryElementService.getPendingCategoryElement());
 
         modelAndView.addObject("leave", leave);
@@ -113,29 +79,32 @@ public class LeaveController {
 
 
     @PostMapping("/save")
-    public ModelAndView saveLeave(@Valid @ModelAttribute("leave") Leave leave,
+    public ModelAndView saveLeave(@ModelAttribute(name = "leave") @Valid Leave leave,
                                   BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             return new ModelAndView("/leave/addLeave.jsp");
         }
-        if (!leaveService.findAllApproved().isEmpty()) {
+        if (!leaveService.findAllStatus(categoryElementService.getCategoryElementByCode("APPROVED")).isEmpty()) {
             DateUtil dateUtil = new DateUtil();
-            if (dateUtil.checkDate(leaveService.findAllApproved(), leave.getLeaveFrom(), leave.getLeaveTo())) {
+            if (dateUtil.checkDate(leaveService.findAllStatus(categoryElementService.getCategoryElementByCode("APPROVED")),
+                    leave.getLeaveFrom(), leave.getLeaveTo())) {
+
                 ModelAndView modelAndView = new ModelAndView("/leave/addLeave.jsp");
                 modelAndView.addObject("message", "این تاریخ امکان پذیر نمیباشد");
                 return modelAndView;
             }
         }
-        ModelAndView modelAndView = new ModelAndView("redirect:/leave/leaves.jsp");
+        ModelAndView modelAndView = new ModelAndView("redirect:/leaves/list");
 
         modelAndView.addObject("leave", leave);
+        leave.setLeaveStatus(categoryElementService.getCategoryElementByCode("PENDING"));
         leaveService.Save(leave);
         return modelAndView;
     }
 
-    @GetMapping("/setApproved")
-    public ModelAndView setApproved(@RequestParam("leaveId") long theId) {
+    @GetMapping("/setApproved/{id}")
+    public ModelAndView setApproved(@PathVariable("id") long theId) {
         Leave leave = leaveService.findByLeaveId(theId);
         if (!leaveService.findAllApproved().isEmpty()) {
             DateUtil dateUtil = new DateUtil();
@@ -146,15 +115,15 @@ public class LeaveController {
             }
         }
 
-        ModelAndView modelAndView = new ModelAndView("redirect:/leave/leaves.jsp");
+        ModelAndView modelAndView = new ModelAndView("redirect:/leaves/list");
         leaveService.grantLeave(theId);
 
         return modelAndView;
     }
 
-    @GetMapping("/setRejected")
-    public ModelAndView setRejected(@RequestParam("leaveId") long theId) {
-        ModelAndView modelAndView = new ModelAndView("redirect:/leave/leaves.jsp");
+    @GetMapping("/setRejected/{id}")
+    public ModelAndView setRejected(@PathVariable("id") long theId) {
+        ModelAndView modelAndView = new ModelAndView("redirect:/leaves/list");
 
         leaveService.rejectLeave(theId);
 

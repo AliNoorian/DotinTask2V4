@@ -28,4 +28,6 @@ public interface CategoryElementService {
     CategoryElement getApprovedCategoryElement();
     CategoryElement getRejectedCategoryElement();
     CategoryElement getPendingCategoryElement();
+
+    CategoryElement getCategoryElementByCode(String codeName);
 }

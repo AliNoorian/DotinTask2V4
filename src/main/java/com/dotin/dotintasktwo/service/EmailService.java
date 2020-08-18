@@ -24,7 +24,6 @@ public interface EmailService {
 
     List<Email> findAll();
 
-    void storeFile(MultipartFile file, long emailId);
 
     //Email getFile(String fileId);
 

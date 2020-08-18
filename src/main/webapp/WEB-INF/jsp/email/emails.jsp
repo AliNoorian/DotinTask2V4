@@ -27,9 +27,9 @@
                 </tr>
                 <c:forEach var="email" items="${emails}">
                     <tr>
-                        <td><c:out value="${email.id }"></c:out></td>
-                        <td><c:out value="${email.sender }"></c:out></td>
-                        <td><c:out value="${email.subject }"></c:out></td>
+                        <td><c:out value="${email.id }"/></td>
+                        <td><c:out value="${email.sender }"/></td>
+                        <td><c:out value="${email.subject }"/></td>
                         <td>
 <%--                            <c:choose>--%>
 <%--                        <td>--%>

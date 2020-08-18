@@ -1,6 +1,7 @@
 package com.dotin.dotintasktwo.service;
 
 
+import com.dotin.dotintasktwo.model.CategoryElement;
 import com.dotin.dotintasktwo.model.Employee;
 import com.dotin.dotintasktwo.model.Leave;
 import com.dotin.dotintasktwo.repository.LeaveRepository;
@@ -16,7 +17,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class LeaveServiceImpl implements LeaveService {
 
 
@@ -54,27 +54,30 @@ public class LeaveServiceImpl implements LeaveService {
     }
 
     @Override
+    @Transactional
     public void grantLeave(long leaveId) {
         Leave leave = findByLeaveId(leaveId);
-        leave.setLeaveStatus(categoryElementService.getApprovedCategoryElement());
+        leave.setLeaveStatus(categoryElementService.getCategoryElementByCode("APPROVED"));
         leaveRepository.save(leave);
     }
 
     @Override
+    @Transactional
     public void rejectLeave(long leaveId) {
         Leave leave = findByLeaveId(leaveId);
-        leave.setLeaveStatus(categoryElementService.getRejectedCategoryElement());
+        leave.setLeaveStatus(categoryElementService.getCategoryElementByCode("REJECTED"));
         leaveRepository.save(leave);
     }
 
 
-
     @Override
+    @Transactional
     public void deleteLeave(long leaveId) {
         leaveRepository.deleteById(leaveId);
     }
 
     @Override
+    @Transactional
     public void Save(Leave leave) {
         leaveRepository.save(leave);
     }
@@ -102,5 +105,14 @@ public class LeaveServiceImpl implements LeaveService {
         return leaveRepository.findAllPendingList("PENDING");
     }
 
+    @Override
+    public Page<Leave> findAllPending(Pageable pageable) {
+        return leaveRepository.getLeaveByCodeEquals("PENDING", pageable);
+    }
+
+    @Override
+    public List<Leave> findAllStatus(CategoryElement categoryElementCode) {
+        return leaveRepository.findAllByLeaveStatus(categoryElementCode);
+    }
 
 }
