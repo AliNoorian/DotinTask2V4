@@ -104,8 +104,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
     @Override
-    public List<Employee> findManager() {
-        return employeeRepository.findManager("MANAGER");
+    public List<Employee> findManager(String MANAGER) {
+        return employeeRepository.findAllByEmployeeRole_CodeContains(MANAGER);
     }
 
     @Override

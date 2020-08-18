@@ -19,17 +19,20 @@
 
     <p class="h4 mb-4" align="right">ثبت پیام جدید</p>
 
-    <form:form method="POST" action="/emails/send" modelAttribute="email" class="h4 mb-4 card-body">
+    <form:form method="POST" action="/emails/send" modelAttribute="email" class="form form-group">
 
         <form:input type="hidden" path="id"/>
 
-        <div align="right" >
-            <form:label path="receivers" id="receivers">انتخاب گیرنده</form:label>
-            <form:select path="receivers" id="chooseReceivers"
-                         multiple="multiple">
-                <form:options items="${email.receivers}" itemValue="id" itemLabel="lastName"/>
-            </form:select>
+        <div align="right">
+            <form:label path="receivers" id="receivers" for="chooseReceivers">انتخاب گیرنده</form:label>
+<%--            <form:select path="receivers" id="chooseReceivers"--%>
+<%--                         cssClass="browser-default custom-select" multiple="multiple">--%>
+<%--                <c:forEach items="${employeeReceivers}" var="receiver" varStatus="status">--%>
+<%--                    <option value="${receiver.id}">${receiver.firstName} ${receiver.lastName}</option>--%>
+<%--                </c:forEach>--%>
+<%--            </form:select>--%>
             <form:errors path="receivers" cssStyle="color: red"/>
+
 
         </div>
         <br/>
@@ -71,6 +74,7 @@
     </form:form>
 </div>
 
+
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/add/employee.js"></script>
 <%@include file="../components/scripts.jsp" %>
 </body>
@@ -79,6 +83,7 @@
 <br/>
 <br/>
 <br/>
+
 
 
 <%@include file="../components/footer.jsp" %>

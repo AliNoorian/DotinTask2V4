@@ -17,13 +17,7 @@
 <div class="container" align="center" dir="rtl">
     <h3 align="center">درخواست مرخصی</h3>
     <hr>
-    <hr>
-    <c:if test="${message != null }">
-        <div class="alert alert-danger">
-            <strong><c:out value=" ${message} "/>!</strong>
-        </div>
-    </c:if>
-    <hr>
+
 
     <p class="h4 mb-4" align="right">ثبت مرخصی جدید</p>
 
@@ -36,8 +30,6 @@
             <form:label path="leaveSubject">موضوع مرخصی</form:label>
             <form:input type="text" path="leaveSubject" class="form-control mb-4 col-4" id="inputLeaveSubject"
                         placeholder="موضوع مرخصی را عنوان کنید"/>
-            <form:errors path="leaveSubject" cssStyle="color: red"/>
-
         </div>
         <br/>
 
@@ -45,8 +37,6 @@
             <form:label path="leaveMessage">شرح مرخصی</form:label>
             <form:textarea type="message" path="leaveMessage" class="form-control mb-4 col-4" id="inputLeaveMessage"
                            placeholder="شرح مرخصی را عنوان کنید"/>
-            <form:errors path="leaveMessage" cssStyle="color: red"/>
-
         </div>
         <br/>
 
@@ -58,12 +48,10 @@
                 <form:input type="text" id="inputDate1" placeholder=" ⇐ انتخاب تاریخ به همراه ساعت"
                             path="leaveFrom"
                             dir="ltr"/>
-
                 <span class="input-group-text cursor-pointer" id="input1">
                 <img src="${pageContext.request.contextPath}/images/date2.png" width="15" height="15" alt="a">
             </span>
                 <input type="hidden" id="date_input1" value=""/><br/>
-                <form:errors path="leaveFrom" cssStyle="color: red"/>
 
             </div>
         </div>
@@ -73,35 +61,19 @@
         <div align="right">
             <div class="input-group">
 
-                <form:label path="leaveTo" cssStyle="margin-left: 4px">تا تاریخ و ساعت </form:label>
+                <form:label path="leaveFrom" cssStyle="margin-left: 4px">تا تاریخ و ساعت </form:label>
                 <form:input type="text" id="inputDate2" placeholder=" ⇐ انتخاب تاریخ به همراه ساعت"
                             path="leaveTo" dir="ltr"/>
-
 
                 <span class="input-group-text cursor-pointer" id="input2">
                     <img src="${pageContext.request.contextPath}/images/date2.png" width="15" height="15" alt="a">
                 </span>
                 <input type="hidden" id="date_input2" value=""/><br/>
-                <form:errors path="leaveTo" cssStyle="color: red"/>
 
 
             </div>
         </div>
         <br/>
-
-<%--        <div align="right">--%>
-<%--            <form:label path="employee">انتخاب کارمند</form:label>--%>
-
-<%--            <form:select path="employee" id="employee" >--%>
-<%--                <form:option value="" label="employee"/>--%>
-<%--                <jsp:useBean id="employee" scope="request" type="java.util.List"/>--%>
-<%--                <c:forEach var="employee" items="${employee}">--%>
-<%--                    <form:option value="${employee.id}"><c:out value="${employee.firstName}${\" \"}${employee.lastName}"/></form:option>--%>
-<%--                </c:forEach>--%>
-<%--            </form:select>--%>
-<%--            <form:errors path="employee" cssStyle="color: red"/>--%>
-<%--        </div>--%>
-<%--        <br/>--%>
 
 
         <div align="right">
@@ -120,7 +92,6 @@
         fromDate: true,
         groupId: 'rangeSelector1',
         enableTimePicker: true,
-        disableBeforeToday:true,
         dateFormat: 'yyyy-MM-dd HH:mm',
         textFormat: 'yyyy-MM-dd HH:mm از ساعت',
     });

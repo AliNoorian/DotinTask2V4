@@ -65,7 +65,7 @@ public class EmployeeController {
 
         modelAndView.addObject("employee", theEmployee);
         modelAndView.addObject("categoryElements", categoryElementService.getCategoryName(categoryService.findByName("userRole")));
-        modelAndView.addObject("managers", employeeService.findManager());
+        modelAndView.addObject("managers", employeeService.findManager("MANAGER"));
 
 
         return modelAndView;
@@ -77,14 +77,12 @@ public class EmployeeController {
         ModelAndView modelAndView = new ModelAndView("employee/addEmployee.jsp");
 
         // get the employee from the service
-        Employee theEmployee = employeeService.findById(theId);
-        List<Employee> managers = employeeService.findManager();
         isEmployeeUpdate = true;
 
-        modelAndView.addObject("employee", theEmployee);
+        modelAndView.addObject("employee", employeeService.findById(theId));
         modelAndView.addObject("categoryElement",
                 categoryElementService.getAllCategoryRoleElements());
-        modelAndView.addObject("managers", managers);
+        modelAndView.addObject("managers", employeeService.findManager("MANAGER"));
 
         return modelAndView;
     }
@@ -115,6 +113,7 @@ public class EmployeeController {
 //            modelAndView2.addObject("message", "این ایمیل تکراری می باشد");
 //            return modelAndView2;
 //        }
+
 
         employeeService.Save(theEmployee);
         return modelAndView;

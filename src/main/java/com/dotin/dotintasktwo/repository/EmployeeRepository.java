@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Repository
@@ -28,4 +29,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>, JpaSp
 
     @Query("select e from Employee e where e.employeeRole.code like :ADMIN%  and e.active = true")
     Employee findByRole(@Param("ADMIN") String ADMIN);
+
+    List<Employee> findAllByEmployeeRole_CodeContains(@NotBlank(message = "is required") String employeeRole_code_MANAGER);
 }

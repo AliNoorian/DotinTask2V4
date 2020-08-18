@@ -15,7 +15,6 @@ import java.util.List;
 public class Category extends Parent  {
 
 
-//    @Enumerated(EnumType.STRING)
     @Column(name = "c_category_name")
     private String categoryName;
 

@@ -4,6 +4,7 @@ package com.dotin.dotintasktwo.controller;
 import com.dotin.dotintasktwo.model.Category;
 import com.dotin.dotintasktwo.model.CategoryElement;
 import com.dotin.dotintasktwo.model.Employee;
+import com.dotin.dotintasktwo.model.Parent;
 import com.dotin.dotintasktwo.service.CategoryElementService;
 import com.dotin.dotintasktwo.service.CategoryService;
 import com.dotin.dotintasktwo.service.EmployeeService;
@@ -40,9 +41,9 @@ public class MainController {
 
         ModelAndView modelAndView = new ModelAndView("index.jsp");
 
-
         if (categoryService.getAllCategory().stream().noneMatch(
                 i -> i.getCategoryName().equals("userRole"))) {
+
 
             Category category1 = new Category();
             category1.setCategoryName("userRole");

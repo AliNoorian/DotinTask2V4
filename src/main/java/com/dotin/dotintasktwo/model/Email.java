@@ -38,8 +38,7 @@ public class Email extends Parent implements Serializable {
     @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "t_receiver")
     @JoinColumn(name= "c_receiver_id")
-    @NotEmpty(message = "گیرنده را مشخصی نمایید")
+
+
     private List<Employee> receivers;
-
-
 }

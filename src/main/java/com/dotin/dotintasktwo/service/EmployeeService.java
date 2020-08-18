@@ -23,7 +23,7 @@ public interface EmployeeService {
 
     List<Employee> findAll();
 
-    List<Employee> findManager();
+    List<Employee> findManager(String MANAGER);
 
     Employee findByName(String admin);
 }

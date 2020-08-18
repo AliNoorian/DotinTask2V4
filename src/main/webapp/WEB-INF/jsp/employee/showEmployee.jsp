@@ -26,72 +26,70 @@
             <form:label path="firstName">نام</form:label>
             <form:input type="text" path="firstName" class="form-control mb-4 col-4" id="inputFirstName"
                         placeholder="نام خود را وارد کنید"/>
-            <form:errors path="firstName" cssStyle="color: red"/>
+            <form:errors path="firstName" cssClass="error" />
 
         </div>
-        <br/>
 
         <div align="right">
 
             <form:label path="lastName">نام خانوادگی</form:label>
             <form:input type="text" path="lastName" class="form-control mb-4 col-4" id="inputLastName"
                         placeholder="نام خانوادگی خود را وارد کنید"/>
-            <form:errors path="lastName" cssStyle="color: red"/>
+            <form:errors path="lastName" cssClass="error" />
 
         </div>
-        <br/>
 
         <div align="right">
             <form:label path="active">وضعیت کاری</form:label><br/>
             <form:radiobutton cssClass="custom-radio" path="active" value="true"/>فعال<br/>
             <form:radiobutton cssClass="custom-radio" path="active" value="false"/>غیر فعال
-            <form:errors path="active" cssStyle="color: red"/>
+            <form:errors path="active" cssClass="error" />
 
         </div>
-        <br/>
         <br/>
 
         <div align="right">
             <form:label path="email">ایمیل</form:label>
             <form:input type="email" path="email" class="form-control mb-4 col-4" id="inputEmail"
                         placeholder="ایمیل خود را وارد کنید"/>
-            <form:errors path="email" cssStyle="color: red"/>
+            <form:errors path="email" cssClass="error" />
 
         </div>
-        <br/>
 
         <div align="right">
             <form:label path="employeeGender">جنسیت</form:label><br/>
             <form:radiobutton path="employeeGender" value="خانم"/> خانم<br/>
-            <form:radiobutton path="employeeGender" value="آقا"/>آقا<br/>
-            <form:errors path="employeeGender" cssStyle="color: red"/>
+            <form:radiobutton path="employeeGender" value="آقا"/>آقا
+            <form:errors path="employeeGender" cssClass="error" />
 
         </div>
-        <br/>
         <br/>
 
         <div align="right">
             <form:label path="employeeRole">سمت</form:label><br/>
             <form:select path="employeeRole">
-                <c:forEach items="${categoryElements}" var="role">
-                    <option value="${role.id}">${role.name}</option>
+                <jsp:useBean id="categoryElements" scope="request" type="java.util.List"/>
+                <c:forEach items="${categoryElements}" var="dep" varStatus="status">
+                    <option value="${dep.id}">${dep.name}</option>
                 </c:forEach>
             </form:select>
+            <form:errors path="employeeRole" cssClass="error" />
+
         </div>
         <br/>
+
+        <div align="right">
+            <form:label path="manager">مدیر</form:label>
+            <form:select path="manager">
+                <jsp:useBean id="managers" scope="request" type="java.util.List"/>
+                <c:forEach items="${managers}" var="emp" varStatus="status">
+                    <option value="${emp.id}">${emp.lastName}</option>
+                </c:forEach>
+            </form:select>
+            <form:errors path="manager" cssClass="error" />
+
+        </div>
         <br/>
-
-<%--        <div align="right">--%>
-<%--            <form:label path="manager">مدیر</form:label>--%>
-<%--            <form:select path="manager">--%>
-<%--                <c:forEach items="${managers}" var="emp" >--%>
-<%--                    <option value="${emp.id}">${emp.firstName} ${emp.lastName}</option>--%>
-<%--                </c:forEach>--%>
-<%--            </form:select>--%>
-
-<%--        </div>--%>
-<%--        <br/>--%>
-<%--        <br/>--%>
 
         <div align="right">
             <form:button type="submit" class="btn btn-outline-primary">ثبت کاربر</form:button>

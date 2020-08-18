@@ -17,10 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.data.domain.Pageable;
 
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.sql.Blob;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -33,12 +31,11 @@ public class EmailController {
     private final EmployeeService employeeService;
 
 
-
     @Autowired
     public EmailController(EmailService emailService,
                            EmployeeService employeeService) {
         this.emailService = emailService;
-        this.employeeService=employeeService;
+        this.employeeService = employeeService;
 
     }
 
@@ -59,46 +56,42 @@ public class EmailController {
 
     @GetMapping("/sent")
     public ModelAndView getSent(@ModelAttribute("s") Employee sender,
-                                  @PageableDefault(size = 5) Pageable pageable) {
+                                @PageableDefault(size = 5) Pageable pageable) {
 
         ModelAndView modelAndView = new ModelAndView("email/emails.jsp");
 
-        modelAndView.addObject("emails", emailService.getSent(sender,pageable));
+        modelAndView.addObject("emails", emailService.getSent(sender, pageable));
 
         return modelAndView;
     }
 
     @GetMapping("/inbox")
     public ModelAndView getInbox(@ModelAttribute("r") Employee receiver,
-                                  @PageableDefault(size = 5) Pageable pageable) {
+                                 @PageableDefault(size = 5) Pageable pageable) {
 
         ModelAndView modelAndView = new ModelAndView("email/emails.jsp");
 
-        modelAndView.addObject("emails", emailService.getInbox(receiver,pageable));
+        modelAndView.addObject("emails", emailService.getInbox(receiver, pageable));
 
         return modelAndView;
     }
-
-
 
 
     @GetMapping("/showFormForAdd")
     public ModelAndView showFormForAdd() {
 
         ModelAndView modelAndView = new ModelAndView("email/addEmail.jsp");
-        Time time = new Time();
         Email email = new Email();
-        email.setCreateDate(time.getTime());
+        email.setCreateDate(new Time().getTime());
         email.setVersion(1);
         email.setActive(true);
 
-
+        modelAndView.addObject("employeeReceivers", employeeService.findAll());
         modelAndView.addObject("email", email);
 
 
         return modelAndView;
     }
-
 
 
 //    @PostMapping("/uploadMultipleFiles")
@@ -111,10 +104,9 @@ public class EmailController {
 //    }
 
     @PostMapping("/send")
-    public ModelAndView sendEmail(@ModelAttribute(name="email")@Valid Email email,
+    public ModelAndView sendEmail(@ModelAttribute(name = "email") @Valid Email email,
                                   BindingResult bindingResult,
-                                  @ModelAttribute(name="file") MultipartFile file,
-                                  HttpServletRequest request) {
+                                  @ModelAttribute(name = "file") MultipartFile file) {
 
         if (bindingResult.hasErrors()) {
             return new ModelAndView("/email/addEmail.jsp");
@@ -122,31 +114,17 @@ public class EmailController {
 
         ModelAndView modelAndView = new ModelAndView("redirect:/emails/list");
 
+        email.setReceivers(employeeService.findAll());
+        email.setSender(employeeService.findByName("admin"));
 
-            String employees = request.getParameter("receivers");
-
-            String[] splitEmployees = employees.split(",");
-
-            List<Employee> receiverList = new ArrayList<>();
-
-            for (String employeeId : splitEmployees) {
-                Employee selectedEmployee = employeeService.findById(Long.parseLong(employeeId));
-                receiverList.add(selectedEmployee);
+        try {
+            if (!file.isEmpty()) {
+                Blob blobFile = BlobProxy.generateProxy(file.getBytes());
+                email.setAttachment(blobFile);
             }
-
-
-            email.setSender(employeeService.findByName("admin"));
-            email.setReceivers(receiverList);
-
-//            try {
-//                Blob blobFile = BlobProxy.generateProxy(file.getBytes());
-//                if (blobFile.length() > 0)
-//                    email.setAttachment(blobFile);
-//
-//            } catch (Exception e) {
-//                logger.error(e.getMessage(), e);
-//            }
-
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
 
 
         emailService.addEmail(email);
@@ -158,8 +136,8 @@ public class EmailController {
     public ModelAndView showEmail(@RequestParam("id") long theId) {
 
         ModelAndView modelAndView = new ModelAndView("/email/showEmail.jsp");
-        Email email=emailService.getEmail(theId);
-        modelAndView.addObject("email",email);
+        Email email = emailService.getEmail(theId);
+        modelAndView.addObject("email", email);
         return modelAndView;
 
     }

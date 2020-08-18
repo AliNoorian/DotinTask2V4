@@ -29,24 +29,26 @@
                     <th>نام خانوادگی</th>
                     <th>وضعیت کاری</th>
                     <th>سمت</th>
+                    <th>مدیر مربوطه</th>
                     <th>ایمیل</th>
                     <th>جنسیت</th>
                     <th colspan="2">وضعیت درخواست</th>
 
                 </tr>
+                <jsp:useBean id="employees" scope="request" type="java.util.List"/>
                 <c:forEach var="Employee" items="${employees}">
                     <tr align="center">
                         <td><c:out value="${Employee.id}"/></td>
                         <td><c:out value="${Employee.firstName}"/></td>
                         <td><c:out value="${Employee.lastName}"/></td>
-                        <td><c:out value="${Employee.active?'فعال':'غیر فعال' }"/></td>
+                        <td><c:out value="${Employee.active}"/></td>
                         <td><c:out value="${Employee.employeeRole.name}"/></td>
+                        <td><c:out value="${Employee.manager}"/></td>
                         <td><c:out value="${Employee.email}"/></td>
                         <td><c:out value="${Employee.employeeGender}"/></td>
-                        <td><a href="" class="btn btn-primary" role="button" >نمایش کامل اطلاعات</a>
-                            <a href="/employees/showFormForUpdate/${Employee.id }" class="btn btn-info" role="button" >ویرایش</a>
-                        <a href="/employees/delete/${Employee.id}" class="btn btn-danger" role="button"
-                               onclick="if (!(confirm('آیا از این کار اطمینان دارید؟'))) return false">حذف</a></td>
+                        <td><a href="/employees/showFormForUpdate/${Employee.id }" class="btn btn-info" role="button">ویرایش</a>
+                        <td><a href="/employees/delete/${Employee.id}" class="btn btn-danger" role="button"
+                               onclick="if (!(confirm('آیا از این کار اطمینان دارید؟'))) return false">حذف</a>
                     </tr>
                 </c:forEach>
             </table>

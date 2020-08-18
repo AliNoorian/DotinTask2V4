@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.List;
 
@@ -36,7 +37,6 @@ public class Employee extends Parent implements Serializable {
     @ManyToOne
     @JoinColumn(name = "c_manager_id")
     private Employee manager;
-
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "c_role_id")
