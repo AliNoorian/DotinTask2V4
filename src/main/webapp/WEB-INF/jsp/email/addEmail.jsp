@@ -24,14 +24,14 @@
         <form:input type="hidden" path="id"/>
 
         <div align="right">
-            <form:label path="receivers" id="receivers" for="chooseReceivers">انتخاب گیرنده</form:label>
+<%--            <form:label path="receivers" id="receivers" for="chooseReceivers">انتخاب گیرنده</form:label>--%>
 <%--            <form:select path="receivers" id="chooseReceivers"--%>
 <%--                         cssClass="browser-default custom-select" multiple="multiple">--%>
 <%--                <c:forEach items="${employeeReceivers}" var="receiver" varStatus="status">--%>
 <%--                    <option value="${receiver.id}">${receiver.firstName} ${receiver.lastName}</option>--%>
 <%--                </c:forEach>--%>
 <%--            </form:select>--%>
-            <form:errors path="receivers" cssStyle="color: red"/>
+<%--            <form:errors path="receivers" cssStyle="color: red"/>--%>
 
 
         </div>
@@ -39,7 +39,7 @@
 
         <div align="right">
             <form:label path="subject">موضوع پیام</form:label>
-            <form:input type="text" path="subject" class="form form-control" id="inputEmailSubject"
+            <form:input type="text" path="subject" class="form-control mb-4 col-4" id="inputEmailSubject"
                         placeholder="موضوع پیام را عنوان کنید"/>
             <form:errors path="subject" cssStyle="color: red"/>
         </div>
@@ -47,7 +47,7 @@
 
         <div align="right">
             <form:label path="message">شرح پیام</form:label>
-            <form:textarea type="message" path="message" class="form form-control" id="inputEmailMessage"
+            <form:textarea type="message" path="message" class="form-control mb-4 col-4" id="inputEmailMessage" rows="5" cols="20"
                            placeholder="شرح پیام را عنوان کنید"/>
             <form:errors path="message" cssStyle="color: red"/>
 
@@ -56,7 +56,7 @@
 
         <div align="right">
             <form:label for="file" path="attachment">ارسال فایل</form:label>
-            <form:input name="file" path="attachment" type="file" class="form-control-file" id="file"
+            <form:input name="file" path="attachment" type="file" class="form-control mb-4 col-4" id="file"
                         placeholder="ارسال فایل در صورت نیاز"/>
 
 
@@ -78,6 +78,12 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/add/employee.js"></script>
 <%@include file="../components/scripts.jsp" %>
 </body>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
 <br/>
 <br/>
 <br/>

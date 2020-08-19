@@ -11,33 +11,36 @@
 </head>
 <body>
 <%@include file="../components/navigation.jsp" %>
-<html var="listEmails" value="/emails/list">
+<div var="listEmails" value="/emails/list">
 
-<div class="bodyContainer">
+    <div class="bodyContainer">
 
-    <div class="container" dir="rtl">
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <tr align="center">
-                    <th>#</th>
-                    <th>فرستنده</th>
-                    <th>موضوع پیام</th>
-                    <th colspan="2">وضعیت درخواست</th>
+        <div class="container" dir="rtl">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <tr align="center">
+                        <th>#</th>
+                        <th>فرستنده</th>
+                        <th>موضوع پیام</th>
+                        <th colspan="2">وضعیت درخواست</th>
 
-                </tr>
-                <c:forEach var="email" items="${emails}">
-                    <tr>
-                        <td><c:out value="${email.id }"/></td>
-                        <td><c:out value="${email.sender }"/></td>
-                        <td><c:out value="${email.subject }"/></td>
-                        <td>
-                            <a href="/emails/show/${email.id}" class="btn btn-primary" role="button" >نمایش پیام</a>
-                            <a href="" class="btn btn-secondary" role="button" >ارسال پاسخ</a>
+                    </tr>
+                    <jsp:useBean id="emails" scope="request" type="java.util.List"/>
+                    <c:forEach var="email" items="${emails}">
+                        <tr>
+                            <td><c:out value="${email.id }"/></td>
+                            <td><c:out value="${email.sender }"/></td>
+                            <td><c:out value="${email.subject }"/></td>
+                            <td>
+                            <a href="/emails/show/${email.id}" class="btn btn-primary" role="button">نمایش پیام</a>
+                            <a href="" class="btn btn-primary" role="button">پاسخ دوباره پیام</a>
                             <a href="/emails/delete/${email.id}" class="btn btn-danger" role="button"
                                onclick="if (!(confirm('آیا از این کار اطمینان دارید؟'))) return false">حذف پیام</a></td>
-                    </tr>
-                </c:forEach>
-            </table>
+
+                        </tr>
+                    </c:forEach>
+                </table>
+            </div>
         </div>
     </div>
 </div>
@@ -56,12 +59,12 @@
         int pages = (int) request.getAttribute("totalRecords") / 4;
         for (int i = 0; i <= pages; i++) {
     %>
-    <a href="${pageContext.request.contextPath}/emails/list?page=<%=i%>"><%=i + 1 %>
+    <a href="${pageContext.request.contextPath}/emails/sent?page=<%=i%>"><%=i + 1 %>
     </a>
     <%} %>
     <br>
     <br>
-    <form action="${pageContext.request.contextPath}/emails/list">
+    <form action="${pageContext.request.contextPath}/emails/sent">
 
         برو به صفحه<label><br/>
         <input type="text" name="page"/>

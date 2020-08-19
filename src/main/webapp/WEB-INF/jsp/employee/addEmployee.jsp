@@ -16,7 +16,13 @@
 <div class="container" align="center" dir="rtl">
     <h3 align="center">کاربر جدید</h3>
     <hr>
-
+    <hr>
+    <c:if test="${message != null }">
+        <div class="alert alert-danger">
+            <strong><c:out value=" ${message} "/></strong>
+        </div>
+    </c:if>
+    <hr>
     <form:form method="POST" action="/employees/save" modelAttribute="employee">
 
         <form:input type="hidden" path="id"/>

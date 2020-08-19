@@ -24,6 +24,8 @@ public interface EmailService {
 
     List<Email> findAll();
 
+    void deleteEmail(long theId);
+
 
     //Email getFile(String fileId);
 

@@ -1,10 +1,10 @@
 package com.dotin.dotintasktwo.controller;
 
 import com.dotin.dotintasktwo.model.Employee;
+import com.dotin.dotintasktwo.model.Leave;
 import com.dotin.dotintasktwo.service.CategoryElementService;
 import com.dotin.dotintasktwo.service.CategoryService;
 import com.dotin.dotintasktwo.service.EmployeeService;
-import com.dotin.dotintasktwo.utility.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -24,7 +24,6 @@ public class EmployeeController {
     private final CategoryElementService categoryElementService;
     private final EmployeeService employeeService;
     private final CategoryService categoryService;
-    private boolean isEmployeeUpdate;
 
 
     @Autowired
@@ -46,9 +45,8 @@ public class EmployeeController {
         List<Employee> employees = employeeService.findAll(pageable);
         int totalRecords = employeeService.findAll().size();
 
-        modelAndView.addObject("employees", employees);
         modelAndView.addObject("totalRecords", totalRecords);
-
+        modelAndView.addObject("employees", employees);
         return modelAndView;
     }
 
@@ -59,9 +57,6 @@ public class EmployeeController {
 
         // create model attribute to bind form data
         Employee theEmployee = new Employee();
-
-        theEmployee.setVersion(1);
-        theEmployee.setCreateDate(new Time().getTime());
 
         modelAndView.addObject("employee", theEmployee);
         modelAndView.addObject("categoryElements", categoryElementService.getCategoryName(categoryService.findByName("userRole")));
@@ -75,9 +70,6 @@ public class EmployeeController {
     public ModelAndView showFormForUpdate(@PathVariable("id") long theId) {
 
         ModelAndView modelAndView = new ModelAndView("employee/addEmployee.jsp");
-
-        // get the employee from the service
-        isEmployeeUpdate = true;
 
         modelAndView.addObject("employee", employeeService.findById(theId));
         modelAndView.addObject("categoryElement",
@@ -94,8 +86,8 @@ public class EmployeeController {
 
         if (bindingResult.hasErrors()) {
             return new ModelAndView("/employee/addEmployee.jsp");
-        }
-        ModelAndView modelAndView = new ModelAndView("redirect:/employees/list");
+        } else {
+            ModelAndView modelAndView = new ModelAndView("redirect:/employees/list");
 
 //        if (isEmployeeUpdate) {
 //
@@ -114,10 +106,11 @@ public class EmployeeController {
 //            return modelAndView2;
 //        }
 
-
-        employeeService.Save(theEmployee);
-        return modelAndView;
+            employeeService.Save(theEmployee);
+            return modelAndView;
+        }
     }
+
 
 
     @GetMapping("/delete/{id}")
@@ -133,12 +126,11 @@ public class EmployeeController {
 
     }
 
-    @GetMapping("/show")
-    public ModelAndView showEmployee(@RequestParam("id") long theId) {
+    @GetMapping("/show/{id}")
+    public ModelAndView showEmployee(@PathVariable("id") long theId) {
 
         ModelAndView modelAndView = new ModelAndView("/employee/showEmployee.jsp");
-        Employee employee = employeeService.findById(theId);
-        modelAndView.addObject("employee", employee);
+        modelAndView.addObject("employee",  employeeService.findById(theId));
         return modelAndView;
 
     }

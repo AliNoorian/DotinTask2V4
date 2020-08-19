@@ -20,7 +20,7 @@
     <hr>
     <c:if test="${message != null }">
         <div class="alert alert-danger">
-            <strong><c:out value=" ${message} "/>!</strong>
+            <strong><c:out value=" ${message} "/></strong>
         </div>
     </c:if>
     <hr>

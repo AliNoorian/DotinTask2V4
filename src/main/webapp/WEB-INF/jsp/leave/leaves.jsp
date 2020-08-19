@@ -15,8 +15,14 @@
 <%@include file="../components/navigation.jsp" %>
 <html var="LeavesList" value="leaves/list">
 
-<div class="bodyContainer">
-
+<div class="bodyContainer" align="center">
+    <hr>
+    <c:if test="${message != null }">
+        <div class="alert alert-danger">
+            <strong align="center"><c:out value=" ${message} "/></strong>
+        </div>
+    </c:if>
+    <hr>
     <div class="container" dir="rtl">
 
         <div class="table-responsive">
@@ -24,7 +30,6 @@
                 <tr align="center">
                     <th>#</th>
                     <th>موضوع مرخصی</th>
-                    <th>شرح مرخصی</th>
                     <th>از تاریخ و ساعت</th>
                     <th>تا تاریخ و ساعت</th>
                     <th>وضعیت مرخصی</th>
@@ -32,27 +37,23 @@
 
                 </tr>
                 <c:forEach var="leave" items="${leaves}">
-                    <hr>
-
-                    <hr>
                     <tr align="center">
                         <td><c:out value="${leave.id }"/></td>
                         <td><c:out value="${leave.leaveSubject }"/></td>
-                        <td><c:out value="${leave.leaveMessage }"/></td>
                         <td dir="ltr"><c:out value="${leave.leaveFrom }"/></td>
                         <td dir="ltr"><c:out value="${leave.leaveTo }"/></td>
                         <td><c:out value="${leave.leaveStatus.name}"/></td>
 
 
-                        <td><a href="/leaves/setApproved/${leave.id }" class="btn btn-info" role="button">نمایش جزئیات</a>
+                        <td><a href="/leaves/show/${leave.id }" class="btn btn-info" role="button">نمایش جزئیات</a>
 
                             <a href="/leaves/setApproved/${leave.id }" class="btn btn-success" role="button">موافقت</a>
 
-                        <a href="/leaves/setRejected/${leave.id }" class="btn btn-danger" role="button">رد
+                        <a href="/leaves/setRejected/${leave.id }" class="btn btn-danger"
+                           onclick="if (!(confirm('آیا از این کار اطمینان دارید؟'))) return false" role="button">رد
                             درخواست</a></td>
 
                     </tr>
-x
                 </c:forEach>
             </table>
         </div>

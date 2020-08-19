@@ -2,6 +2,7 @@ package com.dotin.dotintasktwo.service;
 
 import com.dotin.dotintasktwo.model.Employee;
 import com.dotin.dotintasktwo.repository.EmployeeRepository;
+import com.dotin.dotintasktwo.utility.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -43,10 +44,17 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
 
-
     @Override
     @Transactional
     public void Save(Employee employee) {
+
+        if (employee.getCreateDate() == null) {
+            employee.setVersion(1);
+            employee.setCreateDate(new Time().getTime());
+        } else {
+            employee.setVersion(employee.getVersion() + 1);
+            employee.setModifiedDate(new Time().getTime());
+        }
         employeeRepository.save(employee);
     }
 
@@ -55,7 +63,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void deleteEmployee(long empId) {
         employeeRepository.deleteById(empId);
     }
-
 
 
     @Override
@@ -100,7 +107,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.findAll(sortOrder);
 
     }
-
 
 
     @Override

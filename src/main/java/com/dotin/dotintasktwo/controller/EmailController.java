@@ -4,7 +4,6 @@ import com.dotin.dotintasktwo.model.Email;
 import com.dotin.dotintasktwo.model.Employee;
 import com.dotin.dotintasktwo.service.EmailService;
 import com.dotin.dotintasktwo.service.EmployeeService;
-import com.dotin.dotintasktwo.utility.Time;
 import org.apache.log4j.Logger;
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +42,7 @@ public class EmailController {
     @GetMapping("/list")
     public ModelAndView getInbox(Pageable pageable) {
 
-        ModelAndView modelAndView = new ModelAndView("email/emails.jsp");
+        ModelAndView modelAndView = new ModelAndView("/email/inbox.jsp");
 
         List<Email> emails = emailService.findAll(pageable);
         int totalRecords = emailService.findAll().size();
@@ -55,22 +54,26 @@ public class EmailController {
     }
 
     @GetMapping("/sent")
-    public ModelAndView getSent(@ModelAttribute("s") Employee sender,
+    public ModelAndView getSent(@ModelAttribute("send") Employee sender,
                                 @PageableDefault(size = 5) Pageable pageable) {
 
-        ModelAndView modelAndView = new ModelAndView("email/emails.jsp");
+        ModelAndView modelAndView = new ModelAndView("/email/sentBox.jsp");
 
-        modelAndView.addObject("emails", emailService.getSent(sender, pageable));
+        modelAndView.addObject("emails", emailService.findAll());
+        int totalRecords = employeeService.findAll().size();
+        modelAndView.addObject("totalRecords", totalRecords);
 
         return modelAndView;
     }
 
     @GetMapping("/inbox")
-    public ModelAndView getInbox(@ModelAttribute("r") Employee receiver,
+    public ModelAndView getInbox(@ModelAttribute("receive") Employee receiver,
                                  @PageableDefault(size = 5) Pageable pageable) {
 
-        ModelAndView modelAndView = new ModelAndView("email/emails.jsp");
+        ModelAndView modelAndView = new ModelAndView("/email/inbox.jsp");
+        int totalRecords = employeeService.findAll().size();
 
+        modelAndView.addObject("totalRecords", totalRecords);
         modelAndView.addObject("emails", emailService.getInbox(receiver, pageable));
 
         return modelAndView;
@@ -82,9 +85,6 @@ public class EmailController {
 
         ModelAndView modelAndView = new ModelAndView("email/addEmail.jsp");
         Email email = new Email();
-        email.setCreateDate(new Time().getTime());
-        email.setVersion(1);
-        email.setActive(true);
 
         modelAndView.addObject("employeeReceivers", employeeService.findAll());
         modelAndView.addObject("email", email);
@@ -106,30 +106,32 @@ public class EmailController {
     @PostMapping("/send")
     public ModelAndView sendEmail(@ModelAttribute(name = "email") @Valid Email email,
                                   BindingResult bindingResult,
-                                  @ModelAttribute(name = "file") MultipartFile file) {
+                                  @ModelAttribute(name = "file") MultipartFile file
+    ) {
 
         if (bindingResult.hasErrors()) {
             return new ModelAndView("/email/addEmail.jsp");
-        }
+        } else {
 
-        ModelAndView modelAndView = new ModelAndView("redirect:/emails/list");
+            ModelAndView modelAndView = new ModelAndView("redirect:/emails/list");
 
-        email.setReceivers(employeeService.findAll());
-        email.setSender(employeeService.findByName("admin"));
+            email.setReceivers(employeeService.findAll());
+            email.setSender(employeeService.findByName("admin"));
 
-        try {
-            if (!file.isEmpty()) {
-                Blob blobFile = BlobProxy.generateProxy(file.getBytes());
-                email.setAttachment(blobFile);
+            try {
+                if (!file.isEmpty()) {
+                    Blob blobFile = BlobProxy.generateProxy(file.getBytes());
+                    email.setAttachment(blobFile);
+                }
+            } catch (Exception e) {
+                logger.error(e.getMessage(), e);
             }
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
+
+
+            emailService.addEmail(email);
+
+            return modelAndView;
         }
-
-
-        emailService.addEmail(email);
-
-        return modelAndView;
     }
 
     @GetMapping("/show")
@@ -138,6 +140,17 @@ public class EmailController {
         ModelAndView modelAndView = new ModelAndView("/email/showEmail.jsp");
         Email email = emailService.getEmail(theId);
         modelAndView.addObject("email", email);
+        return modelAndView;
+
+    }
+
+    @GetMapping("/delete/{id}")
+    public ModelAndView delete(@PathVariable("id") long theId) {
+
+        ModelAndView modelAndView = new ModelAndView("redirect:/emails/list");
+
+        emailService.deleteEmail(theId);
+
         return modelAndView;
 
     }

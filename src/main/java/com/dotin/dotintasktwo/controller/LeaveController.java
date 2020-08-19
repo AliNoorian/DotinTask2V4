@@ -46,6 +46,7 @@ public class LeaveController {
 
         modelAndView.addObject("leaves", leaves);
         modelAndView.addObject("totalRecords", totalRecords);
+        modelAndView.addObject("message","برای اعمال درخواست میتوانید بر روی دکمه های روبروی هر مرخصی کلیک کنید");
 
         return modelAndView;
     }
@@ -87,7 +88,7 @@ public class LeaveController {
             if (new DateUtil().checkDate(leaveService.findAllStatus(categoryElementService.getCategoryElementByCode("APPROVED")),
                     leave.getLeaveFrom(), leave.getLeaveTo())) {
 
-                ModelAndView modelAndView = new ModelAndView("/leave/addLeave.jsp");
+                ModelAndView modelAndView = new ModelAndView("redirect:/leaves/showFormForAdd");
                 modelAndView.addObject("message", "تاریخ شما با مرخصی تایید شده دیگر، تداخل زمانی دارد!");
                 return modelAndView;
             }
@@ -108,9 +109,8 @@ public class LeaveController {
     public ModelAndView setApproved(@PathVariable("id") long theId) {
         Leave leave = leaveService.findByLeaveId(theId);
         if (!leaveService.findAllApproved().isEmpty()) {
-            DateUtil dateUtil = new DateUtil();
-            if (dateUtil.checkDate(leaveService.findAllApproved(), leave.getLeaveFrom(), leave.getLeaveTo())) {
-                ModelAndView modelAndView = new ModelAndView("redirect:/leave/leaves.jsp");
+            if (new DateUtil().checkDate(leaveService.findAllApproved(), leave.getLeaveFrom(), leave.getLeaveTo())) {
+                ModelAndView modelAndView = new ModelAndView("redirect:/leaves/list");
                 modelAndView.addObject("message", "زمان درخواست شده با زمان مرخصی های موافقت شده جدید، تداخل دارد");
                 return modelAndView;
             }
@@ -139,12 +139,13 @@ public class LeaveController {
         return modelAndView;
     }
 
-    @GetMapping("/show")
-    public ModelAndView showLeave(@RequestParam("id") long theId) {
+    @GetMapping("/show/{id}")
+    public ModelAndView showLeave(@PathVariable("id") long theId) {
 
         ModelAndView modelAndView = new ModelAndView("/leave/showLeave.jsp");
         Leave leave = leaveService.findByLeaveId(theId);
         modelAndView.addObject("leave", leave);
+        modelAndView.addObject("message","جهت ثبت یا رد درخواست میتوانید از قسمت پایین فرم استفاده کنید");
         return modelAndView;
 
     }

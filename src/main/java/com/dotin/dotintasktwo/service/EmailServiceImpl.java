@@ -4,6 +4,7 @@ package com.dotin.dotintasktwo.service;
 import com.dotin.dotintasktwo.model.Email;
 import com.dotin.dotintasktwo.model.Employee;
 import com.dotin.dotintasktwo.repository.EmailRepository;
+import com.dotin.dotintasktwo.utility.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -52,6 +53,9 @@ public class EmailServiceImpl implements EmailService {
     @Transactional
     public void addEmail(Email email) {
 
+        email.setActive(true);
+        email.setVersion(1);
+        email.setCreateDate(new Time().getTime());
         emailRepository.save(email);
     }
 
@@ -78,6 +82,11 @@ public class EmailServiceImpl implements EmailService {
         return emailRepository.findAll();
     }
 
+    @Override
+    @Transactional
+    public void deleteEmail(long theId) {
+        emailRepository.deleteById(theId);
+    }
 
 
 //    @Override
