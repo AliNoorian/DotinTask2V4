@@ -86,7 +86,7 @@ public class LeaveServiceImpl implements LeaveService {
     public List<Leave> findAll(Pageable pageable) {
 
         int pageNo = pageable.getPageNumber();
-        return leaveRepository.findAll(PageRequest.of(pageNo, 4, Sort.by("id").descending())).getContent();
+        return leaveRepository.findAll(PageRequest.of(pageNo, 4, Sort.by("id").ascending())).getContent();
 
     }
 

@@ -52,7 +52,6 @@ public class EmailServiceImpl implements EmailService {
     @Override
     @Transactional
     public void addEmail(Email email) {
-
         email.setActive(true);
         email.setVersion(1);
         email.setCreateDate(new Time().getTime());
@@ -73,7 +72,7 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public List<Email> findAll(Pageable pageable) {
         int pageNo = pageable.getPageNumber();
-        return emailRepository.findAll(PageRequest.of(pageNo, 4, Sort.by("id").descending())).getContent();
+        return emailRepository.findAll(PageRequest.of(pageNo, 4, Sort.by("id").ascending())).getContent();
 
     }
 

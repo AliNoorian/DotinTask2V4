@@ -10,7 +10,7 @@ public class Parent  {
 
     @Id
     @Column(name = "c_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private long id;
 
     @Version

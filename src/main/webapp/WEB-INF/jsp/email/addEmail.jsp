@@ -66,8 +66,8 @@
         <br/>
 
         <div align="right">
-            <form:label for="file" path="attachment">ارسال فایل</form:label>
-            <form:input name="file" path="attachment" type="file" class="form-control mb-4 col-4" id="file"
+            <form:label  for="file" path="attachment">ارسال فایل</form:label>
+            <form:input modelAttribute="file" name="file" path="attachment" type="file" class="form-control mb-4 col-4" id="file"
                         placeholder="ارسال فایل در صورت نیاز"/>
 
 

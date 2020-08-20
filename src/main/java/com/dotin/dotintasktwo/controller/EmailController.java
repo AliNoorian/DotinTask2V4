@@ -6,7 +6,6 @@ import com.dotin.dotintasktwo.service.EmailService;
 import com.dotin.dotintasktwo.service.EmployeeService;
 import org.apache.log4j.Logger;
 import org.hibernate.engine.jdbc.BlobProxy;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
@@ -15,14 +14,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.data.domain.Pageable;
-import org.json.simple.JSONArray;
 
 
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.sql.Blob;
-import java.util.List;
+
 
 
 @Controller
@@ -48,11 +45,9 @@ public class EmailController {
 
         ModelAndView modelAndView = new ModelAndView("/email/inbox.jsp");
 
-        List<Email> emails = emailService.findAll(pageable);
-        int totalRecords = emailService.findAll().size();
 
-        modelAndView.addObject("emails", emails);
-        modelAndView.addObject("totalRecords", totalRecords);
+        modelAndView.addObject("emails", emailService.findAll(pageable));
+        modelAndView.addObject("totalRecords", emailService.findAll().size());
 
         return modelAndView;
     }
@@ -64,8 +59,7 @@ public class EmailController {
         ModelAndView modelAndView = new ModelAndView("/email/sentBox.jsp");
 
         modelAndView.addObject("emails", emailService.findAll());
-        int totalRecords = employeeService.findAll().size();
-        modelAndView.addObject("totalRecords", totalRecords);
+        modelAndView.addObject("totalRecords", employeeService.findAll().size());
 
         return modelAndView;
     }
@@ -90,6 +84,9 @@ public class EmailController {
         ModelAndView modelAndView = new ModelAndView("email/addEmail.jsp");
         Email email = new Email();
 
+        email.setReceivers(employeeService.findAll());
+        email.setSender(employeeService.findByName("admin"));
+
         modelAndView.addObject("employeeReceivers", employeeService.findAll());
         modelAndView.addObject("email", email);
 
@@ -110,22 +107,19 @@ public class EmailController {
     @PostMapping("/send")
     public ModelAndView sendEmail(@ModelAttribute(name = "email") @Valid Email email,
                                   BindingResult bindingResult,
-                                  @ModelAttribute(name = "file") MultipartFile file
-    ) {
+                                  @ModelAttribute(name = "file") MultipartFile emailFile) {
 
         if (bindingResult.hasErrors()) {
             logger.info("Send Error!!!");
             return new ModelAndView("/email/addEmail.jsp");
-        } else {
+        }
 
             ModelAndView modelAndView = new ModelAndView("redirect:/emails/list");
 
-            email.setReceivers(employeeService.findAll());
-            email.setSender(employeeService.findByName("admin"));
 
             try {
-                if (!file.isEmpty()) {
-                    Blob blobFile = BlobProxy.generateProxy(file.getBytes());
+                if (!emailFile.isEmpty()) {
+                    Blob blobFile = BlobProxy.generateProxy(emailFile.getBytes());
                     email.setAttachment(blobFile);
                 }
             } catch (Exception e) {
@@ -136,7 +130,7 @@ public class EmailController {
             emailService.addEmail(email);
 
             return modelAndView;
-        }
+
     }
 
     @GetMapping("/show")
@@ -149,26 +143,26 @@ public class EmailController {
 
     }
 
-
-    @GetMapping("/searchEmployee")
-    @ResponseBody
-    public JSONArray searchEmployee(HttpServletRequest request) {
-
-        String param = request.getParameter("param");
-
-        List<Employee> employeeList = employeeService.searchBy(param);
-
-        JSONArray jsonArray = new JSONArray();
-        for (Employee ee : employeeList) {
-
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("employeeId", ee.getId());
-            jsonObject.put("employeeName", ee.getFirstName() + " " + ee.getLastName());
-            jsonArray.add(jsonObject);
-        }
-
-        return jsonArray;
-    }
+//
+//    @GetMapping("/searchEmployee")
+//    @ResponseBody
+//    public JSONArray searchEmployee(HttpServletRequest request) {
+//
+//        String param = request.getParameter("param");
+//
+//        List<Employee> employeeList = employeeService.searchBy(param);
+//
+//        JSONArray jsonArray = new JSONArray();
+//        for (Employee ee : employeeList) {
+//
+//            JSONObject jsonObject = new JSONObject();
+//            jsonObject.put("employeeId", ee.getId());
+//            jsonObject.put("employeeName", ee.getFirstName() + " " + ee.getLastName());
+//            jsonArray.add(jsonObject);
+//        }
+//
+//        return jsonArray;
+//    }
 
 
 
