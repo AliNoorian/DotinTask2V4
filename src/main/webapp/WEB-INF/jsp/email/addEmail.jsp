@@ -23,7 +23,7 @@
 
         <form:input type="hidden" path="id"/>
 
-    <div align="right">
+<%--    <div align="right">--%>
             <%--            <form:label path="receivers" id="receivers" for="chooseReceivers">انتخاب گیرنده</form:label>--%>
             <%--            <form:select path="receivers" id="chooseReceivers"--%>
             <%--                         cssClass="browser-default custom-select" multiple="multiple">--%>
@@ -33,19 +33,19 @@
             <%--            </form:select>--%>
             <%--            <form:errors path="receivers" cssStyle="color: red"/>--%>
 
-        <input type="button" onclick="addReceiver()" class="btn btn-outline-success" value="افزودن گیرنده جدید"/>
-        <label>
-            <select path="receivers" id="selected">
-                <c:forEach items="${employeeReceivers}" var="receiver">
-                    <option value="${receiver.id}">${receiver.firstName} ${receiver.lastName}</option>
-                </c:forEach>
-            </select>
-        </label>
-        <table>
-            <div type="input" multiple="multiple" id="selectedReceivers">
-            </div>
-        </table>
-        <br/>
+<%--        <input type="button" onclick="addReceiver()" class="btn btn-outline-success" value="افزودن گیرنده جدید"/>--%>
+<%--        <label>--%>
+<%--            <select path="receivers" id="selected">--%>
+<%--                <c:forEach items="${employeeReceivers}" var="receiver">--%>
+<%--                    <option value="${receiver.id}">${receiver.firstName} ${receiver.lastName}</option>--%>
+<%--                </c:forEach>--%>
+<%--            </select>--%>
+<%--        </label>--%>
+<%--        <table>--%>
+<%--            <div type="input" multiple="multiple" id="selectedReceivers">--%>
+<%--            </div>--%>
+<%--        </table>--%>
+<%--        <br/>--%>
 
         <div align="right">
             <form:label path="subject">موضوع پیام</form:label>
@@ -102,29 +102,29 @@
 <br/>
 
 
-<script type="text/javascript">
-    let i;
+<%--<script type="text/javascript">--%>
+<%--    let i;--%>
 
-    function addReceiver() {
-        document.getElementById("selectedReceivers").innerHTML += addEmployeeReceiver();
-        return null;
-    }
+<%--    function addReceiver() {--%>
+<%--        document.getElementById("selectedReceivers").innerHTML += addEmployeeReceiver();--%>
+<%--        return null;--%>
+<%--    }--%>
 
-    function addEmployeeReceiver() {
+<%--    function addEmployeeReceiver() {--%>
 
-        i++;
-        return '<div id=receivers' + i + '>' +
-            '<c:out value="${employeeReceivers.get(0).lastName}"/>' +
-            '<a cssStyle="color: red"\n' +
-            '                    title="حذف این کاربر" onclick="remove(' + i + ')"> x </a>   ' +
-            '           </div>';
-    }
+<%--        i++;--%>
+<%--        return '<div id=receivers' + i + '>' +--%>
+<%--            '<c:out value="${employeeReceivers.get(0).lastName}"/>' +--%>
+<%--            '<a cssStyle="color: red"\n' +--%>
+<%--            '                    title="حذف این کاربر" onclick="remove(' + i + ')"> x </a>   ' +--%>
+<%--            '           </div>';--%>
+<%--    }--%>
 
-    function remove(receiverId) {
-        document.getElementById("receivers" + receiverId).remove();
-        i--;
-    }
-</script>
+<%--    function remove(receiverId) {--%>
+<%--        document.getElementById("receivers" + receiverId).remove();--%>
+<%--        i--;--%>
+<%--    }--%>
+<%--</script>--%>
 
 
 <%@include file="../components/footer.jsp" %>
