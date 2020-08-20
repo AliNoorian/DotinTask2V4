@@ -4,7 +4,6 @@ package com.dotin.dotintasktwo.controller;
 import com.dotin.dotintasktwo.model.Category;
 import com.dotin.dotintasktwo.model.CategoryElement;
 import com.dotin.dotintasktwo.model.Employee;
-import com.dotin.dotintasktwo.model.Parent;
 import com.dotin.dotintasktwo.service.CategoryElementService;
 import com.dotin.dotintasktwo.service.CategoryService;
 import com.dotin.dotintasktwo.service.EmployeeService;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.lang.reflect.InvocationTargetException;
 
 
 @Controller
@@ -37,7 +37,7 @@ public class MainController {
 
 
     @GetMapping("/")
-    public ModelAndView homePage() {
+    public ModelAndView homePage() throws InvocationTargetException, IllegalAccessException {
 
         ModelAndView modelAndView = new ModelAndView("index.jsp");
 
@@ -104,8 +104,6 @@ public class MainController {
             employee.setFirstName("admin");
             employee.setLastName("admin");
             employee.setEmail("admin@dotin.ir");
-            employee.setVersion(1);
-            employee.setCreateDate(new Time().getTime());
             employee.setEmployeeGender("آقا");
             employee.setActive(true);
             employee.setEmployeeRole(categoryElementService.getCategoryElementByCode("ADMIN"));

@@ -1,5 +1,6 @@
 package com.dotin.dotintasktwo.service;
 
+import com.dotin.dotintasktwo.MyBeanCopy;
 import com.dotin.dotintasktwo.model.Employee;
 import com.dotin.dotintasktwo.repository.EmployeeRepository;
 import com.dotin.dotintasktwo.utility.Time;
@@ -10,11 +11,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Optional;
 
 
 @Service
+@Transactional
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
@@ -45,17 +48,20 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
     @Override
-    @Transactional
-    public void Save(Employee employee) {
+    public void Save(Employee employee) throws InvocationTargetException {
 
-        if (employee.getCreateDate() == null) {
-            employee.setVersion(1);
-            employee.setCreateDate(new Time().getTime());
-        } else {
+        if (employee.getVersion()>0) {
             employee.setVersion(employee.getVersion() + 1);
             employee.setModifiedDate(new Time().getTime());
+
+        } else {
+
+            employee.setVersion(1);
+            employee.setCreateDate(new Time().getTime());
+
         }
         employeeRepository.save(employee);
+
     }
 
     @Override
@@ -85,7 +91,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         int pageNo = pageable.getPageNumber();
 
-        return employeeRepository.findAll(PageRequest.of(pageNo, 4, Sort.by("id").descending())).getContent();
+        return employeeRepository.findAll(PageRequest.of(pageNo, 4, Sort.by("id").ascending())).getContent();
 //		Sort descOrderById = Sort.by("id").descending();
 //		return employeeRepository.findAll(descOrderById);
 

@@ -94,9 +94,8 @@
 
 <%--            <form:select path="employee" id="employee" >--%>
 <%--                <form:option value="" label="employee"/>--%>
-<%--                <jsp:useBean id="employee" scope="request" type="java.util.List"/>--%>
-<%--                <c:forEach var="employee" items="${employee}">--%>
-<%--                    <form:option value="${employee.id}"><c:out value="${employee.firstName}${\" \"}${employee.lastName}"/></form:option>--%>
+<%--                <c:forEach var="employee" items="${employees}">--%>
+<%--                    <form:option value="${employee.id}"><c:out value="${employee.firstName} ${employee.lastName}"/></form:option>--%>
 <%--                </c:forEach>--%>
 <%--            </form:select>--%>
 <%--            <form:errors path="employee" cssStyle="color: red"/>--%>

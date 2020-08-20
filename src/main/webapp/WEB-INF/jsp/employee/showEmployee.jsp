@@ -38,12 +38,15 @@
         </div>
 
         <div align="right">
-            <form:label path="active">وضعیت کاری</form:label><br/>
-            <form:input readonly="true" class="form-control mb-4 col-4" path="active" value="true"/><br/>
-            <form:errors path="active" cssClass="error"/>
-
+            <form:label path="createDate">تاریخ ثبت نام</form:label><br/>
+            <form:input readonly="true" class="form-control mb-4 col-4" path="createDate" value="${employee.createDate}" /><br/>
         </div>
-        <br/>
+
+        <div align="right">
+        <form:label path="active">وضعیت کاری</form:label><br/>
+        <form:input readonly="true" class="form-control mb-4 col-4" path="active" value="${employee.active?'فعال':'غیر فعال' }"/><br/>
+        <form:errors path="active" cssClass="error"/>
+    </div>
 
         <div align="right">
             <form:label path="email">ایمیل</form:label>
@@ -58,22 +61,14 @@
             <form:errors path="employeeGender" cssClass="error"/>
 
         </div>
-        <br/>
-
         <div align="right">
-            <form:label path="employeeRole">سمت</form:label><br/>
-            <form:input readonly="true" class="form-control mb-4 col-4" path="employeeRole"/>
-
-            <form:errors path="employeeRole" cssClass="error"/>
-
+            <form:label path="employeeRole.name">سمت</form:label><br/>
+            <form:input readonly="true" class="form-control mb-4 col-4"  path="employeeRole.name"/>
         </div>
-        <br/>
 
         <div align="right">
-            <form:label path="manager">مدیر</form:label>
-            <form:input readonly="true" path="manager" class="form-control mb-4 col-4"/>
-            <form:errors path="manager" cssClass="error"/>
-
+            <form:label path="manager.lastName">مدیر</form:label>
+            <form:input readonly="true" path="manager.lastName" class="form-control mb-4 col-4"/>
         </div>
         <br/>
 

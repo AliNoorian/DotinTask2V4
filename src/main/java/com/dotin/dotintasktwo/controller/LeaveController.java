@@ -7,6 +7,7 @@ import com.dotin.dotintasktwo.service.EmployeeService;
 import com.dotin.dotintasktwo.service.LeaveService;
 import com.dotin.dotintasktwo.utility.DateUtil;
 import com.dotin.dotintasktwo.utility.Time;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -22,6 +23,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/leaves")
 public class LeaveController {
+    private final Logger logger = Logger.getLogger(LeaveController.class);
 
     private final LeaveService leaveService;
     private final EmployeeService employeeService;
@@ -71,6 +73,7 @@ public class LeaveController {
         Leave leave = new Leave();
 
         modelAndView.addObject("leave", leave);
+        modelAndView.addObject("employees",employeeService.findAll());
 
         return modelAndView;
     }
@@ -81,6 +84,7 @@ public class LeaveController {
                                   BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
+            logger.info("Save leave Error!!!");
             return new ModelAndView("/leave/addLeave.jsp");
         }
         if (!leaveService.findAllStatus(categoryElementService.getCategoryElementByCode("APPROVED")).isEmpty()) {

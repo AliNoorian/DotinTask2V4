@@ -31,4 +31,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>, JpaSp
     Employee findByRole(@Param("ADMIN") String ADMIN);
 
     List<Employee> findAllByEmployeeRole_CodeContains(@NotBlank(message = "is required") String employeeRole_code_MANAGER);
+
+
 }

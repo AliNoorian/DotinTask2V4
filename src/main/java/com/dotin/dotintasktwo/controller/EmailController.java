@@ -6,6 +6,7 @@ import com.dotin.dotintasktwo.service.EmailService;
 import com.dotin.dotintasktwo.service.EmployeeService;
 import org.apache.log4j.Logger;
 import org.hibernate.engine.jdbc.BlobProxy;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
@@ -14,8 +15,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.data.domain.Pageable;
+import org.json.simple.JSONArray;
 
 
+
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.sql.Blob;
 import java.util.List;
@@ -110,6 +114,7 @@ public class EmailController {
     ) {
 
         if (bindingResult.hasErrors()) {
+            logger.info("Send Error!!!");
             return new ModelAndView("/email/addEmail.jsp");
         } else {
 
@@ -143,6 +148,29 @@ public class EmailController {
         return modelAndView;
 
     }
+
+
+    @GetMapping("/searchEmployee")
+    @ResponseBody
+    public JSONArray searchEmployee(HttpServletRequest request) {
+
+        String param = request.getParameter("param");
+
+        List<Employee> employeeList = employeeService.searchBy(param);
+
+        JSONArray jsonArray = new JSONArray();
+        for (Employee ee : employeeList) {
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("employeeId", ee.getId());
+            jsonObject.put("employeeName", ee.getFirstName() + " " + ee.getLastName());
+            jsonArray.add(jsonObject);
+        }
+
+        return jsonArray;
+    }
+
+
 
     @GetMapping("/delete/{id}")
     public ModelAndView delete(@PathVariable("id") long theId) {

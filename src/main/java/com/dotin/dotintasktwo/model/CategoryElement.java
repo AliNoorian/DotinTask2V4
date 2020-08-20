@@ -15,11 +15,9 @@ import java.io.Serializable;
 @Data
 public class CategoryElement extends Parent  {
 
-
     @Column(name = "c_name")
     private String name;
 
-    @NotBlank(message = "is required")
     @Column(name = "c_code")
     private String code;
 

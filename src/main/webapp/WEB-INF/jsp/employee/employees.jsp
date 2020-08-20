@@ -40,12 +40,15 @@
                         <td><c:out value="${Employee.firstName}"/></td>
                         <td><c:out value="${Employee.lastName}"/></td>
                         <td><c:out value="${Employee.active?'فعال':'غیر فعال' }"/></td>
-                        <td><c:out value="${Employee.employeeRole.name}"/></td>
+                        <td><c:out
+                                value="${Employee.employeeRole.name !=null ? Employee.employeeRole.name:'---'}"/></td>
                         <td><c:out value="${Employee.email}"/></td>
                         <td><c:out value="${Employee.employeeGender}"/></td>
-                        <td><a href="/employees/show/${Employee.id }" class="btn btn-info" role="button" >نمایش کامل اطلاعات</a>
-                            <a href="/employees/showFormForUpdate/${Employee.id }" class="btn btn-success" role="button" >ویرایش</a>
-                        <a href="/employees/delete/${Employee.id}" class="btn btn-danger" role="button"
+                        <td><a href="/employees/show/${Employee.id }" class="btn btn-info" role="button">نمایش کامل
+                            اطلاعات</a>
+                            <a href="/employees/showFormForUpdate/${Employee.id }" class="btn btn-success"
+                               role="button">ویرایش</a>
+                            <a href="/employees/delete/${Employee.id}" class="btn btn-danger" role="button"
                                onclick="if (!(confirm('آیا از این کار اطمینان دارید؟'))) return false">حذف</a></td>
                     </tr>
                 </c:forEach>

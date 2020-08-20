@@ -78,26 +78,35 @@
 
         <div align="right">
             <form:label path="employeeRole">سمت</form:label><br/>
+
             <form:select path="employeeRole">
-                <c:forEach items="${categoryElements}" var="role">
+                <c:forEach items="${categoryElements}" var="role" >
                     <option value="${role.id}">${role.name}</option>
                 </c:forEach>
             </form:select>
+            <form:errors path="employeeRole" cssStyle="color: red"/>
+
+        </div>
+
+
+
+
+        <br/>
+        <br/>
+
+        <div align="right">
+            <form:label path="manager">مدیر</form:label>
+
+            <form:select path="manager">
+                <c:forEach items="${managers}" var="emp" >
+                    <option value="${emp.id}">${emp.firstName} ${emp.lastName}</option>
+                </c:forEach>
+            </form:select>
+            <form:errors path="manager" cssStyle="color: red"/>
+
         </div>
         <br/>
         <br/>
-
-<%--        <div align="right">--%>
-<%--            <form:label path="manager">مدیر</form:label>--%>
-<%--            <form:select path="manager">--%>
-<%--                <c:forEach items="${managers}" var="emp" >--%>
-<%--                    <option value="${emp.id}">${emp.firstName} ${emp.lastName}</option>--%>
-<%--                </c:forEach>--%>
-<%--            </form:select>--%>
-
-<%--        </div>--%>
-<%--        <br/>--%>
-<%--        <br/>--%>
 
         <div align="right">
             <form:button type="submit" class="btn btn-outline-primary">ثبت کاربر</form:button>
