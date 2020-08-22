@@ -56,8 +56,7 @@ public class EmailController {
 
         ModelAndView modelAndView = new ModelAndView("/email/sentBox.jsp");
 
-        modelAndView.addObject("emails", emailService.getSent(sender, pageable));
-        modelAndView.addObject("totalRecords", employeeService.findAll().size());
+//        modelAndView.addObject("totalRecords", employeeService.findAll().size());
 
         return modelAndView;
     }
