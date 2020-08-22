@@ -42,15 +42,20 @@
 
         <form:input type="hidden" path="id"/>
 
-<%--    <div align="right">--%>
-<%--                        <form:label path="receivers" id="receivers" for="chooseReceivers">انتخاب گیرنده</form:label>--%>
-<%--                        <form:select path="receivers" id="chooseReceivers"--%>
-<%--                                     cssClass="browser-default custom-select" multiple="multiple">--%>
-<%--                            <c:forEach items="${employeeReceivers}" var="receiver" varStatus="status">--%>
-<%--                                <option value="${receiver.id}">${receiver.firstName} ${receiver.lastName}</option>--%>
-<%--                            </c:forEach>--%>
-<%--                        </form:select>--%>
-<%--                        <form:errors path="receivers" cssStyle="color: red"/>--%>
+    <div align="right">
+                        <form:label path="receivers" id="receivers" for="chooseReceivers">انتخاب گیرنده</form:label>
+<%--        <form:select multiple="true" class="form-control mb-4 col-4"--%>
+<%--                     path="receivers" items="${employeeReceivers}" itemValue="lastName"/>--%>
+
+
+        <form:select multiple="true" path="receivers" id="chooseReceivers"
+                                     class="form-control mb-4 col-4" size="${employeeReceivers.size()}">
+                            <c:forEach items="${employeeReceivers}" var="receiver" varStatus="status">
+                                <option multiple="true" value="${receiver.id}">${receiver.firstName} ${receiver.lastName}</option>
+                            </c:forEach>
+                        </form:select>
+                        <form:errors path="receivers" cssStyle="color: red"/>
+    </div>
 
 <%--        <input type="button" onclick="addReceiver()" class="btn btn-outline-success" value="افزودن گیرنده جدید"/>--%>
 <%--        <label>--%>
@@ -62,7 +67,6 @@
 <%--        </label>--%>
 <%--        <table>--%>
 <%--            <div type="input" multiple="multiple" id="selectedReceivers">--%>
-<%--            </div>--%>
 <%--        </table>--%>
 <%--        <br/>--%>
 

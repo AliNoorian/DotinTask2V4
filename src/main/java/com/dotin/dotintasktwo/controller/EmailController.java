@@ -81,8 +81,6 @@ public class EmailController {
 
         ModelAndView modelAndView = new ModelAndView("email/addEmail.jsp");
         Email email = new Email();
-         email.setSender(employeeService.findByName("admin"));
-         email.setReceivers(employeeService.findAll());
         modelAndView.addObject("employeeReceivers", employeeService.findAll());
         modelAndView.addObject("email", email);
 
@@ -110,6 +108,8 @@ public class EmailController {
 
             return new ModelAndView("/email/addEmail.jsp");
         }
+
+        email.setSender(employeeService.findByName("admin"));
 
         ModelAndView modelAndView = new ModelAndView("redirect:/emails/list");
 
