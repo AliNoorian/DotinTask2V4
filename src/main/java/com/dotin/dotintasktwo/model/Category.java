@@ -12,8 +12,8 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "t_category")
-@ToString(exclude = {"categoryElements"})
-@Data
+@Setter
+@Getter
 public class Category extends Parent implements Serializable  {
 
 

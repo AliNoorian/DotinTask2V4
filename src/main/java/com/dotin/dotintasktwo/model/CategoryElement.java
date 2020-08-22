@@ -1,9 +1,7 @@
 package com.dotin.dotintasktwo.model;
 
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,8 +10,8 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "t_category_element")
-@ToString(exclude = {"category"})
-@Data
+@Setter
+@Getter
 public class CategoryElement extends Parent implements Serializable {
 
     @Column(name = "c_name")
