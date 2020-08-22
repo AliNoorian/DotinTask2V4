@@ -71,7 +71,7 @@ public class EmployeeController {
     @GetMapping("/showFormForUpdate/{id}")
     public ModelAndView showFormForUpdate(@PathVariable("id") long theId) {
 
-        ModelAndView modelAndView = new ModelAndView("/employee/showEmployee.jsp");
+        ModelAndView modelAndView = new ModelAndView("/employee/addEmployee.jsp");
         modelAndView.addObject("employee", employeeService.findById(theId));
         modelAndView.addObject("categoryElements", categoryElementService.getCategoryName(categoryService.findByName("userRole")));
         modelAndView.addObject("managers", employeeService.findManager("MANAGER"));
