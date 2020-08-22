@@ -1,5 +1,7 @@
 package com.dotin.dotintasktwo.controller;
 
+import com.dotin.dotintasktwo.model.Category;
+import com.dotin.dotintasktwo.model.CategoryElement;
 import com.dotin.dotintasktwo.model.Employee;
 import com.dotin.dotintasktwo.service.CategoryElementService;
 import com.dotin.dotintasktwo.service.CategoryService;
@@ -70,11 +72,14 @@ public class EmployeeController {
 
     @GetMapping("/showFormForUpdate/{id}")
     public ModelAndView showFormForUpdate(@PathVariable("id") long theId) {
-
-        ModelAndView modelAndView = new ModelAndView("/employee/showEmployee.jsp");
-        modelAndView.addObject("employee", employeeService.findById(theId));
+        Employee employee =employeeService.findById(theId);
+        ModelAndView modelAndView = new ModelAndView("/employee/addEmployee.jsp");
+        modelAndView.addObject("employee",employee );
         modelAndView.addObject("categoryElements", categoryElementService.getCategoryName(categoryService.findByName("userRole")));
         modelAndView.addObject("managers", employeeService.findManager("MANAGER"));
+        if(employee.getManager().getFirstName()==null){
+            employee.setManager(employeeService.findByName("admin"));
+        }
 
         return modelAndView;
     }

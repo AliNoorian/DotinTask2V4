@@ -80,15 +80,21 @@
             <form:label path="employeeRole">سمت</form:label><br/>
 
             <form:select path="employeeRole">
-                <c:forEach items="${categoryElements}" var="role" >
-                    <option value="${role.id}">${role.name}</option>
+                <c:forEach items="${categoryElements}" var="role">
+                    <c:choose>
+                        <c:when test="${employee.employeeRole.name != null }">
+                            <option selected="${employee.employeeRole.id}" value="${employee.employeeRole.id}">
+                                    ${role.name}</option>
+                        </c:when>
+                        <c:otherwise>
+                            <option value="${role.id}">${role.name}</option>
+                        </c:otherwise>
+                    </c:choose>
                 </c:forEach>
             </form:select>
             <form:errors path="employeeRole" cssStyle="color: red"/>
 
         </div>
-
-
 
 
         <br/>
@@ -97,9 +103,17 @@
         <div align="right">
             <form:label path="manager">مدیر</form:label>
 
+
             <form:select path="manager">
-                <c:forEach items="${managers}" var="emp" >
+                <c:forEach items="${managers}" var="emp">
+                    <c:choose>
+                    <c:when test="${employee.manager.lastName != null }">
+                        <option selected="${employee.manager.id}" value="${employee.manager.id}" >${emp.firstName} ${emp.lastName}</option>
+                    </c:when>
+                    <c:otherwise>
                     <option value="${emp.id}">${emp.firstName} ${emp.lastName}</option>
+                    </c:otherwise>
+                    </c:choose>
                 </c:forEach>
             </form:select>
             <form:errors path="manager" cssStyle="color: red"/>

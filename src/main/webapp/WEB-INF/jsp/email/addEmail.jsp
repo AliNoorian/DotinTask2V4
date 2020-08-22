@@ -21,17 +21,36 @@
 
     <form:form method="POST" action="/emails/send" modelAttribute="email" class="form form-group">
 
+
+
+
+<%--    <div align="right">--%>
+<%--        <form:label path="sender">فرستنده</form:label>--%>
+
+<%--        <form:select path="sender">--%>
+<%--            <c:forEach items="${employeeReceivers}" var="emp">--%>
+<%--                <c:choose>--%>
+
+<%--                        <option value="${emp.id}">${emp.firstName} ${emp.lastName}</option>--%>
+<%--                </c:choose>--%>
+<%--            </c:forEach>--%>
+<%--        </form:select>--%>
+
+<%--    </div>--%>
+
+
+
         <form:input type="hidden" path="id"/>
 
 <%--    <div align="right">--%>
-            <%--            <form:label path="receivers" id="receivers" for="chooseReceivers">انتخاب گیرنده</form:label>--%>
-            <%--            <form:select path="receivers" id="chooseReceivers"--%>
-            <%--                         cssClass="browser-default custom-select" multiple="multiple">--%>
-            <%--                <c:forEach items="${employeeReceivers}" var="receiver" varStatus="status">--%>
-            <%--                    <option value="${receiver.id}">${receiver.firstName} ${receiver.lastName}</option>--%>
-            <%--                </c:forEach>--%>
-            <%--            </form:select>--%>
-            <%--            <form:errors path="receivers" cssStyle="color: red"/>--%>
+<%--                        <form:label path="receivers" id="receivers" for="chooseReceivers">انتخاب گیرنده</form:label>--%>
+<%--                        <form:select path="receivers" id="chooseReceivers"--%>
+<%--                                     cssClass="browser-default custom-select" multiple="multiple">--%>
+<%--                            <c:forEach items="${employeeReceivers}" var="receiver" varStatus="status">--%>
+<%--                                <option value="${receiver.id}">${receiver.firstName} ${receiver.lastName}</option>--%>
+<%--                            </c:forEach>--%>
+<%--                        </form:select>--%>
+<%--                        <form:errors path="receivers" cssStyle="color: red"/>--%>
 
 <%--        <input type="button" onclick="addReceiver()" class="btn btn-outline-success" value="افزودن گیرنده جدید"/>--%>
 <%--        <label>--%>
@@ -114,7 +133,9 @@
 
 <%--        i++;--%>
 <%--        return '<div id=receivers' + i + '>' +--%>
-<%--            '<c:out value="${employeeReceivers.get(0).lastName}"/>' +--%>
+<%--            '                <c:forEach items="${employeeReceivers}" var="receiver">\n' +--%>
+<%--            '                    <option value="${receiver.id}">${receiver.firstName} ${receiver.lastName}</option>\n' +--%>
+<%--            '                </c:forEach>' +--%>
 <%--            '<a cssStyle="color: red"\n' +--%>
 <%--            '                    title="حذف این کاربر" onclick="remove(' + i + ')"> x </a>   ' +--%>
 <%--            '           </div>';--%>

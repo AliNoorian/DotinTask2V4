@@ -1,18 +1,20 @@
 package com.dotin.dotintasktwo.model;
 
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
 
+
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "t_category")
+@ToString(exclude = {"categoryElements"})
 @Data
-public class Category extends Parent  {
+public class Category extends Parent implements Serializable  {
 
 
     @Column(name = "c_category_name")

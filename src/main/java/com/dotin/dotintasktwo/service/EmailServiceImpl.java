@@ -25,6 +25,7 @@ public class EmailServiceImpl implements EmailService {
     @Autowired
     public EmailServiceImpl(EmailRepository emailRepository) {
         this.emailRepository = emailRepository;
+
     }
 
 

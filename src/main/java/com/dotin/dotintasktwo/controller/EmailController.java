@@ -16,10 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.data.domain.Pageable;
 
 
-
 import javax.validation.Valid;
 import java.sql.Blob;
-
 
 
 @Controller
@@ -83,10 +81,8 @@ public class EmailController {
 
         ModelAndView modelAndView = new ModelAndView("email/addEmail.jsp");
         Email email = new Email();
-
-        email.setReceivers(employeeService.findAll());
         email.setSender(employeeService.findByName("admin"));
-
+        email.setReceivers(employeeService.findAll());
         modelAndView.addObject("employeeReceivers", employeeService.findAll());
         modelAndView.addObject("email", email);
 
@@ -106,30 +102,30 @@ public class EmailController {
 
     @PostMapping("/send")
     public ModelAndView sendEmail(@ModelAttribute(name = "email") @Valid Email email,
-                                  BindingResult bindingResult,
-                                  @ModelAttribute(name = "file") MultipartFile emailFile) {
+                                  BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             logger.info("Send Error!!!");
             return new ModelAndView("/email/addEmail.jsp");
         }
 
-            ModelAndView modelAndView = new ModelAndView("redirect:/emails/list");
+        ModelAndView modelAndView = new ModelAndView("redirect:/emails/list");
+         email.setSender(employeeService.findByName("admin"));
+         email.setReceivers(employeeService.findAll());
+
+//        try {
+//            if (!emailFile.isEmpty()) {
+//                Blob blobFile = BlobProxy.generateProxy(emailFile.getBytes());
+//                email.setAttachment(blobFile);
+//            }
+//        } catch (Exception e) {
+//            logger.error(e.getMessage(), e);
+//        }
 
 
-            try {
-                if (!emailFile.isEmpty()) {
-                    Blob blobFile = BlobProxy.generateProxy(emailFile.getBytes());
-                    email.setAttachment(blobFile);
-                }
-            } catch (Exception e) {
-                logger.error(e.getMessage(), e);
-            }
+        emailService.addEmail(email);
 
-
-            emailService.addEmail(email);
-
-            return modelAndView;
+        return modelAndView;
 
     }
 
@@ -163,7 +159,6 @@ public class EmailController {
 //
 //        return jsonArray;
 //    }
-
 
 
     @GetMapping("/delete/{id}")

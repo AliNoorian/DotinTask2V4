@@ -5,6 +5,7 @@ import com.dotin.dotintasktwo.model.CategoryElement;
 import com.dotin.dotintasktwo.model.Employee;
 import com.dotin.dotintasktwo.model.Leave;
 import com.dotin.dotintasktwo.repository.LeaveRepository;
+import com.dotin.dotintasktwo.utility.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -79,6 +80,9 @@ public class LeaveServiceImpl implements LeaveService {
     @Override
     @Transactional
     public void Save(Leave leave) {
+        leave.setCreateDate(new Time().getTime());
+        leave.setActive(true);
+        leave.setVersion(1);
         leaveRepository.save(leave);
     }
 

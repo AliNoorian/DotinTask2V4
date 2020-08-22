@@ -101,9 +101,6 @@ public class LeaveController {
 
         modelAndView.addObject("leave", leave);
         leave.setEmployee(employeeService.findByName("admin"));
-        leave.setCreateDate(new Time().getTime());
-        leave.setActive(true);
-        leave.setVersion(1);
         leave.setLeaveStatus(categoryElementService.getCategoryElementByCode("PENDING"));
         leaveService.Save(leave);
         return modelAndView;
