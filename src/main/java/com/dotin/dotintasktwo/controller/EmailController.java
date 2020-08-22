@@ -81,8 +81,8 @@ public class EmailController {
 
         ModelAndView modelAndView = new ModelAndView("email/addEmail.jsp");
         Email email = new Email();
-        email.setSender(employeeService.findByName("admin"));
-        email.setReceivers(employeeService.findAll());
+         email.setSender(employeeService.findByName("admin"));
+         email.setReceivers(employeeService.findAll());
         modelAndView.addObject("employeeReceivers", employeeService.findAll());
         modelAndView.addObject("email", email);
 
@@ -102,25 +102,25 @@ public class EmailController {
 
     @PostMapping("/send")
     public ModelAndView sendEmail(@ModelAttribute(name = "email") @Valid Email email,
-                                  BindingResult bindingResult) {
+                                  BindingResult bindingResult,
+                                  @ModelAttribute(name = "file") MultipartFile emailFile) {
 
         if (bindingResult.hasErrors()) {
             logger.info("Send Error!!!");
+
             return new ModelAndView("/email/addEmail.jsp");
         }
 
         ModelAndView modelAndView = new ModelAndView("redirect:/emails/list");
-         email.setSender(employeeService.findByName("admin"));
-         email.setReceivers(employeeService.findAll());
 
-//        try {
-//            if (!emailFile.isEmpty()) {
-//                Blob blobFile = BlobProxy.generateProxy(emailFile.getBytes());
-//                email.setAttachment(blobFile);
-//            }
-//        } catch (Exception e) {
-//            logger.error(e.getMessage(), e);
-//        }
+        try {
+            if (!emailFile.isEmpty()) {
+                Blob blobFile = BlobProxy.generateProxy(emailFile.getBytes());
+                email.setAttachment(blobFile);
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
 
 
         emailService.addEmail(email);
