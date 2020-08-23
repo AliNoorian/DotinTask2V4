@@ -55,8 +55,27 @@
                            placeholder="شرح پیام را عنوان کنید"/>
             <form:errors path="message" cssStyle="color: red"/>
 
-        </div>
+<%--            <c:choose>--%>
+<%--                <c:when test="${emailContent==null}">--%>
+<%--                </br>--%>
+<%--                </c:when>--%>
+<%--                <c:otherwise>--%>
+<%--                    </div>--%>
+<%--                    <div align="right">--%>
+<%--                        <a href="${emailContent}" class="btn btn-primary"> دانلود فایل همراه پیام</a>--%>
+<%--                    </div>                </c:otherwise>--%>
+<%--            </c:choose>--%>
+
         <br/>
+        <br/>
+
+<%--        <table>--%>
+<%--            <c:forEach items="${email.attachment}" var="file">--%>
+<%--                <tr>--%>
+<%--                    <td><img src="data:image/jpg;base64,${file}"/></td>--%>
+<%--                </tr>--%>
+<%--            </c:forEach>--%>
+<%--        </table>--%>
 
 <%--        <div align="right">--%>
 <%--            <form:label  for="file" path="attachment">ارسال فایل</form:label>--%>

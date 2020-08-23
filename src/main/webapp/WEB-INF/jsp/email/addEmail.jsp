@@ -89,8 +89,8 @@
         <br/>
 
         <div align="right">
-            <label for="file">ارسال فایل</label>
-            <input name="file" type="file" class="form-control mb-4 col-4" id="file">
+            <label for="file">ارسال فایل</label></br>
+            <input name="file" type="file"  id="file">
             <form:errors path="attachment" cssStyle="color: red"/>
 
 

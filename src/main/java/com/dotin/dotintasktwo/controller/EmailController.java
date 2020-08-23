@@ -17,7 +17,9 @@ import org.springframework.data.domain.Pageable;
 import javax.sql.rowset.serial.SerialBlob;
 import javax.validation.Valid;
 import java.sql.Blob;
+
 import java.sql.SQLException;
+
 
 
 @Controller
@@ -136,12 +138,23 @@ public class EmailController {
     }
 
     @GetMapping("/show/{id}")
-    public ModelAndView showEmail(@PathVariable("id") long theId) {
+    public ModelAndView showEmail(@PathVariable("id") long theId) throws SQLException {
 
         ModelAndView modelAndView = new ModelAndView("/email/showEmail.jsp");
         Email email = emailService.getEmail(theId);
+
+//        if(email.getAttachment().length()>0) {
+//            //(assuming you have a ResultSet named RS)
+//            Blob blob = email.getAttachment();
+//            int blobLength = (int) blob.length();
+//            byte[] blobAsBytes = blob.getBytes(1, blobLength);
+//            modelAndView.addObject("emailContent",blobAsBytes);
+//        } else {
+//            modelAndView.addObject("emailContent","");
+//        }
         modelAndView.addObject("email", email);
         return modelAndView;
+
 
     }
 
