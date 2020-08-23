@@ -18,8 +18,10 @@ public interface EmailService {
 
     void addEmail(Email email);
 
-    Page<Email> getInbox(Employee receiver, Pageable pageable);
-    Page<Email> getSent(Employee sender, Pageable pageable);
+    List<Email> getInbox(Employee receiver, Pageable pageable);
+    List<Email> getInbox(Employee receiver);
+    List<Email> getSent(Employee sender, Pageable pageable);
+    List<Email> getSent(Employee sender);
     List<Email> findAll(Pageable pageable);
 
     List<Email> findAll();

@@ -10,6 +10,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 @Repository
 public interface EmailRepository extends JpaRepository<Email, Long> {
 
@@ -19,8 +21,10 @@ public interface EmailRepository extends JpaRepository<Email, Long> {
     @Query("SELECT e FROM Email e WHERE e.receivers =:receiver")
     Page<Email> getEmailByReceiversEquals(@Param("receiver") Employee receiver, Pageable pageable);
 
-
-
+    List<Email> findAllBySenderEquals(Employee sender, Pageable pageable);
+    List<Email> findAllBySenderEquals(Employee sender);
+    List<Email> findAllByReceiversEquals(Employee receiver, Pageable pageable);
+    List<Email> findAllByReceiversEquals(Employee receiver);
 
 
 }

@@ -6,7 +6,6 @@ import com.dotin.dotintasktwo.model.Employee;
 import com.dotin.dotintasktwo.repository.EmailRepository;
 import com.dotin.dotintasktwo.utility.Time;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -60,13 +59,25 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public Page<Email> getInbox(Employee receiver, Pageable pageable) {
-        return emailRepository.getEmailByReceiversEquals(receiver, pageable);
+    public List<Email> getInbox(Employee receiver, Pageable pageable) {
+        int pageNo = pageable.getPageNumber();
+        return emailRepository.findAllByReceiversEquals(receiver,PageRequest.of(pageNo,4,Sort.by("id").ascending()));
     }
 
     @Override
-    public Page<Email> getSent(Employee sender, Pageable pageable) {
-        return emailRepository.getEmailBySenderEquals(sender, pageable);
+    public List<Email> getInbox(Employee receiver) {
+        return emailRepository.findAllByReceiversEquals(receiver);
+    }
+
+    @Override
+    public List<Email> getSent(Employee sender, Pageable pageable) {
+        int pageNo = pageable.getPageNumber();
+        return emailRepository.findAllBySenderEquals(sender,PageRequest.of(pageNo,4,Sort.by("id").ascending()));
+    }
+
+    @Override
+    public List<Email> getSent(Employee sender) {
+        return emailRepository.findAllBySenderEquals(sender);
     }
 
 

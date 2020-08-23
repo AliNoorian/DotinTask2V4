@@ -17,23 +17,23 @@
 
     <div class="container" dir="rtl">
         <div class="table-responsive">
-            <table class="table table-hover">
+            <table class="table table-hover" align="center">
                 <tr align="center">
-                    <th>#</th>
-                    <th>فرستنده</th>
-                    <th>موضوع پیام</th>
-                    <th colspan="2">وضعیت درخواست</th>
+                    <th align="center">#</th>
+                    <th align="center">فرستنده</th>
+                    <th align="center">موضوع پیام</th>
+                    <th colspan="2" align="center">وضعیت درخواست</th>
 
                 </tr>
-                <c:forEach var="email" items="${emails}">
+                <c:forEach var="email" items="${ReceivedEmails}">
                     <tr>
-                        <td><c:out value="${email.id }"/></td>
-                        <td><c:out value="${email.sender }"/></td>
-                        <td><c:out value="${email.subject }"/></td>
-                        <td>
+                        <td align="center"><c:out value="${email.id }"/></td>
+                        <td align="center"><c:out value="${email.sender.firstName} ${email.sender.lastName}"/></td>
+                        <td align="center"><c:out value="${email.subject }"/></td>
+                        <td align="center">
                             <a href="/emails/show/${email.id}" class="btn btn-primary" role="button" >نمایش پیام</a>
-                            <a href="" class="btn btn-secondary" role="button" >ارسال پاسخ</a>
-                            <a href="/emails/delete/${email.id}" class="btn btn-danger" role="button"
+                          <a href="/emails/showFormForAdd" class="btn btn-success" role="button" >ارسال پاسخ</a>
+                          <a href="/emails/delete/${email.id}" class="btn btn-danger" role="button"
                                onclick="if (!(confirm('آیا از این کار اطمینان دارید؟'))) return false">حذف پیام</a></td>
                     </tr>
                 </c:forEach>

@@ -1,7 +1,7 @@
 package com.dotin.dotintasktwo.config;
 
 import com.dotin.dotintasktwo.model.*;
-import com.dotin.dotintasktwo.utility.DateUtil;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

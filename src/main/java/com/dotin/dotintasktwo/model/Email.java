@@ -3,8 +3,7 @@ package com.dotin.dotintasktwo.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -17,8 +16,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "t_email")
-@Getter
-@Setter
+@Data
 public class Email extends Parent implements Serializable {
 
     @Column(name = "c_subject_mail")

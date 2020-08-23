@@ -14,10 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.data.domain.Pageable;
-
-
 import javax.validation.Valid;
 import java.sql.Blob;
+
 
 
 @Controller
@@ -27,6 +26,7 @@ public class EmailController {
 
     private final EmailService emailService;
     private final EmployeeService employeeService;
+
 
 
     @Autowired
@@ -43,21 +43,22 @@ public class EmailController {
 
         ModelAndView modelAndView = new ModelAndView("/email/inbox.jsp");
 
+        int totalRecords = emailService.getInbox(employeeService.findByName("admin")).size();
 
-        modelAndView.addObject("emails", emailService.findAll(pageable));
-        modelAndView.addObject("totalRecords", emailService.findAll().size());
+        modelAndView.addObject("ReceivedEmails", emailService.getInbox(employeeService.findByName("admin"),pageable));
+        modelAndView.addObject("totalRecords", totalRecords);
 
         return modelAndView;
     }
 
     @GetMapping("/sent")
-    public ModelAndView getSent(@ModelAttribute("send") Employee sender,
-                                @PageableDefault(size = 5) Pageable pageable) {
+    public ModelAndView getSent(Pageable pageable) {
 
         ModelAndView modelAndView = new ModelAndView("/email/sentBox.jsp");
+        int totalRecords = emailService.getSent(employeeService.findByName("admin")).size();
 
-        modelAndView.addObject("emails", emailService.getSent(sender, pageable));
-        modelAndView.addObject("totalRecords", employeeService.findAll().size());
+        modelAndView.addObject("sentEmails", emailService.getSent(employeeService.findByName("admin"), pageable));
+        modelAndView.addObject("totalRecords", totalRecords);
 
         return modelAndView;
     }
@@ -115,8 +116,13 @@ public class EmailController {
 
         try {
             if (!emailFile.isEmpty()) {
-                Blob blobFile = BlobProxy.generateProxy(emailFile.getBytes());
-                email.setAttachment(blobFile);
+                logger.info("Persisting new file!!!");
+
+
+                Blob blob = BlobProxy.generateProxy(emailFile.getBytes());
+
+              //  Blob blob = Hibernate.getLobCreator(emailFile.getInputStream());
+                email.setAttachment(blob);
             }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -129,8 +135,8 @@ public class EmailController {
 
     }
 
-    @GetMapping("/show")
-    public ModelAndView showEmail(@RequestParam("id") long theId) {
+    @GetMapping("/show/{id}")
+    public ModelAndView showEmail(@PathVariable("id") long theId) {
 
         ModelAndView modelAndView = new ModelAndView("/email/showEmail.jsp");
         Email email = emailService.getEmail(theId);
