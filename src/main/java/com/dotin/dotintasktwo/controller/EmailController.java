@@ -5,7 +5,6 @@ import com.dotin.dotintasktwo.model.Employee;
 import com.dotin.dotintasktwo.service.EmailService;
 import com.dotin.dotintasktwo.service.EmployeeService;
 import org.apache.log4j.Logger;
-import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
@@ -14,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.data.domain.Pageable;
+
+import javax.sql.rowset.serial.SerialBlob;
 import javax.validation.Valid;
 import java.sql.Blob;
 import java.sql.SQLException;
@@ -26,7 +27,6 @@ public class EmailController {
 
     private final EmailService emailService;
     private final EmployeeService employeeService;
-
 
 
     @Autowired
@@ -45,7 +45,7 @@ public class EmailController {
 
         int totalRecords = emailService.getInbox(employeeService.findByName("admin")).size();
 
-        modelAndView.addObject("ReceivedEmails", emailService.getInbox(employeeService.findByName("admin"),pageable));
+        modelAndView.addObject("ReceivedEmails", emailService.getInbox(employeeService.findByName("admin"), pageable));
         modelAndView.addObject("totalRecords", totalRecords);
 
         return modelAndView;
@@ -119,7 +119,7 @@ public class EmailController {
                 logger.info("Persisting new file!!!");
 
                 //  Blob blob = Hibernate.getLobCreator(emailFile.getInputStream());
-                Blob blob = BlobProxy.generateProxy(emailFile.getBytes());
+                Blob blob = new SerialBlob(emailFile.getBytes());
                 if (blob.length() > 0)
                     email.setAttachment(blob);
 
