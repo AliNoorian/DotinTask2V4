@@ -51,10 +51,11 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     @Transactional
-    public void addEmail(Email email) {
+    public void addEmail(Email email){
         email.setActive(true);
         email.setVersion(1);
         email.setCreateDate(new Time().getTime());
+
         emailRepository.save(email);
     }
 

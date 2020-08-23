@@ -19,7 +19,7 @@
 
     <p class="h4 mb-4" align="right">ثبت پیام جدید</p>
 
-    <form:form method="POST" action="/emails/send" modelAttribute="email" class="form form-group">
+    <form:form method="POST" action="/emails/send" modelAttribute="email" class="form form-group" enctype="multipart/form-data" name="email">
 
 
 
@@ -88,12 +88,13 @@
         </div>
         <br/>
 
-<%--        <div align="right">--%>
-<%--            <form:label  for="file" path="attachment">ارسال فایل</form:label>--%>
-<%--            <form:input modelAttribute="file" name="file" path="attachment" type="file" class="form-control mb-4 col-4" id="file"--%>
-<%--                        placeholder="ارسال فایل در صورت نیاز"/>--%>
+        <div align="right">
+            <label for="file">ارسال فایل</label>
+            <input name="file" type="file" class="form-control mb-4 col-4" id="file">
+            <form:errors path="attachment" cssStyle="color: red"/>
 
-<%--        </div>--%>
+
+        </div>
 
         <br/>
         <br/>
@@ -150,7 +151,22 @@
 <%--        i--;--%>
 <%--    }--%>
 <%--</script>--%>
+<script type="text/javascript">
+    $(function() {
+        $("form[name='email']").validate({
 
+            rules: {
+                receivers: "مورد نیاز",
+                message: "مورد نیاز",
+            },
+            messages: {
+                receivers: "لطفا یک گیرنده را انتخاب نمایید",
+                message: "متن پیام نمیتواند خالی باشد",
+            },
+        });
+    });
+
+</script>
 
 <%@include file="../components/footer.jsp" %>
 

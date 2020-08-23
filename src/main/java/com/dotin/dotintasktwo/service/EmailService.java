@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @Service
@@ -16,7 +17,7 @@ public interface EmailService {
 
     Email getEmail(long id);
 
-    void addEmail(Email email);
+    void addEmail(Email email) throws SQLException;
 
     List<Email> getInbox(Employee receiver, Pageable pageable);
     List<Email> getInbox(Employee receiver);

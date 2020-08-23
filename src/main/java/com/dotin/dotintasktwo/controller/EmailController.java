@@ -16,7 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.data.domain.Pageable;
 import javax.validation.Valid;
 import java.sql.Blob;
-
+import java.sql.SQLException;
 
 
 @Controller
@@ -102,7 +102,7 @@ public class EmailController {
     @PostMapping("/send")
     public ModelAndView sendEmail(@ModelAttribute(name = "email") @Valid Email email,
                                   BindingResult bindingResult,
-                                  @ModelAttribute(name = "file") MultipartFile emailFile) {
+                                  @RequestParam(name = "file") MultipartFile emailFile) throws SQLException {
 
         if (bindingResult.hasErrors()) {
             logger.info("Send Error!!!");
@@ -118,11 +118,11 @@ public class EmailController {
             if (!emailFile.isEmpty()) {
                 logger.info("Persisting new file!!!");
 
-
+                //  Blob blob = Hibernate.getLobCreator(emailFile.getInputStream());
                 Blob blob = BlobProxy.generateProxy(emailFile.getBytes());
+                if (blob.length() > 0)
+                    email.setAttachment(blob);
 
-              //  Blob blob = Hibernate.getLobCreator(emailFile.getInputStream());
-                email.setAttachment(blob);
             }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

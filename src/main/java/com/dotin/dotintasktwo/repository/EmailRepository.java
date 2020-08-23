@@ -21,6 +21,8 @@ public interface EmailRepository extends JpaRepository<Email, Long> {
     @Query("SELECT e FROM Email e WHERE e.receivers =:receiver")
     Page<Email> getEmailByReceiversEquals(@Param("receiver") Employee receiver, Pageable pageable);
 
+
+
     List<Email> findAllBySenderEquals(Employee sender, Pageable pageable);
     List<Email> findAllBySenderEquals(Employee sender);
     List<Email> findAllByReceiversEquals(Employee receiver, Pageable pageable);

@@ -13,11 +13,11 @@
         </a>
         <a href="${pageContext.request.contextPath}/emails/list"
            class="item ${requestScope['javax.servlet.forward.request_uri'] eq '/emails/list' ? 'active' : ''}">
-            پیام های ارسالی
+            پیام های دریافتی
         </a>
         <a href="${pageContext.request.contextPath}/emails/sent"
            class="item ${requestScope['javax.servlet.forward.request_uri'] eq '/emails/sent' ? 'active' : ''}">
-            پیام های دریافتی
+            پیام های ارسالی
         </a>
         <a href="${pageContext.request.contextPath}/leaves/list"
            class="item ${requestScope['javax.servlet.forward.request_uri'] eq '/leaves/list' ? 'active' : ''}">
